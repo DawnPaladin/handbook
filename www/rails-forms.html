@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>Rails forms</h1><h2>Building forms</h2><p>Including your own form authenticity token (if you&#39;re not using one of Rails&#39; forms)</p>
+<pre><code class="language-html">&lt;input  type=&quot;hidden&quot;
+        name=&quot;authenticity_token&quot;
+        value=&quot;&lt;%= form_authenticity_token %&gt;&quot;&gt;
+</code></pre>
+<p>To nest data in params, use brackets [] in the <code>name</code> attribute</p>
+<pre><code class="language-html">&lt;input type=&quot;text&quot; name=&quot;post[title]&quot;&gt;
+&lt;input type=&quot;text&quot; name=&quot;post[body]&quot;&gt;
+</code></pre>
+<p>...which gives us params like this:</p>
+<pre><code class="language-ruby">Parameters: { &quot;utf8&quot;=&gt;&quot;✓&quot;,
+              &quot;authenticity_token&quot;=&gt;&quot;wd4R0OmkSallVj+rey34+8TCKtExrs6WTEuexx12dh8=&quot;,
+              &quot;post&quot;=&gt;{ &quot;title&quot;=&gt;&quot;Cool Title&quot;,
+                        &quot;body&quot;=&gt;&quot;Cooler Body&quot; },
+              &quot;commit&quot;=&gt;&quot;Submit Post&quot;}
+</code></pre>
+<p><code>form_for</code> is the fastest way to build forms.</p>
+<pre><code>&lt;%= form_for @post, :html =&gt; {:class =&gt; &quot;nifty_form&quot;} do |f| %&gt;
+  &lt;%= f.text_field :title %&gt;
+  &lt;%= f.text_area :body, size: &quot;60x12&quot; %&gt;
+  &lt;%= f.submit &quot;Create&quot; %&gt;
+&lt;% end %&gt;
+</code></pre><pre><code>&lt;form accept-charset=&quot;UTF-8&quot; action=&quot;/articles/create&quot; method=&quot;post&quot;&gt;
+  &lt;input id=&quot;article_title&quot; name=&quot;article[title]&quot; type=&quot;text&quot; /&gt;
+  &lt;textarea id=&quot;article_body&quot; name=&quot;article[body]&quot; cols=&quot;60&quot; rows=&quot;12&quot;&gt;&lt;/textarea&gt;
+  &lt;input name=&quot;commit&quot; type=&quot;submit&quot; value=&quot;Create&quot; /&gt;
+&lt;/form&gt;
+</code></pre><h2>Validation</h2><pre><code class="language-ruby">@user.persisted?
+@user.new_record?
+@user.valid?
+
+# Sample validation with all the options
+validates :title, :body, :subheading
+            :presence =&gt; true,
+            :uniqueness =&gt; true,
+            :length =&gt;{ :maximum =&gt; 40,
+                        :minimum =&gt; 10,
+                        :in =&gt; 10..40, # same as above
+                        :is =&gt; 16 },
+            :inclusion =&gt; [ &quot;Team Leader&quot;,
+                            &quot;Class President&quot;,
+                            &quot;Student&quot; ],
+            :format =&gt; { :with =&gt; /@/ },
+            :on =&gt; :create,
+            :strict =&gt; true,
+            :message =&gt; &quot;didn&#39;t work!&quot;,
+            :if =&gt; :some_method_returns_true,
+            :unless =&gt; Proc.new{ self.registered }
+
+# Skipping validation
+@user.save(:validate =&gt; false)
+
+# Accessing errors
+@user.errors                # ActiveModel::Errors object
+@user.errors[:name]         # Array (just one string)
+@user.errors.full_messages  # Array (potentially many strings)
+</code></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+hljs.initHighlightingOnLoad(); // syntax highlighting
+</script>
+
+
+</body>

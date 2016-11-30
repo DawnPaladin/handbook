@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1>HTML</h1><h2>Forms</h2><form action="/posts" method="post" style="width: 200px">
+  <label for="title">Title:</label>
+  <input type="text" id="title" name="post-title">
+  <label>
+    Yes
+    <input type="radio" name="post-sfw" value="sfw">
+  </label>
+  <label for="post-nsfw">No</label>
+    <input type="radio" name="post-sfw" value="nsfw" id="nsfw">
+  
+  <input type="text" value="this is already here!">
+  <textarea name="body" rows="10" cols="30"></textarea>
+  <input id="example-password" type="password">
+  <div>
+    <input type="radio" name="sex" value="male" checked="true">Male
+    <input type="radio" name="sex" value="female">Female
+  </div>
+  <label>
+    <input type="checkbox" name="vehicle" value="Bike" checked="true">
+    I have a bike
+  </label>
+  <br>
+  <label>
+    <input type="checkbox" name="vehicle" value="Car">
+    I have a car<br>  </label>
+  <label>
+    <input type="checkbox" name="flying_carpet" disabled="true" value="Flying Carpet">
+    I have a flying carpet
+  </label>
+  <input type="submit">
+</form>
+
+<pre><code class="language-html">&lt;form action=&quot;/posts&quot; method=&quot;post&quot;&gt;
+  &lt;label for=&quot;title&quot;&gt;Title:&lt;/label&gt;
+  &lt;input type=&quot;text&quot; id=&quot;title&quot; name=&quot;post-title&quot; /&gt;
+  &lt;label&gt;
+    Yes
+    &lt;input type=&quot;radio&quot; name=&quot;post-sfw&quot; value=&quot;sfw&quot; /&gt;
+  &lt;/label&gt;
+  &lt;label for=&quot;post-nsfw&quot;&gt;No&lt;/label&gt;
+    &lt;input type=&quot;radio&quot; name=&quot;post-sfw&quot; value=&quot;nsfw&quot; id=&quot;nsfw&quot; /&gt;
+  &lt;/label&gt;
+  &lt;input type=&quot;text&quot; value=&quot;this is already here!&quot;&gt;
+  &lt;textarea name=&quot;body&quot; rows=&quot;10&quot; cols=&quot;30&quot;&gt;&lt;/textarea&gt;
+  &lt;input id=&quot;example-password&quot; type=&quot;password&quot;&gt;
+  &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;male&quot; checked=&quot;true&quot;&gt;Male
+  &lt;input type=&quot;radio&quot; name=&quot;sex&quot; value=&quot;female&quot;&gt;Female
+  &lt;label&gt;
+    &lt;input  type=&quot;checkbox&quot;
+            name=&quot;vehicle&quot;
+            value=&quot;Bike&quot;
+            checked=&quot;true&quot;&gt;
+    I have a bike
+  &lt;/label&gt;
+  &lt;br&gt;
+  &lt;label&gt;
+    &lt;input  type=&quot;checkbox&quot;
+            name=&quot;vehicle&quot;
+            value=&quot;Car&quot;&gt;
+    I have a car    
+  &lt;/label&gt;
+  &lt;br&gt;
+  &lt;label&gt;
+    &lt;input  type=&quot;checkbox&quot;
+            name=&quot;flying_carpet&quot;
+            disabled=&quot;true&quot;
+            value=&quot;Flying Carpet&quot;&gt;
+    I have a flying carpet
+  &lt;/label&gt;
+  &lt;input type=&quot;submit&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+hljs.initHighlightingOnLoad(); // syntax highlighting
+</script>
+
+
+</body>
