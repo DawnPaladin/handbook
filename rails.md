@@ -37,10 +37,26 @@ p.user
 ```
 Don't forget to specify the relationship from both directions.
 
+Many-to-many relationship:
+```ruby
+class User < ApplicationRecord
+  has_many :user_posts
+  has_many :posts, through: :user_post
+end
+
+class Post < ApplicationRecord
+  has_many :user_posts
+  has_many :users, through: :user_post
+end
+
+class UserPost < ApplicationRecord
+  belongs_to :post
+  belongs_to :user
+end
+```
+
 More options:
 ```ruby
-has_many :post_taggings
-has_many :posts, :through => :post_taggings
 belongs_to :author, :class_name => "User" # When you need to rename the relationship. Note the use of a string instead of a symbol.
 belongs_to :user, :foreign_key => :author_id # Rename the foreign key
 
