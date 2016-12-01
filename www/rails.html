@@ -14,7 +14,34 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Rails</h1><h2>Useful methods</h2><pre><code class="language-ruby">&quot;User&quot;.pluralize #=&gt; &quot;Users&quot;
+      <h1>Rails</h1><h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
+<h2>Associations</h2><p>You can inform Rails about a relationship between models like so:</p>
+<pre><code class="language-ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+  has_many :posts
+end
+
+# app/models/post.rb
+class Post &lt; ActiveRecord:Base
+  belongs_to :user
+end
+</code></pre>
+<p>That allows you to do things like this:</p>
+<pre><code class="language-ruby"># Assume
+u = User.first
+p = Post.first
+
+# All Posts written by the User
+u.posts
+
+# Build a Post with that User set as the Author
+u.posts.build
+
+# Traverse the relationship the opposite way,
+# retrieving the Author of that post
+p.user
+</code></pre>
+<h2>Useful methods</h2><pre><code class="language-ruby">&quot;User&quot;.pluralize #=&gt; &quot;Users&quot;
 pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;
 </code></pre>
     </div>
