@@ -37,16 +37,16 @@ p.user
 ```
 Don't forget to specify the relationship from both directions.
 
-Many-to-many relationship:
+### Many-to-many relationship:
 ```ruby
 class User < ApplicationRecord
   has_many :user_posts
-  has_many :posts, through: :user_post
+  has_many :posts, through: :user_posts
 end
 
 class Post < ApplicationRecord
   has_many :user_posts
-  has_many :users, through: :user_post
+  has_many :users, through: :user_posts
 end
 
 class UserPost < ApplicationRecord
@@ -55,7 +55,39 @@ class UserPost < ApplicationRecord
 end
 ```
 
-More options:
+### Rename a many-to-many relationship:
+
+```ruby
+class User < ApplicationRecord
+  has_many :user_posts
+  has_many :posts, through: :user_posts
+end
+
+class Post < ApplicationRecord
+  has_many :user_posts, foreign_key: :post_id
+  has_many :authors, through: :user_posts, source: :user
+end
+
+class UserPost < ApplicationRecord
+  belongs_to :post
+  belongs_to :user
+end
+```
+```bash
+rails db:migrate
+rails g migration AddAssociationColumnOrSomething
+```
+```ruby
+class AddAssociationColumn < ActiveRecord::Migration[5.0]
+  def change
+    add_column :user_posts, :user_id, :integer
+    add_column :user_posts, :post_id, :integer
+    add_index :user_posts, [:user_id, :post_id], unique: true
+  end
+end
+```
+
+### More options:
 ```ruby
 belongs_to :author, :class_name => "User" # When you need to rename the relationship. Note the use of a string instead of a symbol.
 belongs_to :user, :foreign_key => :author_id # Rename the foreign key
@@ -76,7 +108,7 @@ rake db:migrate
 ```
 "The `:references` syntax is a shortcut for creating an index on the preceding field name, programmer and client in this instance, as well as marking them as foreign key constraints for the programmers and clients database tables." *[source](http://joshfrankel.me/blog/2016/how-to/create-a-many-to-many-activerecord-association-in-ruby-on-rails/)*
 
-### Orphans
+## Orphans
 
 If a user has many posts, and you a `destroy` a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you `delete` a post, all IDs pointing to it are set to nil, which also isn't great. It's best to set up links to prevent this:
 
