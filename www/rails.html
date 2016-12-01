@@ -55,6 +55,16 @@ class Tag &lt; ActiveRecord::Base
                             :source =&gt; :post
 end
 </code></pre>
+<p>Generating the model for a many-to-many relationship:</p>
+<pre><code class="language-bash">rails g model Programmer name:string
+rails g model Client name:string
+rails g model Project programmer:references client:references
+rake db:migrate
+</code></pre>
+<p>&quot;The <code>:references</code> syntax is a shortcut for creating an index on the preceding field name, programmer and client in this instance, as well as marking them as foreign key constraints for the programmers and clients database tables.&quot; <em><a href="http://joshfrankel.me/blog/2016/how-to/create-a-many-to-many-activerecord-association-in-ruby-on-rails/">source</a></em></p>
+<h3>Orphans</h3><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
+<pre><code class="language-ruby">has_many :posts, :dependent =&gt; :destroy # If I die, my children go with me!
+</code></pre>
 <h2>Callbacks</h2><pre><code class="language-ruby"># Be welcoming with an after_create callback
 after_create :send_welcome_email, :unless =&gt; :method_is_true
 # ... and be sure to write the method to support it
