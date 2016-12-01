@@ -91,6 +91,7 @@ end
 ```ruby
 belongs_to :author, :class_name => "User" # When you need to rename the relationship. Note the use of a string instead of a symbol.
 belongs_to :user, :foreign_key => :author_id # Rename the foreign key
+belongs_to :category, optional: true
 
 # if you rename the association for a X:X
 # tell Rails how to traverse the join table now
@@ -108,6 +109,11 @@ rake db:migrate
 ```
 "The `:references` syntax is a shortcut for creating an index on the preceding field name, programmer and client in this instance, as well as marking them as foreign key constraints for the programmers and clients database tables." *[source](http://joshfrankel.me/blog/2016/how-to/create-a-many-to-many-activerecord-association-in-ruby-on-rails/)*
 
+```ruby
+bob = User.create
+alpha = bob.posts.create
+bob.posts #=> alpha
+```
 ## Orphans
 
 If a user has many posts, and you a `destroy` a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you `delete` a post, all IDs pointing to it are set to nil, which also isn't great. It's best to set up links to prevent this:
@@ -148,3 +154,5 @@ before_save { |p| p.published_time = Time.now }
 "User".pluralize #=> "Users"
 pluralize(3,"user") #=> "3 users"
 ```
+
+If the database is refusing to commit your transactions and you're not sure why, run `.errors.full_messages` on your object.
