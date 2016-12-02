@@ -42,6 +42,22 @@ u.posts.build
 p.user
 </code></pre>
 <p>Don&#39;t forget to specify the relationship from both directions.</p>
+<p>Renaming a relationship:</p>
+<pre><code class="language-ruby">class Post &lt; ApplicationRecord
+  has_many :users, foreign_key: :author_id
+end
+
+class Comment &lt; ApplicationRecord
+  belongs_to :post
+end
+
+# generate a migration with rails g migration RenameUserIdToAuthorIdInComments
+class RenameUserIdToAuthorIdInComments &lt; ActiveRecord::Migration[5.0]
+  def change
+    rename_column :comments, :user_id, :author_id
+  end
+end
+</code></pre>
 <h3>Many-to-many relationship:</h3><pre><code class="language-ruby">class User &lt; ApplicationRecord
   has_many :user_posts
   has_many :posts, through: :user_posts
@@ -104,6 +120,11 @@ rake db:migrate
 <pre><code class="language-ruby">bob = User.create
 alpha = bob.posts.create
 bob.posts #=&gt; alpha
+
+post1 = Post.create
+tag1 = Tag.create
+post_tag = PostTag.create(post: post1, tag: tag1)
+post1.tags #=&gt; tag1
 </code></pre>
 <h2>Orphans</h2><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
 <pre><code class="language-ruby">has_many :posts, :dependent =&gt; :destroy # If I die, my children go with me!

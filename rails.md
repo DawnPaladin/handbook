@@ -37,6 +37,24 @@ p.user
 ```
 Don't forget to specify the relationship from both directions.
 
+Renaming a relationship:
+```ruby
+class Post < ApplicationRecord
+  has_many :users, foreign_key: :author_id
+end
+
+class Comment < ApplicationRecord
+  belongs_to :post
+end
+
+# generate a migration with rails g migration RenameUserIdToAuthorIdInComments
+class RenameUserIdToAuthorIdInComments < ActiveRecord::Migration[5.0]
+  def change
+    rename_column :comments, :user_id, :author_id
+  end
+end
+```
+
 ### Many-to-many relationship:
 ```ruby
 class User < ApplicationRecord
@@ -113,6 +131,11 @@ rake db:migrate
 bob = User.create
 alpha = bob.posts.create
 bob.posts #=> alpha
+
+post1 = Post.create
+tag1 = Tag.create
+post_tag = PostTag.create(post: post1, tag: tag1)
+post1.tags #=> tag1
 ```
 ## Orphans
 
