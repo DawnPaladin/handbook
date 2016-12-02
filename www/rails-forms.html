@@ -71,6 +71,287 @@ validates :title, :body, :subheading
 @user.errors[:name]         # Array (just one string)
 @user.errors.full_messages  # Array (potentially many strings)
 </code></pre>
+<h2>Check boxes</h2><pre><code class="language-ruby"># basic check box tag
+# signature: check_box_tag(name, value = &quot;1&quot;, checked = false, options = {})
+check_box_tag(:tag, 1234)
+
+# check box (form_for)
+# signature: check_box(object_name, method, options = {}, checked_value = &quot;1&quot;, unchecked_value = &quot;0&quot;)
+check_box(:tag, :id)
+f.check_box(:id)
+f.check_box(:id, true, false) # Specifying &quot;checked&quot; &amp; &quot;unchecked&quot; values
+</code></pre>
+<h3>Collection check boxes</h3><p>Signature:</p>
+<pre><code class="language-ruby">collection_check_boxes( object,
+                        method,
+                        collection,
+                        value_method,
+                        text_method,
+                        options = {},
+                        html_options = {},
+                        &amp;block )
+</code></pre>
+<ul>
+<li><code>object</code> is a strange one. It takes a symbol containing the name of the instance variable containing an instance of the class of your parent object. So if you render your form and the parent object is contained in an instance variable named <code>@post</code>, <code>object</code> would be  <code>:post</code>. If you had named your instance variable <code>@posterino</code>, this would need to be <code>:posterino</code>.</li>
+<li><code>method</code> is the method to call on your parent instance in order to retrieve the IDs of the objects which are currently associated with it. For example, <code>:tag_ids</code> in this case. This is used when rendering the form to figure out which checkboxes should be checked and it is also used to properly name each checkbox.</li>
+<li><code>collection</code> is the collection of possible options for your checkboxes, for example <code>Tag.all</code></li>
+<li><code>value_method</code> is the method to call on a current child object to populate the <code>value</code> field of the checkbox. For example, <code>:id</code>.</li>
+<li><code>name_method</code> is the method to call on the current child object to populate the <code>name</code> field of the checkbox. For example, <code>:name</code>.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-ruby"># collection-based check boxes (form_for)
+collection_check_boxes(
+  :post,     # Our instance variable is @post
+  :tag_ids,  # Run @post.tag_ids to get current tag ids
+  Tag.all,   # The collection of possible tags
+  :id,       # Run `id` on each tag to see if it&#39;s in the association
+  :name      # Run `name` on each tag to get its text
+) # also generates a hidden blank value in case all the boxes are unchecked
+
+# On a FormBuilder object (from `form_for`)
+f.collection_check_boxes(:tag_ids, Tag.all, :id, :name)
+# same as previous, except you&#39;re calling it on :post instead of passing :post in as a param
+</code></pre>
+<h2>Radio buttons</h2><pre><code class="language-ruby"># basic radio button tag helper (`form_tag`)
+# signature: radio_button_tag(name, value, checked = false, options = {})
+radio_button_tag(:age, &quot;child&quot;)
+radio_button_tag(:age, &quot;adult&quot;)
+
+# basic radio button helper (`form_for`)
+# signature: radio_button(object_name, method, tag_value, options = {})
+radio_button(&quot;user&quot;, &quot;receive_newsletter&quot;, &quot;yes&quot;)
+radio_button(&quot;user&quot;, &quot;receive_newsletter&quot;, &quot;no&quot;)
+f.radio_button(&quot;receive_newsletter&quot;, &quot;yes&quot;)
+f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)
+</code></pre>
+<h3>Collection radio buttons</h3><p>Signature:</p>
+<pre><code class="language-ruby">collection_radio_buttons(  object,
+                                method,
+                                collection,
+                                value_method,
+                                text_method,
+                                options = {}, # important!
+                                html_options = {},
+                                &amp;block)
+</code></pre>
+<p>The only difference with the <code>collection_check_boxes</code> is that, because radio buttons represent one-to-many collections where you are setting the &quot;one&quot; side, the <code>method</code> parameter is simply the foreign key (e.g.  <code>:author_id</code>) instead of the collection of IDs (e.g. <code>:tag_ids</code>).</p>
+<p>Examples:</p>
+<pre><code class="language-ruby"># First show how it would be done the `form_tag` way:
+&lt;%= form_tag &quot;/posts/1&quot; do %&gt;
+  &lt;%= collection_radio_buttons(
+      :post,          # assume `@post` contains a post instance
+      :author_id,     # the foreign key for Authors
+      User.limit(5),  # To only show 5 user options for example
+      :id,
+      :name )
+  %&gt;
+  ...
+&lt;% end %&gt;
+
+# Now show the `form_for` way:
+&lt;%= form_for @post do |post_fields| %&gt;
+  &lt;%= post_fields.collection_radio_buttons(
+        :author_id,     # the foreign key for Authors
+        User.limit(5),  # To only show 5 users for example
+        :id,
+        :name )
+  %&gt;
+  ...
+&lt;% end %&gt;
+</code></pre>
+<h2>Nested forms</h2><h3>Data handling</h3><p>Must accept data in the following format:</p>
+<pre><code class="language-ruby">{ :user =&gt; {
+    :name =&gt; &quot;foo&quot;,
+    :email =&gt; &quot;foo@bar.com&quot;,
+    :addresses_attributes =&gt; {
+      &quot;1&quot; =&gt;  { :street_address =&gt; &quot;123 Fake st,
+                :city =&gt; &quot;Fake City&quot;,
+                :state =&gt; &quot;FK&quot;,
+                :zip =&gt; &quot;12345&quot; },
+      &quot;2&quot; =&gt;  { :street_address =&gt; &quot;456 Fake st,
+                :city =&gt; &quot;Fake City&quot;,
+                :state =&gt; &quot;FK&quot;,
+                :zip =&gt; &quot;12345&quot; },... } } }
+</code></pre>
+<p>User model:</p>
+<pre><code class="language-ruby"># app/models/user.rb
+class User &lt; ActiveRecord::Base
+  has_many :addresses
+  accepts_nested_attributes_for :addresses,
+                                :reject_if =&gt; :all_blank, # ignore any addresses that are blank
+                                :allow_destroy =&gt; true
+
+  # require presence of a parent object without
+  # validations that break your nested CREATE action
+  has_many :posts, inverse_of: :comments
+  has_many :comments, inverse_of: :post
+end
+</code></pre>
+<p>Sanitizing multiple layers of parameters in your controllers:</p>
+<pre><code class="language-ruby">def whitelisted_user_params
+  params.
+    require(:user).
+    permit( :name,
+            :email,
+            { :addresses_attributes =&gt; [
+                :street_address,
+                :city,
+                :state,
+                :zip ] } )
+end
+</code></pre>
+<h3>Form generation</h3><pre><code class="language-ruby"># generic fields_for case
+fields_for(record_name, record_object = nil, options = {}, &amp;block)
+
+# fields_for a totally independent/unrelated record
+&lt;%= fields_for :address, Address.new do |address_fields| %&gt;
+  ...
+  &lt;%= address_fields.text_field :city %&gt;
+  ...
+&lt;% end %&gt;
+
+# fields_for nested onto an existing form using an existing association
+# ...which only works if `accepts_nested_attributes_for` is set properly on the User model
+&lt;%= form_for @user do |user_fields| %&gt;
+  ...
+  &lt;%= user_fields.fields_for :addresses do |address_fields| %&gt;
+    ...
+    &lt;%= address_fields.text_field :city %&gt;
+    ...
+  &lt;% end %&gt;
+&lt;% end %&gt;
+
+# A simple &quot;delete&quot; checkbox with label. persistence is checked in case it&#39;s a new form for
+# this particular Address object the association gave us in which case it doesn&#39;t make sense to display a delete option
+&lt;% if address_fields.object.persisted? %&gt;
+  &lt;%= address_fields.label :_destroy, &quot;Delete Address?&quot; %&gt;
+  &lt;%= address_fields.check_box :_destroy %&gt;
+&lt;% end %&gt;
+</code></pre>
+<h3>Sample nested form</h3><h4>Model</h4><pre><code class="language-ruby"># app/models/product.rb
+class Product &lt; ActiveRecord::Base
+  has_many :category_placements
+  has_many :categories, :through =&gt; :category_placements
+
+  has_many :reviews
+
+  accepts_nested_attributes_for :reviews,
+                                :reject_if =&gt; :all_blank,
+                                :allow_destroy =&gt; true;
+end
+
+# app/models/review.rb
+class Review &lt; ActiveRecord::Base
+  belongs_to :product
+end
+</code></pre>
+<h4>View</h4><pre><code># app/views/products/new.html.erb
+&lt;h1&gt;New Product&lt;/h1&gt;
+&lt;%= render &quot;form&quot; %&gt;
+
+
+# app/views/products/edit.html.erb
+&lt;h1&gt;Edit this product&lt;/h1&gt;
+&lt;%= render &quot;form&quot; %&gt;
+
+
+# app/views/products/_form.html.erb
+&lt;%= form_for @product do |product_fields| %&gt;
+
+  &lt;%= product_fields.label :name %&gt;
+  &lt;%= product_fields.text_field :name %&gt;
+  &lt;br&gt;
+  &lt;%= product_fields.label :description %&gt;
+  &lt;%= product_fields.text_area :description %&gt;
+  &lt;br&gt;
+  &lt;%= product_fields.label :price %&gt;
+  &lt;%= product_fields.text_field :price %&gt;
+
+  &lt;h2&gt;
+    Select the Categories this product will be sold under
+  &lt;/h2&gt;
+
+  &lt;%= product_fields.collection_check_boxes :category_ids,
+                                            Category.all,
+                                            :id,
+                                            :name %&gt;
+
+  &lt;%= render partial: &quot;review_fields&quot;, locals: {
+                                            product: @product,
+                                            product_fields: product_fields } %&gt;
+
+  &lt;%= product_fields.submit &quot;Let&#39;s Get Rich&quot; %&gt;
+
+&lt;% end %&gt;
+
+
+# app/views/products/_review_fields.html.erb
+&lt;h2&gt; Product Reviews &lt;/h2&gt;
+  &lt;%= product_fields.fields_for :reviews do |review_fields| %&gt;
+
+  &lt;h3&gt;A reviewer says:&lt;/h3&gt;
+    &lt;%= review_fields.label :title %&gt;
+    &lt;%= review_fields.text_field :title %&gt;
+    &lt;br&gt;
+    &lt;%= review_fields.label :body %&gt;
+    &lt;%= review_fields.text_area :body %&gt;
+    &lt;br&gt;
+    &lt;%= review_fields.label :source %&gt;
+    &lt;%= review_fields.text_field :source %&gt;
+
+    # This is for the checkbox to destroy the object
+    &lt;% if review_fields.object.persisted? %&gt;
+      &lt;%= review_fields.label :_destroy, &quot;Delete this review?&quot; %&gt;
+      &lt;%= review_fields.check_box :_destroy %&gt;
+  &lt;% end %&gt;
+
+&lt;% end %&gt;
+</code></pre><h4>Controller</h4><pre><code class="language-ruby"># app/controllers/products_controller.rb
+class ProductsController &lt; ApplicationController
+  def index
+    @products = Product.all
+  end
+
+  def new
+    @product = Product.new
+    @review = @product.reviews.build
+  end
+
+  def create
+    @product = Product.new(whitelisted_params)
+    if @product.save
+      redirect_to action: :index
+    else
+      render :new
+    end
+  end
+
+  def edit
+    @product = Product.find(params[:id])
+    @product.reviews.build
+  end
+
+  def update
+    @product = Product.find(params[:id])
+
+    if @product.update(whitelisted_params)
+      redirect_to action: :index
+    else
+      render :edit
+    end
+  end
+
+  private
+
+  def whitelisted_params
+    params.require(:product).permit(:name, :description, :price,
+                                    :category_ids =&gt; [],
+                                    :reviews_attributes =&gt;
+                                    [:title, :body, :source, :id,
+                                                        :_destroy ])
+  end
+end
+</code></pre>
     </div>
   </div>
 </div>
