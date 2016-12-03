@@ -179,3 +179,8 @@ pluralize(3,"user") #=> "3 users"
 ```
 
 If the database is refusing to commit your transactions and you're not sure why, run `.errors.full_messages` on your object.
+
+Put this in your controller to run something before each action:
+```ruby
+before_action :find_post, only: [:edit, :show, :update]
+```
