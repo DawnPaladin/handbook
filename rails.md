@@ -71,6 +71,36 @@ end
 <% end %>
 ```
 
+### Better Errors
+
+```
+// Gemfile
+group :development do
+  gem "better_errors"
+end
+gem "binding_of_caller"
+```
+
+### Add Bootstrap
+
+```javascript
+// app/assets/javascripts/application.js
+
+//= require bootstrap-sprockets
+```
+
+```
+// Gemfile
+gem 'bootstrap-sass'
+```
+
+```
+/* app/assets/stylesheets/global.scss */
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
+```
+
+
 ## Relations
 
 ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like `Post.where(:published => true)`, it returns a **relation**. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn't get run until you use a combo breaker that actually returns a value, like `each`, `all`, `to_a`, `inspect`, etc.
