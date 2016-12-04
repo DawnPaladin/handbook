@@ -8,13 +8,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+  <script src="/lib/jquery-ui.min.js"></script>
+  <link href="/lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="/lib/jquery.tocify.js"></script>
+  <link href="/handbook.css" rel="stylesheet"></link>
+
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1>Ruby on Rails</h1><h2>Setup</h2><h3>Set up repo</h3><pre><code>rails new app_name
+<div id="toc"></div>
+
+<div class="main-column">
+  <h1>Ruby on Rails</h1><h2>Setup</h2><h3>Set up repo</h3><pre><code>rails new app_name
 cd app_name
 git init
 git remote add origin &lt;SSH address&gt;
@@ -53,6 +58,20 @@ end
     &lt;%= post.body %&gt;
   &lt;/p&gt;
 &lt;% end %&gt;
+</code></pre><h3>Better Errors</h3><pre><code>// Gemfile
+group :development do
+  gem &quot;better_errors&quot;
+end
+gem &quot;binding_of_caller&quot;
+</code></pre><h3>Add Bootstrap</h3><pre><code class="language-javascript">// app/assets/javascripts/application.js
+
+//= require bootstrap-sprockets
+</code></pre>
+<pre><code>// Gemfile
+gem &#39;bootstrap-sass&#39;
+</code></pre><pre><code>/* app/assets/stylesheets/global.scss */
+@import &#39;bootstrap-sprockets&#39;;
+@import &#39;bootstrap&#39;;
 </code></pre><h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
 <h2>Associations</h2><p>You can inform Rails about a relationship between models like so:</p>
 <pre><code class="language-ruby"># app/models/user.rb
@@ -199,12 +218,18 @@ pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;
 <p>Put this in your controller to run something before each action:</p>
 <pre><code class="language-ruby">before_action :find_post, only: [:edit, :show, :update]
 </code></pre>
-    </div>
-  </div>
 </div>
 
 <script>
 hljs.initHighlightingOnLoad(); // syntax highlighting
+
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
 </script>
 
 

@@ -1,0 +1,22 @@
+.tocify {
+}
+.tocify .active {
+  background-color: hsl(360, 0%, 92.5%);
+}
+@media (min-width: 1000px) {
+	.main-column {
+		margin: 0 1em 0 350px;
+		max-width: 60%;
+	}
+  .tocify {
+    max-width: 300px;
+  }
+}
+@media (max-width: 999px) {
+	.main-column {
+		margin: 0 2%;
+	}
+	.tocify {
+		display: none;
+	}
+}

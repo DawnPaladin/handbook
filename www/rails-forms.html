@@ -8,13 +8,18 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+  <script src="/lib/jquery-ui.min.js"></script>
+  <link href="/lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="/lib/jquery.tocify.js"></script>
+  <link href="/handbook.css" rel="stylesheet"></link>
+
 </head>
 <body>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <h1>Rails forms</h1><h2>Building forms</h2><p>Including your own form authenticity token (if you&#39;re not using one of Rails&#39; forms)</p>
+<div id="toc"></div>
+
+<div class="main-column">
+  <h1>Rails forms</h1><h2>Building forms</h2><p>Including your own form authenticity token (if you&#39;re not using one of Rails&#39; forms)</p>
 <pre><code class="language-html">&lt;input  type=&quot;hidden&quot;
         name=&quot;authenticity_token&quot;
         value=&quot;&lt;%= form_authenticity_token %&gt;&quot;&gt;
@@ -352,12 +357,18 @@ class ProductsController &lt; ApplicationController
   end
 end
 </code></pre>
-    </div>
-  </div>
 </div>
 
 <script>
 hljs.initHighlightingOnLoad(); // syntax highlighting
+
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
 </script>
 
 
