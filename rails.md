@@ -1,5 +1,76 @@
 # Ruby on Rails
 
+## Setup
+
+### Set up repo
+
+```
+rails new app_name
+cd app_name
+git init
+git remote add origin <SSH address>
+git push -u origin master
+```
+
+### Create a model
+
+```
+rails g model Post title:string body:string
+// Examine the new migration and make any required changes
+rails db:migrate
+```
+
+### Create routes
+
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  root "posts#index"
+  resources :posts
+end
+```
+
+Check your routes with `rails routes`.
+
+Other things you can do in routes.rb:
+
+```ruby
+resources :posts, :only => [:index, :show]
+resources :posts, :except => [:index]
+```
+
+### Create controller
+
+```
+rails g controller posts
+```
+
+```ruby
+# app/controllers/posts_controller.rb
+class PostsController < ApplicationController
+  def index
+    @posts = Post.all
+  end
+end
+```
+
+### Create view
+
+```
+# app/views/posts/index.html.erb
+<h1>
+  Posts
+</h1>
+<% @posts.each do |post| %>
+  <h2>
+    <%= post.title %>
+  </h2>
+  <p>
+    <%= post.body %>
+  </p>
+<% end %>
+```
+
 ## Relations
 
 ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like `Post.where(:published => true)`, it returns a **relation**. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn't get run until you use a combo breaker that actually returns a value, like `each`, `all`, `to_a`, `inspect`, etc.

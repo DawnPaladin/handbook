@@ -14,7 +14,46 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Ruby on Rails</h1><h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
+      <h1>Ruby on Rails</h1><h2>Setup</h2><h3>Set up repo</h3><pre><code>rails new app_name
+cd app_name
+git init
+git remote add origin &lt;SSH address&gt;
+git push -u origin master
+</code></pre><h3>Create a model</h3><pre><code>rails g model Post title:string body:string
+// Examine the new migration and make any required changes
+rails db:migrate
+</code></pre><h3>Create routes</h3><pre><code class="language-ruby"># config/routes.rb
+Rails.application.routes.draw do
+  root &quot;posts#index&quot;
+  resources :posts
+end
+</code></pre>
+<p>Check your routes with <code>rails routes</code>.</p>
+<p>Other things you can do in routes.rb:</p>
+<pre><code class="language-ruby">resources :posts, :only =&gt; [:index, :show]
+resources :posts, :except =&gt; [:index]
+</code></pre>
+<h3>Create controller</h3><pre><code>rails g controller posts
+</code></pre><pre><code class="language-ruby"># app/controllers/posts_controller.rb
+class PostsController &lt; ApplicationController
+  def index
+    @posts = Post.all
+  end
+end
+</code></pre>
+<h3>Create view</h3><pre><code># app/views/posts/index.html.erb
+&lt;h1&gt;
+  Posts
+&lt;/h1&gt;
+&lt;% @posts.each do |post| %&gt;
+  &lt;h2&gt;
+    &lt;%= post.title %&gt;
+  &lt;/h2&gt;
+  &lt;p&gt;
+    &lt;%= post.body %&gt;
+  &lt;/p&gt;
+&lt;% end %&gt;
+</code></pre><h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
 <h2>Associations</h2><p>You can inform Rails about a relationship between models like so:</p>
 <pre><code class="language-ruby"># app/models/user.rb
 class User &lt; ActiveRecord::Base
@@ -157,6 +196,9 @@ before_save { |p| p.published_time = Time.now }
 pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;
 </code></pre>
 <p>If the database is refusing to commit your transactions and you&#39;re not sure why, run <code>.errors.full_messages</code> on your object.</p>
+<p>Put this in your controller to run something before each action:</p>
+<pre><code class="language-ruby">before_action :find_post, only: [:edit, :show, :update]
+</code></pre>
     </div>
   </div>
 </div>
