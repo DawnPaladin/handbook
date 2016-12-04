@@ -48,9 +48,53 @@ rails g controller posts
 ```ruby
 # app/controllers/posts_controller.rb
 class PostsController < ApplicationController
+
   def index
     @posts = Post.all
   end
+
+  def new
+    @post = Post.new
+  end
+
+  def create
+    @post = Post.new(strong_params)
+    if @post.save
+      # Woohoo
+      redirect_to @post
+    else
+      # boohoo
+      render :new
+    end
+  end
+
+  def show
+    @post = Post.find(params[:id])
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(strong_params)
+      redirect_to @post
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    Post.find(params[:id]).destroy!
+    redirect_to posts_path
+  end
+
+  private
+  def strong_params
+    params.require(:post).permit(:title,:body,:author_id)
+  end
+
 end
 ```
 
@@ -100,6 +144,41 @@ gem 'bootstrap-sass'
 @import 'bootstrap';
 ```
 
+## Links
+
+```
+<%= link_to "See All Users", users_path %> #=> <a href="/users">See All Users</a>
+
+<%= link_to "See user", user_path(user.id) %> #= <a href="/user/1">See user</a>
+
+<%= link_to "Edit user", edit_user_path(user.id) %> #= <a href="/user/1">See user</a>
+
+<%= link_to "Destroy user", user_path(user.id), method: :delete %>
+```
+
+Note that in `rails routes`, `edit_user` is listed in the Prefix column, so the link is `edit_user_path`. The DELETE verb doesn't have its own prefix; you just use the user's link with the `:delete` method.
+
+## Forms
+
+```
+# app/controllers/articles_controller.rb
+def new
+  @article = Article.new
+end
+
+#app/views/articles/new.html.erb
+<%= form_for @article do |form| %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+  <%= form.text_area :body, size: "60x12" %>
+  <%= form.submit "Create" %>
+<% end %>
+```
+
+Options go inside a hash. HTML options go inside their own sub-hash.
+```
+<%= form_for @post, {:html => { :class => "your_class" } } do |f| %>
+```
 
 ## Relations
 

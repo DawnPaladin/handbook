@@ -41,9 +41,53 @@ resources :posts, :except =&gt; [:index]
 <h3>Create controller</h3><pre><code>rails g controller posts
 </code></pre><pre><code class="language-ruby"># app/controllers/posts_controller.rb
 class PostsController &lt; ApplicationController
+
   def index
     @posts = Post.all
   end
+
+  def new
+    @post = Post.new
+  end
+
+  def create
+    @post = Post.new(strong_params)
+    if @post.save
+      # Woohoo
+      redirect_to @post
+    else
+      # boohoo
+      render :new
+    end
+  end
+
+  def show
+    @post = Post.find(params[:id])
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    if @post.update(strong_params)
+      redirect_to @post
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    Post.find(params[:id]).destroy!
+    redirect_to posts_path
+  end
+
+  private
+  def strong_params
+    params.require(:post).permit(:title,:body,:author_id)
+  end
+
 end
 </code></pre>
 <h3>Create view</h3><pre><code># app/views/posts/index.html.erb
@@ -72,6 +116,28 @@ gem &#39;bootstrap-sass&#39;
 </code></pre><pre><code>/* app/assets/stylesheets/global.scss */
 @import &#39;bootstrap-sprockets&#39;;
 @import &#39;bootstrap&#39;;
+</code></pre><h2>Links</h2><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
+
+&lt;%= link_to &quot;See user&quot;, user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
+
+&lt;%= link_to &quot;Edit user&quot;, edit_user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
+
+&lt;%= link_to &quot;Destroy user&quot;, user_path(user.id), method: :delete %&gt;
+</code></pre><p>Note that in <code>rails routes</code>, <code>edit_user</code> is listed in the Prefix column, so the link is <code>edit_user_path</code>. The DELETE verb doesn&#39;t have its own prefix; you just use the user&#39;s link with the <code>:delete</code> method.</p>
+<h2>Forms</h2><pre><code># app/controllers/articles_controller.rb
+def new
+  @article = Article.new
+end
+
+#app/views/articles/new.html.erb
+&lt;%= form_for @article do |form| %&gt;
+  &lt;%= form.label :title %&gt;
+  &lt;%= form.text_field :title %&gt;
+  &lt;%= form.text_area :body, size: &quot;60x12&quot; %&gt;
+  &lt;%= form.submit &quot;Create&quot; %&gt;
+&lt;% end %&gt;
+</code></pre><p>Options go inside a hash. HTML options go inside their own sub-hash.</p>
+<pre><code>&lt;%= form_for @post, {:html =&gt; { :class =&gt; &quot;your_class&quot; } } do |f| %&gt;
 </code></pre><h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
 <h2>Associations</h2><p>You can inform Rails about a relationship between models like so:</p>
 <pre><code class="language-ruby"># app/models/user.rb
