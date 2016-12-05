@@ -147,6 +147,22 @@ gem 'bootstrap-sass'
 @import 'bootstrap';
 ```
 
+## The Flash ![The Flash](img/Flash.png)
+
+```ruby
+# app/controllers/posts_controller.rb
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    flash[:success] = "Great! Your post has been created!"
+    redirect_to @post # go to show page for @post
+  else
+    flash.now[:error] = "Rats! Fix your mistakes, please."
+    render :new
+  end
+end
+```
+
 ## Links
 
 ```
@@ -193,22 +209,39 @@ Options go inside a hash. HTML options go inside their own sub-hash.
 <%= form_for @post, {:html => { :class => "your_class" } } do |f| %>
 ```
 
-Both of these will automatically include Rails' required authenticity token.
+Both of these will automatically include hidden `<input>`s for encoding and Rails' required authenticity token.
 
-## The Flash ![The Flash](/img/Flash.png)
+## Validation
 
 ```ruby
-# app/controllers/posts_controller.rb
-def create
-  @post = Post.new(params[:post])
-  if @post.save
-    flash[:success] = "Great! Your post has been created!"
-    redirect_to @post # go to show page for @post
-  else
-    flash.now[:error] = "Rats! Fix your mistakes, please."
-    render :new
-  end
+# app/models/post.rb
+class Post < ActiveRecord::Base
+  validates :title, :body, :subheading
+              :presence => true, # Does it have content?
+              :uniqueness => true,
+              :length =>{ :maximum => 40,
+                          :minimum => 10,
+                          :in => 10..40, # same as above
+                          :is => 16 },
+              :inclusion => [ "Team Leader",
+                              "Class President",
+                              "Student" ],
+              :format => { :with => /@/ },
+              :on => :create,
+              :strict => true,
+              :message => "didn't work!",
+              :if => :some_method_returns_true,
+              :unless => Proc.new{ self.registered }
 end
+```
+```ruby
+p = Post.new
+p.title = "short title"
+p.valid? #=> true
+p.title = "very super duper long title"
+p.valid? #=> false
+p.errors[:title] #=> ["is too long (maximum is 20 characters)"]
+p.errors.full_messages #=> ["Title is too long (maximum is 20 characters)"]
 ```
 
 ## Relations

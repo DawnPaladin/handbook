@@ -119,7 +119,19 @@ gem &#39;bootstrap-sass&#39;
 </code></pre><pre><code>/* app/assets/stylesheets/global.scss */
 @import &#39;bootstrap-sprockets&#39;;
 @import &#39;bootstrap&#39;;
-</code></pre><h2>Links</h2><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
+</code></pre><h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    flash[:success] = &quot;Great! Your post has been created!&quot;
+    redirect_to @post # go to show page for @post
+  else
+    flash.now[:error] = &quot;Rats! Fix your mistakes, please.&quot;
+    render :new
+  end
+end
+</code></pre>
+<h2>Links</h2><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
 
 &lt;%= link_to &quot;See user&quot;, user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
 
@@ -148,18 +160,34 @@ end
 &lt;% end %&gt;
 </code></pre><p>Options go inside a hash. HTML options go inside their own sub-hash.</p>
 <pre><code>&lt;%= form_for @post, {:html =&gt; { :class =&gt; &quot;your_class&quot; } } do |f| %&gt;
-</code></pre><p>Both of these will automatically include Rails&#39; required authenticity token.</p>
-<h2>The Flash <img src="/img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
-def create
-  @post = Post.new(params[:post])
-  if @post.save
-    flash[:success] = &quot;Great! Your post has been created!&quot;
-    redirect_to @post # go to show page for @post
-  else
-    flash.now[:error] = &quot;Rats! Fix your mistakes, please.&quot;
-    render :new
-  end
+</code></pre><p>Both of these will automatically include hidden <code>&lt;input&gt;</code>s for encoding and Rails&#39; required authenticity token.</p>
+<h2>Validation</h2><pre><code class="language-ruby"># app/models/post.rb
+class Post &lt; ActiveRecord::Base
+  validates :title, :body, :subheading
+              :presence =&gt; true, # Does it have content?
+              :uniqueness =&gt; true,
+              :length =&gt;{ :maximum =&gt; 40,
+                          :minimum =&gt; 10,
+                          :in =&gt; 10..40, # same as above
+                          :is =&gt; 16 },
+              :inclusion =&gt; [ &quot;Team Leader&quot;,
+                              &quot;Class President&quot;,
+                              &quot;Student&quot; ],
+              :format =&gt; { :with =&gt; /@/ },
+              :on =&gt; :create,
+              :strict =&gt; true,
+              :message =&gt; &quot;didn&#39;t work!&quot;,
+              :if =&gt; :some_method_returns_true,
+              :unless =&gt; Proc.new{ self.registered }
 end
+</code></pre>
+<pre><code class="language-ruby">p = Post.new
+p.title = &quot;short title&quot;
+p.valid? #=&gt; true
+p.title = &quot;very super duper long title&quot;
+p.valid? #=&gt; false
+p.errors[:title] #=&gt; [&quot;is too long (maximum is 20 characters)&quot;]
+p.errors.full_messages #=&gt; [&quot;Title is too long (maximum is 20 characters)&quot;]
 </code></pre>
 <h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
 <h2>Associations</h2><p>You can inform Rails about a relationship between models like so:</p>
