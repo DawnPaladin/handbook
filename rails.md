@@ -299,7 +299,19 @@ class RenameUserIdToAuthorIdInComments < ActiveRecord::Migration[5.0]
 end
 ```
 
-### Many-to-many relationship:
+### Many-to-many relationship
+
+Generating the model:
+
+```bash
+rails g model Programmer name:string
+rails g model Client name:string
+rails g model Project programmer:references client:references
+rake db:migrate
+```
+
+"The `:references` syntax is a shortcut for creating an index on the preceding field name, programmer and client in this instance, as well as marking them as foreign key constraints for the programmers and clients database tables." *[source](http://joshfrankel.me/blog/2016/how-to/create-a-many-to-many-activerecord-association-in-ruby-on-rails/)*
+
 ```ruby
 class User < ApplicationRecord
   has_many :user_posts
@@ -317,7 +329,21 @@ class UserPost < ApplicationRecord
 end
 ```
 
-### Rename a many-to-many relationship:
+Making use of relationships:
+
+```ruby
+bob = User.create
+alpha = bob.posts.create
+bob.posts #=> alpha
+
+post1 = Post.create
+tag1 = Tag.create
+post_tag = PostTag.create(post: post1, tag: tag1)
+post1.tags #=> tag1
+```
+
+
+#### Rename a many-to-many relationship
 
 ```ruby
 class User < ApplicationRecord
@@ -349,38 +375,20 @@ class AddAssociationColumn < ActiveRecord::Migration[5.0]
 end
 ```
 
-### More options:
+### Renaming
 ```ruby
-belongs_to :author, :class_name => "User" # When you need to rename the relationship. Note the use of a string instead of a symbol.
+belongs_to :author, :class_name => "User" # Rename the model
 belongs_to :user, :foreign_key => :author_id # Rename the foreign key
+has_many :tagged_posts, :through => :post_taggings, :source => :post # Rename the relationship
+
 belongs_to :category, optional: true
-
-# if you rename the association for a X:X
-# tell Rails how to traverse the join table now
-class Tag < ActiveRecord::Base
-  has_many  :tagged_posts,  :through => :post_taggings,
-                            :source => :post
-end
 ```
-Generating the model for a many-to-many relationship:
-```bash
-rails g model Programmer name:string
-rails g model Client name:string
-rails g model Project programmer:references client:references
-rake db:migrate
-```
-"The `:references` syntax is a shortcut for creating an index on the preceding field name, programmer and client in this instance, as well as marking them as foreign key constraints for the programmers and clients database tables." *[source](http://joshfrankel.me/blog/2016/how-to/create-a-many-to-many-activerecord-association-in-ruby-on-rails/)*
 
+### Other options
 ```ruby
-bob = User.create
-alpha = bob.posts.create
-bob.posts #=> alpha
-
-post1 = Post.create
-tag1 = Tag.create
-post_tag = PostTag.create(post: post1, tag: tag1)
-post1.tags #=> tag1
+belongs_to :category, optional: true
 ```
+
 ## Orphans
 
 If a user has many posts, and you a `destroy` a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you `delete` a post, all IDs pointing to it are set to nil, which also isn't great. It's best to set up links to prevent this:
