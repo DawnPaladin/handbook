@@ -37,6 +37,9 @@ end
 <p>Other things you can do in routes.rb:</p>
 <pre><code class="language-ruby">resources :posts, :only =&gt; [:index, :show]
 resources :posts, :except =&gt; [:index]
+
+get &#39;/presents/:id/deliver/:receiver&#39; =&gt; &#39;presents#deliver&#39;
+# in presents#deliver, look at params[:id] and params[:receiver]
 </code></pre>
 <h3>Create controller</h3><pre><code>rails g controller posts
 </code></pre><pre><code class="language-ruby"># app/controllers/posts_controller.rb
@@ -120,11 +123,18 @@ gem &#39;bootstrap-sass&#39;
 
 &lt;%= link_to &quot;See user&quot;, user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
 
-&lt;%= link_to &quot;Edit user&quot;, edit_user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
+&lt;%= button_to &quot;Edit user&quot;, edit_user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
 
 &lt;%= link_to &quot;Destroy user&quot;, user_path(user.id), method: :delete %&gt;
 </code></pre><p>Note that in <code>rails routes</code>, <code>edit_user</code> is listed in the Prefix column, so the link is <code>edit_user_path</code>. The DELETE verb doesn&#39;t have its own prefix; you just use the user&#39;s link with the <code>:delete</code> method.</p>
-<h2>Forms</h2><pre><code># app/controllers/articles_controller.rb
+<h2>Forms</h2><p>Simple:</p>
+<pre><code>&lt;%= form_tag(&quot;/search&quot;, method: &quot;get&quot;) do %&gt;
+  &lt;%= label_tag(:query, &quot;Search for:&quot;) %&gt;
+  &lt;%= text_field_tag(:query) %&gt;
+  &lt;%= submit_tag(&quot;Search&quot;) %&gt;
+&lt;% end %&gt;
+</code></pre><p>Automated:</p>
+<pre><code># app/controllers/articles_controller.rb
 def new
   @article = Article.new
 end
@@ -138,7 +148,20 @@ end
 &lt;% end %&gt;
 </code></pre><p>Options go inside a hash. HTML options go inside their own sub-hash.</p>
 <pre><code>&lt;%= form_for @post, {:html =&gt; { :class =&gt; &quot;your_class&quot; } } do |f| %&gt;
-</code></pre><h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
+</code></pre><p>Both of these will automatically include Rails&#39; required authenticity token.</p>
+<h2>The Flash <img src="/img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    flash[:success] = &quot;Great! Your post has been created!&quot;
+    redirect_to @post # go to show page for @post
+  else
+    flash.now[:error] = &quot;Rats! Fix your mistakes, please.&quot;
+    render :new
+  end
+end
+</code></pre>
+<h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
 <h2>Associations</h2><p>You can inform Rails about a relationship between models like so:</p>
 <pre><code class="language-ruby"># app/models/user.rb
 class User &lt; ActiveRecord::Base

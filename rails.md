@@ -37,6 +37,9 @@ Other things you can do in routes.rb:
 ```ruby
 resources :posts, :only => [:index, :show]
 resources :posts, :except => [:index]
+
+get '/presents/:id/deliver/:receiver' => 'presents#deliver'
+# in presents#deliver, look at params[:id] and params[:receiver]
 ```
 
 ### Create controller
@@ -151,7 +154,7 @@ gem 'bootstrap-sass'
 
 <%= link_to "See user", user_path(user.id) %> #= <a href="/user/1">See user</a>
 
-<%= link_to "Edit user", edit_user_path(user.id) %> #= <a href="/user/1">See user</a>
+<%= button_to "Edit user", edit_user_path(user.id) %> #= <a href="/user/1">See user</a>
 
 <%= link_to "Destroy user", user_path(user.id), method: :delete %>
 ```
@@ -160,6 +163,16 @@ Note that in `rails routes`, `edit_user` is listed in the Prefix column, so the 
 
 ## Forms
 
+Simple:
+```
+<%= form_tag("/search", method: "get") do %>
+  <%= label_tag(:query, "Search for:") %>
+  <%= text_field_tag(:query) %>
+  <%= submit_tag("Search") %>
+<% end %>
+```
+
+Automated:
 ```
 # app/controllers/articles_controller.rb
 def new
@@ -178,6 +191,24 @@ end
 Options go inside a hash. HTML options go inside their own sub-hash.
 ```
 <%= form_for @post, {:html => { :class => "your_class" } } do |f| %>
+```
+
+Both of these will automatically include Rails' required authenticity token.
+
+## The Flash ![The Flash](/img/Flash.png)
+
+```ruby
+# app/controllers/posts_controller.rb
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    flash[:success] = "Great! Your post has been created!"
+    redirect_to @post # go to show page for @post
+  else
+    flash.now[:error] = "Rats! Fix your mistakes, please."
+    render :new
+  end
+end
 ```
 
 ## Relations
