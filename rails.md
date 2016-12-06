@@ -375,6 +375,35 @@ class AddAssociationColumn < ActiveRecord::Migration[5.0]
 end
 ```
 
+#### Self-referencing associations
+
+```
+rails g model StarFighter ship_class:string call_sign:string
+rails g model DogFights attacker_id:integer attacked_id:integer
+```
+```ruby
+# app/models/star_fighter.rb
+class StarFighter < ApplicationRecord
+
+  has_many :outgoing_fire, foreign_key: :attacker_id, class_name: "DogFight"
+  has_many :attacked, :through => :outgoing_fire
+
+  has_many :incoming_fire, foreign_key: :attacked_id, class_name: "DogFight"
+  has_many :attackers, :through => :incoming_fire
+
+end
+
+# app/models/dog_fight.rb
+class DogFight < ApplicationRecord
+
+  belongs_to :attacker, :foreign_key => :attacker_id, :class_name => "StarFighter"
+  belongs_to :attacked, :foreign_key => :attacked_id, :class_name => "StarFighter"
+  validates :attacked_id, :uniqueness => { :scope => :attacker_id }
+
+end
+```
+
+
 ### Renaming
 ```ruby
 belongs_to :author, :class_name => "User" # Rename the model

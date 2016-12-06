@@ -291,6 +291,28 @@ rails g migration AddAssociationColumnOrSomething
   end
 end
 </code></pre>
+<h4>Self-referencing associations</h4><pre><code>rails g model StarFighter ship_class:string call_sign:string
+rails g model DogFights attacker_id:integer attacked_id:integer
+</code></pre><pre><code class="language-ruby"># app/models/star_fighter.rb
+class StarFighter &lt; ApplicationRecord
+
+  has_many :outgoing_fire, foreign_key: :attacker_id, class_name: &quot;DogFight&quot;
+  has_many :attacked, :through =&gt; :outgoing_fire
+
+  has_many :incoming_fire, foreign_key: :attacked_id, class_name: &quot;DogFight&quot;
+  has_many :attackers, :through =&gt; :incoming_fire
+
+end
+
+# app/models/dog_fight.rb
+class DogFight &lt; ApplicationRecord
+
+  belongs_to :attacker, :foreign_key =&gt; :attacker_id, :class_name =&gt; &quot;StarFighter&quot;
+  belongs_to :attacked, :foreign_key =&gt; :attacked_id, :class_name =&gt; &quot;StarFighter&quot;
+  validates :attacked_id, :uniqueness =&gt; { :scope =&gt; :attacker_id }
+
+end
+</code></pre>
 <h3>Renaming</h3><pre><code class="language-ruby">belongs_to :author, :class_name =&gt; &quot;User&quot; # Rename the model
 belongs_to :user, :foreign_key =&gt; :author_id # Rename the foreign key
 has_many :tagged_posts, :through =&gt; :post_taggings, :source =&gt; :post # Rename the relationship
