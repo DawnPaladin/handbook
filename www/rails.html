@@ -119,7 +119,11 @@ gem &#39;bootstrap-sass&#39;
 </code></pre><pre><code>/* app/assets/stylesheets/global.scss */
 @import &#39;bootstrap-sprockets&#39;;
 @import &#39;bootstrap&#39;;
-</code></pre><h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
+</code></pre><h3>Create Postgres database</h3><pre><code>$ sudo -i -u postgres
+$ psql
+postgres=# create database &quot;database_name&quot;;
+</code></pre><p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, input the name of the database, then move that line up into &quot;default&quot;. Remove the database name from &quot;test&quot; and &quot;production&quot;.</p>
+<h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
 def create
   @post = Post.new(params[:post])
   if @post.save
@@ -139,14 +143,12 @@ end
 
 &lt;%= link_to &quot;Destroy user&quot;, user_path(user.id), method: :delete %&gt;
 </code></pre><p>Note that in <code>rails routes</code>, <code>edit_user</code> is listed in the Prefix column, so the link is <code>edit_user_path</code>. The DELETE verb doesn&#39;t have its own prefix; you just use the user&#39;s link with the <code>:delete</code> method.</p>
-<h2>Forms</h2><p>Simple:</p>
-<pre><code>&lt;%= form_tag(&quot;/search&quot;, method: &quot;get&quot;) do %&gt;
+<h2>Forms</h2><h3>Simple</h3><pre><code>&lt;%= form_tag(&quot;/search&quot;, method: &quot;get&quot;) do %&gt;
   &lt;%= label_tag(:query, &quot;Search for:&quot;) %&gt;
   &lt;%= text_field_tag(:query) %&gt;
   &lt;%= submit_tag(&quot;Search&quot;) %&gt;
 &lt;% end %&gt;
-</code></pre><p>Automated:</p>
-<pre><code># app/controllers/articles_controller.rb
+</code></pre><h3>Automated</h3><pre><code># app/controllers/articles_controller.rb
 def new
   @article = Article.new
 end
@@ -160,7 +162,57 @@ end
 &lt;% end %&gt;
 </code></pre><p>Options go inside a hash. HTML options go inside their own sub-hash.</p>
 <pre><code>&lt;%= form_for @post, {:html =&gt; { :class =&gt; &quot;your_class&quot; } } do |f| %&gt;
-</code></pre><p>Both of these will automatically include hidden <code>&lt;input&gt;</code>s for encoding and Rails&#39; required authenticity token.</p>
+</code></pre><p>All forms created with Rails helpers will automatically include hidden <code>&lt;input&gt;</code>s for encoding and Rails&#39; required authenticity token.</p>
+<h3>Nested</h3><p>Model:</p>
+<pre><code class="language-ruby"># app/models/product.rb
+class Product &lt; ActiveRecord::Base
+  has_many :category_placements
+  has_many :categories, :through =&gt; :category_placements
+
+  has_many :reviews
+
+  accepts_nested_attributes_for :reviews,
+                                :reject_if =&gt; :all_blank,
+                                :allow_destroy =&gt; true;
+end
+
+# app/models/review.rb
+class Review &lt; ActiveRecord::Base
+  belongs_to :product
+end
+</code></pre>
+<p>View:</p>
+<pre><code>&lt;%= form_for @product do |product_fields| %&gt;
+
+  &lt;%= product_fields.label :name %&gt;
+  &lt;%= product_fields.text_field :name %&gt;
+  ...
+
+  &lt;%= product_fields.fields_for :reviews do |review_fields| %&gt;
+    &lt;%= review_fields.label :title %&gt;
+    &lt;%= review_fields.text_field :title %&gt;
+
+    # checkbox to destroy the object
+    &lt;% if review_fields.object.persisted? %&gt;
+      &lt;%= review_fields.label :_destroy, &quot;Delete this review?&quot; %&gt;
+      &lt;%= review_fields.check_box :_destroy %&gt;
+    &lt;% end %&gt;
+
+  &lt;%= product_fields.submit &quot;Create&quot; %&gt;
+
+  &lt;% end %&gt;
+</code></pre><p>Controller:</p>
+<pre><code class="language-ruby">def edit
+  @product = Product.find(params[:id])
+  # build an extra empty review on the association
+  @product.reviews.build
+end
+
+def whitelisted_params
+  params.require(:product).permit(:name, :reviews_attributes =&gt; [:title, :id, :_destroy ])
+end
+</code></pre>
+<p><em><a href="https://www.vikingcodeschool.com/dashboard#/advanced-forms-and-active-record/a-simple-nested-form">Source</a></em></p>
 <h2>Validation</h2><pre><code class="language-ruby"># app/models/post.rb
 class Post &lt; ActiveRecord::Base
   validates :title, :body, :subheading

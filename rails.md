@@ -147,6 +147,17 @@ gem 'bootstrap-sass'
 @import 'bootstrap';
 ```
 
+### Create Postgres database
+
+```
+$ sudo -i -u postgres
+$ psql
+postgres=# create database "database_name";
+```
+
+In config/database.yml, under "default", change "adapter" to "postgresql". Under "development", input the name of the database, then move that line up into "default". Remove the database name from "test" and "production".
+
+
 ## The Flash ![The Flash](img/Flash.png)
 
 ```ruby
@@ -179,7 +190,8 @@ Note that in `rails routes`, `edit_user` is listed in the Prefix column, so the 
 
 ## Forms
 
-Simple:
+### Simple
+
 ```
 <%= form_tag("/search", method: "get") do %>
   <%= label_tag(:query, "Search for:") %>
@@ -188,7 +200,8 @@ Simple:
 <% end %>
 ```
 
-Automated:
+### Automated
+
 ```
 # app/controllers/articles_controller.rb
 def new
@@ -209,7 +222,70 @@ Options go inside a hash. HTML options go inside their own sub-hash.
 <%= form_for @post, {:html => { :class => "your_class" } } do |f| %>
 ```
 
-Both of these will automatically include hidden `<input>`s for encoding and Rails' required authenticity token.
+All forms created with Rails helpers will automatically include hidden `<input>`s for encoding and Rails' required authenticity token.
+
+### Nested
+
+Model:
+
+```ruby
+# app/models/product.rb
+class Product < ActiveRecord::Base
+  has_many :category_placements
+  has_many :categories, :through => :category_placements
+
+  has_many :reviews
+
+  accepts_nested_attributes_for :reviews,
+                                :reject_if => :all_blank,
+                                :allow_destroy => true;
+end
+
+# app/models/review.rb
+class Review < ActiveRecord::Base
+  belongs_to :product
+end
+```
+
+View:
+
+```
+<%= form_for @product do |product_fields| %>
+
+  <%= product_fields.label :name %>
+  <%= product_fields.text_field :name %>
+  ...
+
+  <%= product_fields.fields_for :reviews do |review_fields| %>
+    <%= review_fields.label :title %>
+    <%= review_fields.text_field :title %>
+
+    # checkbox to destroy the object
+    <% if review_fields.object.persisted? %>
+      <%= review_fields.label :_destroy, "Delete this review?" %>
+      <%= review_fields.check_box :_destroy %>
+    <% end %>
+
+  <%= product_fields.submit "Create" %>
+
+  <% end %>
+```
+
+Controller:
+
+```ruby
+def edit
+  @product = Product.find(params[:id])
+  # build an extra empty review on the association
+  @product.reviews.build
+end
+
+def whitelisted_params
+  params.require(:product).permit(:name, :reviews_attributes => [:title, :id, :_destroy ])
+end
+```
+
+*[Source](https://www.vikingcodeschool.com/dashboard#/advanced-forms-and-active-record/a-simple-nested-form)*
 
 ## Validation
 
