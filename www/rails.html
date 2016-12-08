@@ -143,7 +143,8 @@ end
 
 &lt;%= link_to &quot;Destroy user&quot;, user_path(user.id), method: :delete %&gt;
 </code></pre><p>Note that in <code>rails routes</code>, <code>edit_user</code> is listed in the Prefix column, so the link is <code>edit_user_path</code>. The DELETE verb doesn&#39;t have its own prefix; you just use the user&#39;s link with the <code>:delete</code> method.</p>
-<h2>Forms</h2><h3>Simple</h3><pre><code>&lt;%= form_tag(&quot;/search&quot;, method: &quot;get&quot;) do %&gt;
+<h2>Forms</h2><p><a href="http://stackoverflow.com/documentation/html/277/input-control-elements/2259/input-validation#t=201612081944357410854">HTML5 Form Input Validation</a> on StackOverflow Documentation</p>
+<h3>Simple</h3><pre><code>&lt;%= form_tag(&quot;/search&quot;, method: &quot;get&quot;) do %&gt;
   &lt;%= label_tag(:query, &quot;Search for:&quot;) %&gt;
   &lt;%= text_field_tag(:query) %&gt;
   &lt;%= submit_tag(&quot;Search&quot;) %&gt;
