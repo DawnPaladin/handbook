@@ -149,13 +149,11 @@ gem 'bootstrap-sass'
 
 ### Create Postgres database
 
-```
-$ sudo -i -u postgres
-$ psql
-postgres=# create database "database_name";
-```
+Add "pg" to your Gemfile.
 
-In config/database.yml, under "default", change "adapter" to "postgresql". Under "development", input the name of the database, then move that line up into "default". Remove the database name from "test" and "production".
+In config/database.yml, under "default", change "adapter" to "postgresql". Under "development", change "database" to "devise_development", under "test" change it to "devise_test", and under "production" change it to "devise_production".
+
+Then run `rails db:create`.
 
 
 ## The Flash ![The Flash](img/Flash.png)

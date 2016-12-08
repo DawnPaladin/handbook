@@ -119,10 +119,9 @@ gem &#39;bootstrap-sass&#39;
 </code></pre><pre><code>/* app/assets/stylesheets/global.scss */
 @import &#39;bootstrap-sprockets&#39;;
 @import &#39;bootstrap&#39;;
-</code></pre><h3>Create Postgres database</h3><pre><code>$ sudo -i -u postgres
-$ psql
-postgres=# create database &quot;database_name&quot;;
-</code></pre><p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, input the name of the database, then move that line up into &quot;default&quot;. Remove the database name from &quot;test&quot; and &quot;production&quot;.</p>
+</code></pre><h3>Create Postgres database</h3><p>Add &quot;pg&quot; to your Gemfile.</p>
+<p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, change &quot;database&quot; to &quot;devise_development&quot;, under &quot;test&quot; change it to &quot;devise_test&quot;, and under &quot;production&quot; change it to &quot;devise_production&quot;.</p>
+<p>Then run <code>rails db:create</code>.</p>
 <h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
 def create
   @post = Post.new(params[:post])
