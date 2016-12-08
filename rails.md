@@ -5,7 +5,7 @@
 ### Set up repo
 
 ```
-rails new app_name
+rails new app_name # optional: --database=postgresql
 cd app_name
 git init
 git remote add origin <SSH address>
