@@ -167,10 +167,16 @@ group :development, :test do
 end
 ```
 ```bash
-$ rails g rspec:model User
+$ bundle install
+$ rails g rspec:install # generates /spec dir
+$ rails g rspec:model User # set up a testing model for a User
+$ guard init rspec # create Guardfile
 ```
+Inside spec/rails_helper.rb, in the group of `require`s near the top, `require 'factory_girl_rails'`. In the `Rspec.configure do |config|` block, add `config.include FactoryGirl::Syntax::Methods`.
+
+
 ```ruby
-# spec/factories.rb
+# spec/factories.rb or spec/factories/users.rb
 FactoryGirl.define do
   sequence(:name) do |i|
     "Foo#{i}"

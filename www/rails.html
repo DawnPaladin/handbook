@@ -129,8 +129,13 @@ group :development, :test do
   gem &#39;guard-rspec&#39;, require:false
   gem &#39;factory_girl_rails&#39;
 end
-</code></pre><pre><code>rails g rspec:model User
-</code></pre><pre><code class="language-ruby"># spec/factories.rb
+</code></pre><pre><code class="language-bash">$ bundle install
+$ rails g rspec:install # generates /spec dir
+$ rails g rspec:model User # set up a testing model for a User
+$ guard init rspec # create Guardfile
+</code></pre>
+<p>Inside spec/rails_helper.rb, in the group of <code>require</code>s near the top, <code>require &#39;factory_girl_rails&#39;</code>. In the <code>Rspec.configure do |config|</code> block, add <code>config.include FactoryGirl::Syntax::Methods</code>.</p>
+<pre><code class="language-ruby"># spec/factories.rb or spec/factories/users.rb
 FactoryGirl.define do
   sequence(:name) do |i|
     &quot;Foo#{i}&quot;
