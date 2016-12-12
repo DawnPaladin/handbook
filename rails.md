@@ -166,8 +166,8 @@ group :development, :test do
   gem 'factory_girl_rails'
 end
 ```
-```
-rails g rspec:model User
+```bash
+$ rails g rspec:model User
 ```
 ```ruby
 # spec/factories.rb
@@ -192,6 +192,7 @@ end
 ```
 
 ```ruby
+# spec/models/user_spec.rb
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
