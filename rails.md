@@ -156,6 +156,57 @@ In config/database.yml, under "default", change "adapter" to "postgresql". Under
 
 Then run `rails db:create`.
 
+### Tests
+
+```
+# Gemfile
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'guard-rspec', require:false
+  gem 'factory_girl_rails'
+end
+```
+```
+rails g rspec:model User
+```
+```ruby
+# spec/factories.rb
+FactoryGirl.define do
+  sequence(:name) do |i|
+    "Foo#{i}"
+  end
+
+  factory :user do
+    name
+    email { "#{name}@bar.com" }
+    password "foobar"
+  end
+
+  factory :secret do
+    association :author, factory: :user
+    sequence(:title) { |i| "Baz Secret #{i}"}
+    body { "You won't believe what #{author}" }
+  end
+
+end
+```
+
+```ruby
+require 'rails_helper'
+
+RSpec.describe User, type: :model do
+
+  let(:user) { build(:user) }
+  let(:users) { create_list(:user, 3) } # create a list of 3 users
+
+  it "is valid with default attributes" do
+    expect(user).to be_valid
+  end
+
+end
+```
+
+[Full list of RSpec Expectations](https://github.com/rspec/rspec-expectations)
 
 ## The Flash ![The Flash](img/Flash.png)
 

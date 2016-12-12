@@ -123,6 +123,47 @@ gem &#39;bootstrap-sass&#39;
 </code></pre><h3>Create Postgres database</h3><p>Add &quot;pg&quot; to your Gemfile.</p>
 <p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, change &quot;database&quot; to &quot;devise_development&quot;, under &quot;test&quot; change it to &quot;devise_test&quot;, and under &quot;production&quot; change it to &quot;devise_production&quot;.</p>
 <p>Then run <code>rails db:create</code>.</p>
+<h3>Tests</h3><pre><code># Gemfile
+group :development, :test do
+  gem &#39;rspec-rails&#39;
+  gem &#39;guard-rspec&#39;, require:false
+  gem &#39;factory_girl_rails&#39;
+end
+</code></pre><pre><code>rails g rspec:model User
+</code></pre><pre><code class="language-ruby"># spec/factories.rb
+FactoryGirl.define do
+  sequence(:name) do |i|
+    &quot;Foo#{i}&quot;
+  end
+
+  factory :user do
+    name
+    email { &quot;#{name}@bar.com&quot; }
+    password &quot;foobar&quot;
+  end
+
+  factory :secret do
+    association :author, factory: :user
+    sequence(:title) { |i| &quot;Baz Secret #{i}&quot;}
+    body { &quot;You won&#39;t believe what #{author}&quot; }
+  end
+
+end
+</code></pre>
+<pre><code class="language-ruby">require &#39;rails_helper&#39;
+
+RSpec.describe User, type: :model do
+
+  let(:user) { build(:user) }
+  let(:users) { create_list(:user, 3) } # create a list of 3 users
+
+  it &quot;is valid with default attributes&quot; do
+    expect(user).to be_valid
+  end
+
+end
+</code></pre>
+<p><a href="https://github.com/rspec/rspec-expectations">Full list of RSpec Expectations</a></p>
 <h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
 def create
   @post = Post.new(params[:post])
