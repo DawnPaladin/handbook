@@ -158,6 +158,8 @@ Then run `rails db:create`.
 
 ### Tests
 
+#### Unit testing the model with Factory Girl and RSpec
+
 ```
 # Gemfile
 group :development, :test do
@@ -209,11 +211,46 @@ RSpec.describe User, type: :model do
   it "is valid with default attributes" do
     expect(user).to be_valid
   end
+  it "is valid with a standard password size" do
+    expect(build(:user, password: "1234567890")).to be_valid
+  end
 
 end
 ```
 
 [Full list of RSpec Expectations](https://github.com/rspec/rspec-expectations)
+
+#### Integration tests with Capybara
+
+```ruby
+# Gemfile
+...
+group :test do
+  gem 'capybara'
+  gem 'launchy'
+end
+...
+```
+
+Run `bundle install` then add the following line to your `spec/spec_helper.rb` or `spec/rails_helper.rb` file to include Capybara's functions in your tests:
+
+```ruby
+# spec/rails_helper.rb
+# This file is copied to spec/ when you run 'rails generate rspec:install'
+ENV["RAILS_ENV"] ||= 'test'
+require 'spec_helper'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'factory_girl_rails'
+require 'capybara/rails'      # <<<<<<<<<
+...
+```
+
+When you reload your test suite, things should work properly.
+
+Whenever you're ready to set up a new feature spec, as we saw above, simply create a new file in spec/features which includes `rails_helper` at the top as normal. Now it's part of your normal test suite.
+
+Note: Make sure you set up your SECRET_KEY_BASE properly in the Test Environment (under config/secrets.yml). It is necessary since Capybara basically uses your app like a normal visitor would and the app would fail to render without the SECRET_KEY_BASE properly set up.
 
 ## The Flash ![The Flash](img/Flash.png)
 
@@ -587,6 +624,134 @@ end
 # Using a block instead of a full method
 before_save { |p| p.published_time = Time.now }
 ```
+
+## Tests
+
+### Integration tests with Capybara
+
+```ruby
+# spec/features/users_spec.rb
+require 'rails_helper'
+
+feature 'User accounts' do
+  before do
+    # go to the home page
+    visit root_path
+  end
+
+  # `scenario` is an alias for `it`
+  scenario "add a new user" do
+
+    # go to the signup page
+    click_link "New User"
+
+    # fill in the form for a new user
+    name = "Foo"
+    fill_in "Name", with: name
+    fill_in "Email", with: "foo@bar.com"
+    fill_in "Password", with: "foobarfoobar"
+    fill_in "Password confirmation", with: "foobarfoobar"
+
+    # submit the form and verify it created a user
+    expect{ click_button "Create User" }.to change(User, :count).by(1)
+
+    # verify that we've been redirected to that user's page
+    expect(page).to have_content "user show for #{name}"
+
+    # verify the flash is working properly
+    expect(page).to have_content "Created new user!"    
+
+  end
+  # ...and so on
+end
+```
+
+**Navigating**
+
+```ruby
+# follow links
+visit('/projects')
+visit(post_comments_path(post))
+
+# use the current path
+expect(current_path).to eq(post_comments_path(post))
+
+# click things
+click_link('id-of-link')
+click_link('Link Text')
+click_button('Save')
+click_on('Link Text') # clicks on either links or buttons
+click_on('Button Value')
+```
+
+**Working with Forms**
+
+```ruby
+# locate a field then fill it in
+fill_in('First Name', :with => 'John')
+fill_in('Password', :with => 'Seekrit')
+fill_in('Description', :with => 'Really Long Text...')
+
+# select from among options
+choose('A Radio Button')
+check('A Checkbox')
+uncheck('A Checkbox')
+
+# perform more complex actions
+attach_file('Image', '/path/to/image.jpg')
+select('Option', :from => 'Select Box')
+```
+
+**Matchers**
+
+```ruby
+# locate based on css-style matching
+expect(page).to have_selector('table tr')
+expect(page).to have_selector(:xpath, '//table/tr')
+
+# locate based on xpath, css, or just text
+expect(page).to have_xpath('//table/tr')
+expect(page).to have_css('table tr.foo')
+expect(page).to have_content('foo')
+
+# the actual matchers behind the scenes of the above
+page.has_selector?('table tr')
+page.has_selector?(:xpath, '//table/tr')
+page.has_xpath?('//table/tr')
+page.has_css?('table tr.foo')
+page.has_content?('foo')
+
+find_field('First Name').value
+find_link('Hello').visible?
+find_button('Send').click
+
+find(:xpath, "//table/tr").click
+find("#overlay").find("h1").click
+all('a').each { |a| a[:href] }
+```
+
+**Scoping**
+
+```ruby
+within("li#employee") do
+  fill_in 'Name', :with => 'Jimmy'
+end
+
+within(:xpath, "//li[@id='employee']") do
+  fill_in 'Name', :with => 'Jimmy'
+end
+
+within_fieldset('Employee') do
+  fill_in 'Name', :with => 'Jimmy'
+end
+
+within_table('Employee') do
+  fill_in 'Name', :with => 'Jimmy'
+end
+```
+
+Anywhere that code can be executed, try placing the method save_and_open_page (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).
+
 
 ## Useful methods
 ```ruby
