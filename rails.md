@@ -625,9 +625,9 @@ end
 before_save { |p| p.published_time = Time.now }
 ```
 
-## Tests
+## Integration tests with Capybara
 
-### Integration tests with Capybara
+Anywhere that code can be executed, try placing the method save_and_open_page (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).
 
 ```ruby
 # spec/features/users_spec.rb
@@ -666,7 +666,7 @@ feature 'User accounts' do
 end
 ```
 
-**Navigating**
+### Navigating
 
 ```ruby
 # follow links
@@ -684,7 +684,7 @@ click_on('Link Text') # clicks on either links or buttons
 click_on('Button Value')
 ```
 
-**Working with Forms**
+### Working with Forms
 
 ```ruby
 # locate a field then fill it in
@@ -702,7 +702,7 @@ attach_file('Image', '/path/to/image.jpg')
 select('Option', :from => 'Select Box')
 ```
 
-**Matchers**
+### Matchers
 
 ```ruby
 # locate based on css-style matching
@@ -733,7 +733,7 @@ all('a').each { |a| a[:href] }
 
 [More matchers](https://gist.github.com/them0nk/2166525)
 
-**Scoping**
+### Scoping
 
 ```ruby
 within("li#employee") do
@@ -753,8 +753,37 @@ within_table('Employee') do
 end
 ```
 
-Anywhere that code can be executed, try placing the method save_and_open_page (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).
+### Macros
 
+```ruby
+# spec/rails_helper.rb
+...
+# This already exists but is commented out by default
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+...
+RSpec.configure do |config|
+  config.include LoginMacros # or whatever you name your module
+end
+...
+```
+
+```ruby
+# spec/support/login_macros.rb
+module LoginMacros
+  def sign_in(user)
+    visit root_path
+    click_link 'Log In'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_button 'Log In'
+  end
+
+  def sign_out
+    visit root_path
+    click_link "Logout"
+  end
+end
+```
 
 ## Useful methods
 ```ruby
