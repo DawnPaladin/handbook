@@ -547,6 +547,7 @@ expect(page).to have_selector(:xpath, &#39;//table/tr&#39;)
 expect(page).to have_xpath(&#39;//table/tr&#39;)
 expect(page).to have_css(&#39;table tr.foo&#39;)
 expect(page).to have_content(&#39;foo&#39;)
+expect(page).to have_css(&#39;h1#header_id&#39;, text: &#39;Header text&#39;)
 
 # the actual matchers behind the scenes of the above
 page.has_selector?(&#39;table tr&#39;)
@@ -563,6 +564,7 @@ find(:xpath, &quot;//table/tr&quot;).click
 find(&quot;#overlay&quot;).find(&quot;h1&quot;).click
 all(&#39;a&#39;).each { |a| a[:href] }
 </code></pre>
+<p><a href="https://gist.github.com/them0nk/2166525">More matchers</a></p>
 <p><strong>Scoping</strong></p>
 <pre><code class="language-ruby">within(&quot;li#employee&quot;) do
   fill_in &#39;Name&#39;, :with =&gt; &#39;Jimmy&#39;

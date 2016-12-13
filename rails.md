@@ -713,6 +713,7 @@ expect(page).to have_selector(:xpath, '//table/tr')
 expect(page).to have_xpath('//table/tr')
 expect(page).to have_css('table tr.foo')
 expect(page).to have_content('foo')
+expect(page).to have_css('h1#header_id', text: 'Header text')
 
 # the actual matchers behind the scenes of the above
 page.has_selector?('table tr')
@@ -729,6 +730,8 @@ find(:xpath, "//table/tr").click
 find("#overlay").find("h1").click
 all('a').each { |a| a[:href] }
 ```
+
+[More matchers](https://gist.github.com/them0nk/2166525)
 
 **Scoping**
 
