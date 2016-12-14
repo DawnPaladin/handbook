@@ -631,42 +631,38 @@ end
 require &#39;rails_helper&#39;
 
 describe UsersController do
-  describe &quot;user access&quot; do
+  describe &quot;user auth&quot; do
     let(:user) { create :user }
-
     before :each do
       request.cookies[&quot;auth_token&quot;] = user.auth_token
     end
   end
 
-  context &quot;valid data&quot; do
-    describe &quot;#create&quot; do
+  describe &#39;#create&#39; do
+    context &quot;valid data&quot; do
       it &quot;creates a new user record&quot; do
         expect {
           process :create, params: { user: attributes_for(:user) }
         }.to change(User, :count).by(1)
       end
-
       it &quot;redirects to the user page&quot; do
         process :create, params: { user: attributes_for(:user) }
-        expect(response).to redirect_to user_url(User.last)
+        expect(response).to redirect_to edit_user_profile_url(User.last)
       end
     end
-  end
-  context &quot;invalid data&quot; do
-    describe &quot;#create&quot; do
+    context &quot;invalid data&quot; do
       it &quot;does not create a new user record&quot; do
         user_attrs = build(:user, email: &quot;&quot;).attributes
         expect {
           process :create, params: { user: user_attrs }
         }.to change(User, :count).by(0)
       end
+      # if data is invalid, the controller will re-render the form. We don&#39;t test rendering.
     end
-    # the correct behavior here is to re-render the form, and we don&#39;t test that
   end
 end
 </code></pre>
-<p><a href="https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb">Full test of a user controller</a></p>
+<p>Full tests of a <a href="https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb">user controller</a> and a <a href="https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/secrets_controller_spec.rb">posts controller</a></p>
 <h2>View tests</h2><p>These tests any conditional logic in your view (which shouldn&#39;t be much).</p>
 <p>You still have access to helper methods, but not those added via <code>helper_method</code> in the controller. You will need to stub out all methods that get called.</p>
 <p>By default, <code>render</code> only renders the specific view you&#39;re testing. You can define a method to render composite layouts:</p>

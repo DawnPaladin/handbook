@@ -820,43 +820,40 @@ expect(response).to have_http_status(200)
 require 'rails_helper'
 
 describe UsersController do
-  describe "user access" do
+  describe "user auth" do
     let(:user) { create :user }
-
     before :each do
       request.cookies["auth_token"] = user.auth_token
     end
   end
 
-  context "valid data" do
-    describe "#create" do
+  describe '#create' do
+    context "valid data" do
       it "creates a new user record" do
         expect {
           process :create, params: { user: attributes_for(:user) }
         }.to change(User, :count).by(1)
       end
-
       it "redirects to the user page" do
         process :create, params: { user: attributes_for(:user) }
-        expect(response).to redirect_to user_url(User.last)
+        expect(response).to redirect_to edit_user_profile_url(User.last)
       end
     end
-  end
-  context "invalid data" do
-    describe "#create" do
+    context "invalid data" do
       it "does not create a new user record" do
         user_attrs = build(:user, email: "").attributes
         expect {
           process :create, params: { user: user_attrs }
         }.to change(User, :count).by(0)
       end
+      # if data is invalid, the controller will re-render the form. We don't test rendering.
     end
-    # the correct behavior here is to re-render the form, and we don't test that
   end
 end
+
 ```
 
-[Full test of a user controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb)
+Full tests of a [user controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb) and a [posts controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/secrets_controller_spec.rb)
 
 ## View tests
 
