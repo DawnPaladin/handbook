@@ -19,15 +19,16 @@
 <div id="toc"></div>
 
 <div class="main-column">
-  <h1>Ruby on Rails</h1><h2>Setup</h2><h3>Set up repo</h3><pre><code>rails new app_name # optional: --database=postgresql
+  <p><strong>Ruby on Rails</strong></p>
+<h1>Setup</h1><h2>Set up repo</h2><pre><code>rails new app_name # optional: --database=postgresql
 cd app_name
 git init
 git remote add origin &lt;SSH address&gt;
 git push -u origin master
-</code></pre><h3>Create a model</h3><pre><code>rails g model Post title:string body:string
+</code></pre><h2>Create a model</h2><pre><code>rails g model Post title:string body:string
 // Examine the new migration and make any required changes
 rails db:migrate
-</code></pre><h3>Create routes</h3><pre><code class="language-ruby"># config/routes.rb
+</code></pre><h2>Create routes</h2><pre><code class="language-ruby"># config/routes.rb
 Rails.application.routes.draw do
   root &quot;posts#index&quot;
   resources :posts
@@ -41,7 +42,7 @@ resources :posts, :except =&gt; [:index]
 get &#39;/presents/:id/deliver/:receiver&#39; =&gt; &#39;presents#deliver&#39;
 # in presents#deliver, look at params[:id] and params[:receiver]
 </code></pre>
-<h3>Create controller</h3><pre><code>rails g controller posts
+<h2>Create controller</h2><pre><code>rails g controller posts
 </code></pre><pre><code class="language-ruby"># app/controllers/posts_controller.rb
 class PostsController &lt; ApplicationController
 
@@ -93,7 +94,7 @@ class PostsController &lt; ApplicationController
 
 end
 </code></pre>
-<h3>Create view</h3><pre><code># app/views/posts/index.html.erb
+<h2>Create view</h2><pre><code># app/views/posts/index.html.erb
 &lt;h1&gt;
   Posts
 &lt;/h1&gt;
@@ -105,13 +106,13 @@ end
     &lt;%= post.body %&gt;
   &lt;/p&gt;
 &lt;% end %&gt;
-</code></pre><h3>Better Errors</h3><pre><code>// Gemfile
+</code></pre><h2>Better Errors</h2><pre><code>// Gemfile
 group :development do
   gem &quot;better_errors&quot;
   gem &quot;binding_of_caller&quot;
   gem &quot;jazz_fingers&quot;
 end
-</code></pre><h3>Add Bootstrap</h3><pre><code class="language-javascript">// app/assets/javascripts/application.js
+</code></pre><h2>Add Bootstrap</h2><pre><code class="language-javascript">// app/assets/javascripts/application.js
 
 //= require bootstrap-sprockets
 </code></pre>
@@ -120,10 +121,10 @@ gem &#39;bootstrap-sass&#39;
 </code></pre><pre><code>/* app/assets/stylesheets/global.scss */
 @import &#39;bootstrap-sprockets&#39;;
 @import &#39;bootstrap&#39;;
-</code></pre><h3>Create Postgres database</h3><p>Add &quot;pg&quot; to your Gemfile.</p>
+</code></pre><h2>Create Postgres database</h2><p>Add &quot;pg&quot; to your Gemfile.</p>
 <p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, change &quot;database&quot; to &quot;devise_development&quot;, under &quot;test&quot; change it to &quot;devise_test&quot;, and under &quot;production&quot; change it to &quot;devise_production&quot;.</p>
 <p>Then run <code>rails db:create</code>.</p>
-<h3>Tests</h3><h4>Unit testing the model with Factory Girl and RSpec</h4><pre><code># Gemfile
+<h2>Tests</h2><h3>Unit testing the model with Factory Girl and RSpec</h3><pre><code># Gemfile
 group :development, :test do
   gem &#39;rspec-rails&#39;
   gem &#39;guard-rspec&#39;, require:false
@@ -173,7 +174,7 @@ RSpec.describe User, type: :model do
 end
 </code></pre>
 <p><a href="https://github.com/rspec/rspec-expectations">Full list of RSpec Expectations</a></p>
-<h4>Integration tests with Capybara</h4><pre><code class="language-ruby"># Gemfile
+<h3>Integration tests with Capybara</h3><pre><code class="language-ruby"># Gemfile
 ...
 group :test do
   gem &#39;capybara&#39;
@@ -195,7 +196,7 @@ require &#39;capybara/rails&#39;      # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
 <p>When you reload your test suite, things should work properly.</p>
 <p>Whenever you&#39;re ready to set up a new feature spec, as we saw above, simply create a new file in spec/features which includes <code>rails_helper</code> at the top as normal. Now it&#39;s part of your normal test suite.</p>
 <p>Note: Make sure you set up your SECRET_KEY_BASE properly in the Test Environment (under config/secrets.yml). It is necessary since Capybara basically uses your app like a normal visitor would and the app would fail to render without the SECRET_KEY_BASE properly set up.</p>
-<h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
+<h1>The Flash <img src="img/Flash.png" alt="The Flash"></h1><pre><code class="language-ruby"># app/controllers/posts_controller.rb
 def create
   @post = Post.new(params[:post])
   if @post.save
@@ -207,7 +208,7 @@ def create
   end
 end
 </code></pre>
-<h2>Links</h2><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
+<h1>Links</h1><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
 
 &lt;%= link_to &quot;See user&quot;, user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
 
@@ -215,13 +216,13 @@ end
 
 &lt;%= link_to &quot;Destroy user&quot;, user_path(user.id), method: :delete %&gt;
 </code></pre><p>Note that in <code>rails routes</code>, <code>edit_user</code> is listed in the Prefix column, so the link is <code>edit_user_path</code>. The DELETE verb doesn&#39;t have its own prefix; you just use the user&#39;s link with the <code>:delete</code> method.</p>
-<h2>Forms</h2><p><a href="http://stackoverflow.com/documentation/html/277/input-control-elements/2259/input-validation#t=201612081944357410854">HTML5 Form Input Validation</a> on StackOverflow Documentation</p>
-<h3>Simple</h3><pre><code>&lt;%= form_tag(&quot;/search&quot;, method: &quot;get&quot;) do %&gt;
+<h1>Forms</h1><p><a href="http://stackoverflow.com/documentation/html/277/input-control-elements/2259/input-validation#t=201612081944357410854">HTML5 Form Input Validation</a> on StackOverflow Documentation</p>
+<h2>Simple</h2><pre><code>&lt;%= form_tag(&quot;/search&quot;, method: &quot;get&quot;) do %&gt;
   &lt;%= label_tag(:query, &quot;Search for:&quot;) %&gt;
   &lt;%= text_field_tag(:query) %&gt;
   &lt;%= submit_tag(&quot;Search&quot;) %&gt;
 &lt;% end %&gt;
-</code></pre><h3>Automated</h3><pre><code># app/controllers/articles_controller.rb
+</code></pre><h2>Automated</h2><pre><code># app/controllers/articles_controller.rb
 def new
   @article = Article.new
 end
@@ -236,7 +237,7 @@ end
 </code></pre><p>Options go inside a hash. HTML options go inside their own sub-hash.</p>
 <pre><code>&lt;%= form_for @post, {:html =&gt; { :class =&gt; &quot;your_class&quot; } } do |f| %&gt;
 </code></pre><p>All forms created with Rails helpers will automatically include hidden <code>&lt;input&gt;</code>s for encoding and Rails&#39; required authenticity token.</p>
-<h3>Nested</h3><p>Model:</p>
+<h2>Nested</h2><p>Model:</p>
 <pre><code class="language-ruby"># app/models/product.rb
 class Product &lt; ActiveRecord::Base
   has_many :category_placements
@@ -286,7 +287,7 @@ def whitelisted_params
 end
 </code></pre>
 <p><em><a href="https://www.vikingcodeschool.com/dashboard#/advanced-forms-and-active-record/a-simple-nested-form">Source</a></em></p>
-<h2>Validation</h2><pre><code class="language-ruby"># app/models/post.rb
+<h1>Validation</h1><pre><code class="language-ruby"># app/models/post.rb
 class Post &lt; ActiveRecord::Base
   validates :title, :body, :subheading
               :presence =&gt; true, # Does it have content?
@@ -314,8 +315,8 @@ p.valid? #=&gt; false
 p.errors[:title] #=&gt; [&quot;is too long (maximum is 20 characters)&quot;]
 p.errors.full_messages #=&gt; [&quot;Title is too long (maximum is 20 characters)&quot;]
 </code></pre>
-<h2>Relations</h2><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
-<h2>Associations</h2><p>You can inform Rails about a relationship between models like so:</p>
+<h1>Relations</h1><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
+<h1>Associations</h1><p>You can inform Rails about a relationship between models like so:</p>
 <pre><code class="language-ruby"># app/models/user.rb
 class User &lt; ActiveRecord::Base
   has_many :posts
@@ -358,7 +359,7 @@ class RenameUserIdToAuthorIdInComments &lt; ActiveRecord::Migration[5.0]
   end
 end
 </code></pre>
-<h3>Many-to-many relationship</h3><p>Generating the model:</p>
+<h2>Many-to-many relationship</h2><p>Generating the model:</p>
 <pre><code class="language-bash">rails g model Programmer name:string
 rails g model Client name:string
 rails g model Project programmer:references client:references
@@ -390,7 +391,7 @@ tag1 = Tag.create
 post_tag = PostTag.create(post: post1, tag: tag1)
 post1.tags #=&gt; tag1
 </code></pre>
-<h4>Rename a many-to-many relationship</h4><pre><code class="language-ruby">class User &lt; ApplicationRecord
+<h3>Rename a many-to-many relationship</h3><pre><code class="language-ruby">class User &lt; ApplicationRecord
   has_many :user_posts
   has_many :posts, through: :user_posts
 end
@@ -416,7 +417,7 @@ rails g migration AddAssociationColumnOrSomething
   end
 end
 </code></pre>
-<h4>Self-referencing associations</h4><pre><code>rails g model StarFighter ship_class:string call_sign:string
+<h3>Self-referencing associations</h3><pre><code>rails g model StarFighter ship_class:string call_sign:string
 rails g model DogFights attacker_id:integer attacked_id:integer
 </code></pre><pre><code class="language-ruby"># app/models/star_fighter.rb
 class StarFighter &lt; ApplicationRecord
@@ -438,18 +439,18 @@ class DogFight &lt; ApplicationRecord
 
 end
 </code></pre>
-<h3>Renaming</h3><pre><code class="language-ruby">belongs_to :author, :class_name =&gt; &quot;User&quot; # Rename the model
+<h2>Renaming</h2><pre><code class="language-ruby">belongs_to :author, :class_name =&gt; &quot;User&quot; # Rename the model
 belongs_to :user, :foreign_key =&gt; :author_id # Rename the foreign key
 has_many :tagged_posts, :through =&gt; :post_taggings, :source =&gt; :post # Rename the relationship
 
 belongs_to :category, optional: true
 </code></pre>
-<h3>Other options</h3><pre><code class="language-ruby">belongs_to :category, optional: true
+<h2>Other options</h2><pre><code class="language-ruby">belongs_to :category, optional: true
 </code></pre>
-<h2>Orphans</h2><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
+<h1>Orphans</h1><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
 <pre><code class="language-ruby">has_many :posts, :dependent =&gt; :destroy # If I die, my children go with me!
 </code></pre>
-<h2>Callbacks</h2><pre><code class="language-ruby"># Be welcoming with an after_create callback
+<h1>Callbacks</h1><pre><code class="language-ruby"># Be welcoming with an after_create callback
 after_create :send_welcome_email, :unless =&gt; :method_is_true
 # ... and be sure to write the method to support it
 private
@@ -473,7 +474,7 @@ end
 # Using a block instead of a full method
 before_save { |p| p.published_time = Time.now }
 </code></pre>
-<h2>Integration tests with Capybara</h2><p>Anywhere that code can be executed, try placing the method save_and_open_page (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).</p>
+<h1>Tests</h1><h2>Integration tests</h2><p>Anywhere that code can be executed, try placing the method <code>save_and_open_page</code> (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).</p>
 <pre><code class="language-ruby"># spec/features/users_spec.rb
 require &#39;rails_helper&#39;
 
@@ -605,7 +606,87 @@ module LoginMacros
   end
 end
 </code></pre>
-<h2>Useful methods</h2><pre><code class="language-ruby">&quot;User&quot;.pluralize #=&gt; &quot;Users&quot;
+<h2>Controller tests</h2><p>Controller tests cover:</p>
+<ul>
+<li>authentication (before_action methods)</li>
+<li>redirects</li>
+<li>verifying flashes are set</li>
+<li>verifying cookies or sessions</li>
+<li>parameters</li>
+<li>all conditional logic in the controller</li>
+</ul>
+<p>Controller tests do not cover:</p>
+<ul>
+<li>Instance variables</li>
+<li>Rendering a particular template</li>
+</ul>
+<p><strong>Sign in</strong></p>
+<pre><code class="language-ruby">request.cookies[&#39;auth_token&#39;] = user.auth_token
+</code></pre>
+<p><strong>Test that we have not redirected</strong></p>
+<pre><code class="language-ruby">expect(response).to have_http_status(200)
+</code></pre>
+<pre><code class="language-ruby"># spec/controllers/users_controller_spec.rb
+require &#39;rails_helper&#39;
+
+describe UsersController do
+  describe &quot;user access&quot; do
+    let(:user) { create :user }
+
+    before :each do
+      request.cookies[&quot;auth_token&quot;] = user.auth_token
+    end
+  end
+
+  context &quot;valid data&quot; do
+    describe &quot;#create&quot; do
+      it &quot;creates a new user record&quot; do
+        expect {
+          process :create, params: { user: attributes_for(:user) }
+        }.to change(User, :count).by(1)
+      end
+
+      it &quot;redirects to the user page&quot; do
+        process :create, params: { user: attributes_for(:user) }
+        expect(response).to redirect_to user_url(User.last)
+      end
+    end
+  end
+  context &quot;invalid data&quot; do
+    describe &quot;#create&quot; do
+      it &quot;does not create a new user record&quot; do
+        user_attrs = build(:user, email: &quot;&quot;).attributes
+        expect {
+          process :create, params: { user: user_attrs }
+        }.to change(User, :count).by(0)
+      end
+    end
+    # the correct behavior here is to re-render the form, and we don&#39;t test that
+  end
+end
+</code></pre>
+<p><a href="https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb">Full test of a user controller</a></p>
+<h2>View tests</h2><p>These tests any conditional logic in your view (which shouldn&#39;t be much).</p>
+<p>You still have access to helper methods, but not those added via <code>helper_method</code> in the controller. You will need to stub out all methods that get called.</p>
+<pre><code class="language-ruby">require &#39;rails_helper&#39;
+
+describe &quot;secrets/index.html.erb&quot; do
+
+  context &quot;logged in user&quot; do
+  it &quot;shows secrets&#39; author&#39;s names&quot; do
+    user = create(:user, name: &quot;Test user&quot;)
+    secret = create(:secret, author: user)
+    def view.signed_in_user?; true; end;
+    def view.current_user; nil; end;
+    assign(:secrets, [secret])
+
+    render
+
+    expect(rendered).to include(user.name)
+  end
+end
+</code></pre>
+<h1>Useful methods</h1><pre><code class="language-ruby">&quot;User&quot;.pluralize #=&gt; &quot;Users&quot;
 pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;
 </code></pre>
 <p>If the database is refusing to commit your transactions and you&#39;re not sure why, run <code>.errors.full_messages</code> on your object.</p>

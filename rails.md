@@ -1,8 +1,8 @@
-# Ruby on Rails
+**Ruby on Rails**
 
-## Setup
+# Setup
 
-### Set up repo
+## Set up repo
 
 ```
 rails new app_name # optional: --database=postgresql
@@ -12,7 +12,7 @@ git remote add origin <SSH address>
 git push -u origin master
 ```
 
-### Create a model
+## Create a model
 
 ```
 rails g model Post title:string body:string
@@ -20,7 +20,7 @@ rails g model Post title:string body:string
 rails db:migrate
 ```
 
-### Create routes
+## Create routes
 
 ```ruby
 # config/routes.rb
@@ -42,7 +42,7 @@ get '/presents/:id/deliver/:receiver' => 'presents#deliver'
 # in presents#deliver, look at params[:id] and params[:receiver]
 ```
 
-### Create controller
+## Create controller
 
 ```
 rails g controller posts
@@ -101,7 +101,7 @@ class PostsController < ApplicationController
 end
 ```
 
-### Create view
+## Create view
 
 ```
 # app/views/posts/index.html.erb
@@ -118,7 +118,7 @@ end
 <% end %>
 ```
 
-### Better Errors
+## Better Errors
 
 ```
 // Gemfile
@@ -129,7 +129,7 @@ group :development do
 end
 ```
 
-### Add Bootstrap
+## Add Bootstrap
 
 ```javascript
 // app/assets/javascripts/application.js
@@ -148,7 +148,7 @@ gem 'bootstrap-sass'
 @import 'bootstrap';
 ```
 
-### Create Postgres database
+## Create Postgres database
 
 Add "pg" to your Gemfile.
 
@@ -156,9 +156,9 @@ In config/database.yml, under "default", change "adapter" to "postgresql". Under
 
 Then run `rails db:create`.
 
-### Tests
+## Tests
 
-#### Unit testing the model with Factory Girl and RSpec
+### Unit testing the model with Factory Girl and RSpec
 
 ```
 # Gemfile
@@ -220,7 +220,7 @@ end
 
 [Full list of RSpec Expectations](https://github.com/rspec/rspec-expectations)
 
-#### Integration tests with Capybara
+### Integration tests with Capybara
 
 ```ruby
 # Gemfile
@@ -252,7 +252,7 @@ Whenever you're ready to set up a new feature spec, as we saw above, simply crea
 
 Note: Make sure you set up your SECRET_KEY_BASE properly in the Test Environment (under config/secrets.yml). It is necessary since Capybara basically uses your app like a normal visitor would and the app would fail to render without the SECRET_KEY_BASE properly set up.
 
-## The Flash ![The Flash](img/Flash.png)
+# The Flash ![The Flash](img/Flash.png)
 
 ```ruby
 # app/controllers/posts_controller.rb
@@ -268,7 +268,7 @@ def create
 end
 ```
 
-## Links
+# Links
 
 ```
 <%= link_to "See All Users", users_path %> #=> <a href="/users">See All Users</a>
@@ -282,11 +282,11 @@ end
 
 Note that in `rails routes`, `edit_user` is listed in the Prefix column, so the link is `edit_user_path`. The DELETE verb doesn't have its own prefix; you just use the user's link with the `:delete` method.
 
-## Forms
+# Forms
 
 [HTML5 Form Input Validation](http://stackoverflow.com/documentation/html/277/input-control-elements/2259/input-validation#t=201612081944357410854) on StackOverflow Documentation
 
-### Simple
+## Simple
 
 ```
 <%= form_tag("/search", method: "get") do %>
@@ -296,7 +296,7 @@ Note that in `rails routes`, `edit_user` is listed in the Prefix column, so the 
 <% end %>
 ```
 
-### Automated
+## Automated
 
 ```
 # app/controllers/articles_controller.rb
@@ -320,7 +320,7 @@ Options go inside a hash. HTML options go inside their own sub-hash.
 
 All forms created with Rails helpers will automatically include hidden `<input>`s for encoding and Rails' required authenticity token.
 
-### Nested
+## Nested
 
 Model:
 
@@ -383,7 +383,7 @@ end
 
 *[Source](https://www.vikingcodeschool.com/dashboard#/advanced-forms-and-active-record/a-simple-nested-form)*
 
-## Validation
+# Validation
 
 ```ruby
 # app/models/post.rb
@@ -416,11 +416,11 @@ p.errors[:title] #=> ["is too long (maximum is 20 characters)"]
 p.errors.full_messages #=> ["Title is too long (maximum is 20 characters)"]
 ```
 
-## Relations
+# Relations
 
 ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like `Post.where(:published => true)`, it returns a **relation**. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn't get run until you use a combo breaker that actually returns a value, like `each`, `all`, `to_a`, `inspect`, etc.
 
-## Associations
+# Associations
 
 You can inform Rails about a relationship between models like so:
 
@@ -471,7 +471,7 @@ class RenameUserIdToAuthorIdInComments < ActiveRecord::Migration[5.0]
 end
 ```
 
-### Many-to-many relationship
+## Many-to-many relationship
 
 Generating the model:
 
@@ -515,7 +515,7 @@ post1.tags #=> tag1
 ```
 
 
-#### Rename a many-to-many relationship
+### Rename a many-to-many relationship
 
 ```ruby
 class User < ApplicationRecord
@@ -547,7 +547,7 @@ class AddAssociationColumn < ActiveRecord::Migration[5.0]
 end
 ```
 
-#### Self-referencing associations
+### Self-referencing associations
 
 ```
 rails g model StarFighter ship_class:string call_sign:string
@@ -576,7 +576,7 @@ end
 ```
 
 
-### Renaming
+## Renaming
 ```ruby
 belongs_to :author, :class_name => "User" # Rename the model
 belongs_to :user, :foreign_key => :author_id # Rename the foreign key
@@ -585,12 +585,12 @@ has_many :tagged_posts, :through => :post_taggings, :source => :post # Rename th
 belongs_to :category, optional: true
 ```
 
-### Other options
+## Other options
 ```ruby
 belongs_to :category, optional: true
 ```
 
-## Orphans
+# Orphans
 
 If a user has many posts, and you a `destroy` a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you `delete` a post, all IDs pointing to it are set to nil, which also isn't great. It's best to set up links to prevent this:
 
@@ -598,7 +598,7 @@ If a user has many posts, and you a `destroy` a user, all their posts are orphan
 has_many :posts, :dependent => :destroy # If I die, my children go with me!
 ```
 
-## Callbacks
+# Callbacks
 ```ruby
 # Be welcoming with an after_create callback
 after_create :send_welcome_email, :unless => :method_is_true
@@ -625,9 +625,11 @@ end
 before_save { |p| p.published_time = Time.now }
 ```
 
-## Integration tests with Capybara
+# Tests
 
-Anywhere that code can be executed, try placing the method save_and_open_page (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).
+## Integration tests
+
+Anywhere that code can be executed, try placing the method `save_and_open_page` (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).
 
 ```ruby
 # spec/features/users_spec.rb
@@ -785,7 +787,103 @@ module LoginMacros
 end
 ```
 
-## Useful methods
+## Controller tests
+
+Controller tests cover:
+
+* authentication (before_action methods)
+* redirects
+* verifying flashes are set
+* verifying cookies or sessions
+* parameters
+* all conditional logic in the controller
+
+Controller tests do not cover:
+
+* Instance variables
+* Rendering a particular template
+
+**Sign in**
+
+```ruby
+request.cookies['auth_token'] = user.auth_token
+```
+
+**Test that we have not redirected**
+```ruby
+expect(response).to have_http_status(200)
+```
+
+```ruby
+# spec/controllers/users_controller_spec.rb
+require 'rails_helper'
+
+describe UsersController do
+  describe "user access" do
+    let(:user) { create :user }
+
+    before :each do
+      request.cookies["auth_token"] = user.auth_token
+    end
+  end
+
+  context "valid data" do
+    describe "#create" do
+      it "creates a new user record" do
+        expect {
+          process :create, params: { user: attributes_for(:user) }
+        }.to change(User, :count).by(1)
+      end
+
+      it "redirects to the user page" do
+        process :create, params: { user: attributes_for(:user) }
+        expect(response).to redirect_to user_url(User.last)
+      end
+    end
+  end
+  context "invalid data" do
+    describe "#create" do
+      it "does not create a new user record" do
+        user_attrs = build(:user, email: "").attributes
+        expect {
+          process :create, params: { user: user_attrs }
+        }.to change(User, :count).by(0)
+      end
+    end
+    # the correct behavior here is to re-render the form, and we don't test that
+  end
+end
+```
+
+[Full test of a user controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb)
+
+## View tests
+
+These tests any conditional logic in your view (which shouldn't be much).
+
+You still have access to helper methods, but not those added via `helper_method` in the controller. You will need to stub out all methods that get called.
+
+```ruby
+require 'rails_helper'
+
+describe "secrets/index.html.erb" do
+
+  context "logged in user" do
+  it "shows secrets' author's names" do
+    user = create(:user, name: "Test user")
+    secret = create(:secret, author: user)
+    def view.signed_in_user?; true; end;
+    def view.current_user; nil; end;
+    assign(:secrets, [secret])
+
+    render
+
+    expect(rendered).to include(user.name)
+  end
+end
+```
+
+# Useful methods
 ```ruby
 "User".pluralize #=> "Users"
 pluralize(3,"user") #=> "3 users"
