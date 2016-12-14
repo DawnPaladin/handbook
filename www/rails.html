@@ -626,6 +626,7 @@ end
 <p><strong>Test that we have not redirected</strong></p>
 <pre><code class="language-ruby">expect(response).to have_http_status(200)
 </code></pre>
+<p><strong>Sample controller test</strong></p>
 <pre><code class="language-ruby"># spec/controllers/users_controller_spec.rb
 require &#39;rails_helper&#39;
 
@@ -668,6 +669,10 @@ end
 <p><a href="https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb">Full test of a user controller</a></p>
 <h2>View tests</h2><p>These tests any conditional logic in your view (which shouldn&#39;t be much).</p>
 <p>You still have access to helper methods, but not those added via <code>helper_method</code> in the controller. You will need to stub out all methods that get called.</p>
+<p>By default, <code>render</code> only renders the specific view you&#39;re testing. You can define a method to render composite layouts:</p>
+<pre><code class="language-ruby">let(:render_with_layout){render :template =&gt; &#39;users/new&#39;, :layout =&gt; &#39;layouts/application&#39;}
+</code></pre>
+<p><strong>Sample view test</strong></p>
 <pre><code class="language-ruby">require &#39;rails_helper&#39;
 
 describe &quot;secrets/index.html.erb&quot; do

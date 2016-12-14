@@ -814,6 +814,7 @@ request.cookies['auth_token'] = user.auth_token
 expect(response).to have_http_status(200)
 ```
 
+**Sample controller test**
 ```ruby
 # spec/controllers/users_controller_spec.rb
 require 'rails_helper'
@@ -862,6 +863,14 @@ end
 These tests any conditional logic in your view (which shouldn't be much).
 
 You still have access to helper methods, but not those added via `helper_method` in the controller. You will need to stub out all methods that get called.
+
+By default, `render` only renders the specific view you're testing. You can define a method to render composite layouts:
+
+```ruby
+let(:render_with_layout){render :template => 'users/new', :layout => 'layouts/application'}
+```
+
+**Sample view test**
 
 ```ruby
 require 'rails_helper'
