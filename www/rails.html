@@ -315,6 +315,76 @@ require &#39;capybara/rails&#39;      # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
 <p>When you reload your test suite, things should work properly.</p>
 <p>Whenever you&#39;re ready to set up a new feature spec, as we saw above, simply create a new file in spec/features which includes <code>rails_helper</code> at the top as normal. Now it&#39;s part of your normal test suite.</p>
 <p>Note: Make sure you set up your SECRET_KEY_BASE properly in the Test Environment (under config/secrets.yml). It is necessary since Capybara basically uses your app like a normal visitor would and the app would fail to render without the SECRET_KEY_BASE properly set up.</p>
+<h2>Emails</h2><h3>Creation</h3><pre><code class="language-ruby"># Gemfile
+group :development do
+  gem &#39;letter_opener&#39;
+end
+</code></pre>
+<pre><code class="language-ruby"># config/environments/development.rb
+config.action_mailer.delivery_method = :letter_opener
+config.action_mailer.default_url_options = { host: &#39;localhost:3000&#39; }
+</code></pre>
+<p>Create mailer:</p>
+<pre><code>$ rails generate mailer UserMailer
+</code></pre><pre><code class="language-ruby"># app/mailers/user_mailer.rb
+class UserMailer &lt; ApplicationMailer
+  default from: &quot;welcomecommittee@crudcrud.com&quot;
+
+  def welcome(user)
+    @user = user
+    mail(to: @user.email, subject: &#39;Welcome to CrudCrud!&#39;)
+  end
+end
+</code></pre>
+<p>Create emails:</p>
+<pre><code># app/views/user_mailer/welcome.html.erb
+&lt;h1&gt;Welcome!&lt;/h1&gt;
+
+&lt;p&gt;
+  Hi &lt;%= @user.name %&gt;, welcome to CrudCrud!
+&lt;/p&gt;
+
+&lt;p&gt;
+  View your account at &lt;%= link_to &quot;#{user_url(@user.id)}&quot;, user_url(@user.id) %&gt;
+&lt;/p&gt;
+</code></pre><pre><code># app/views/user_mailer/welcome.text.erb
+Welcome!
+
+Hi &lt;%= @user.name %&gt;, welcome to CrudCrud!
+
+View your account at &lt;%= link_to &quot;#{user_url(@user.id)}&quot;, user_url(@user.id) %&gt;
+</code></pre><p>Send this from the Rails console with <code>UserMailer.welcome(User.last).deliver</code>. If you&#39;re on Development (and you set up LetterOpener), the email will open in your browser.</p>
+<h3>Automatic sending</h3><pre><code># Gemfile
+gem &#39;delayed_job_active_record&#39;
+</code></pre><pre><code class="language-bash">$ rails g delayed_job:active_record
+$ rails db:migrate
+</code></pre>
+<pre><code class="language-ruby"># config/application.rb
+module NameOfApp
+  class Application &lt; Rails::Application
+    #...
+    config.active_job.queue_adapter = :delayed_job
+  end
+end
+</code></pre>
+<p>Add methods to model:</p>
+<pre><code class="language-ruby"># app/models/user.rb
+class User &lt; ApplicationRecord
+
+  after_create :queue_welcome_email
+
+  private
+    def queue_welcome_email
+      UserMailer.welcome(self).deliver_later
+    end
+end
+</code></pre>
+<p>Start the task that will watch for delayed jobs:</p>
+<pre><code class="language-bash">$ rake jobs:work
+</code></pre>
+<p>Work through all queued jobs and then exit:</p>
+<pre><code class="language-bash">$ rake jobs:workoff
+</code></pre>
 <h1>The Flash <img src="img/Flash.png" alt="The Flash"></h1><pre><code class="language-ruby"># app/controllers/posts_controller.rb
 def create
   @post = Post.new(params[:post])

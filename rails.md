@@ -405,6 +405,101 @@ Whenever you're ready to set up a new feature spec, as we saw above, simply crea
 
 Note: Make sure you set up your SECRET_KEY_BASE properly in the Test Environment (under config/secrets.yml). It is necessary since Capybara basically uses your app like a normal visitor would and the app would fail to render without the SECRET_KEY_BASE properly set up.
 
+## Emails
+
+### Creation
+
+```ruby
+# Gemfile
+group :development do
+  gem 'letter_opener'
+end
+```
+```ruby
+# config/environments/development.rb
+config.action_mailer.delivery_method = :letter_opener
+config.action_mailer.default_url_options = { host: 'localhost:3000' }
+```
+Create mailer:
+```
+$ rails generate mailer UserMailer
+```
+```ruby
+# app/mailers/user_mailer.rb
+class UserMailer < ApplicationMailer
+  default from: "welcomecommittee@crudcrud.com"
+
+  def welcome(user)
+    @user = user
+    mail(to: @user.email, subject: 'Welcome to CrudCrud!')
+  end
+end
+```
+Create emails:
+```
+# app/views/user_mailer/welcome.html.erb
+<h1>Welcome!</h1>
+
+<p>
+  Hi <%= @user.name %>, welcome to CrudCrud!
+</p>
+
+<p>
+  View your account at <%= link_to "#{user_url(@user.id)}", user_url(@user.id) %>
+</p>
+```
+```
+# app/views/user_mailer/welcome.text.erb
+Welcome!
+
+Hi <%= @user.name %>, welcome to CrudCrud!
+
+View your account at <%= link_to "#{user_url(@user.id)}", user_url(@user.id) %>
+```
+Send this from the Rails console with `UserMailer.welcome(User.last).deliver`. If you're on Development (and you set up LetterOpener), the email will open in your browser.
+
+### Automatic sending
+```
+# Gemfile
+gem 'delayed_job_active_record'
+```
+```bash
+$ rails g delayed_job:active_record
+$ rails db:migrate
+```
+```ruby
+# config/application.rb
+module NameOfApp
+  class Application < Rails::Application
+    #...
+    config.active_job.queue_adapter = :delayed_job
+  end
+end
+```
+
+Add methods to model:
+```ruby
+# app/models/user.rb
+class User < ApplicationRecord
+
+  after_create :queue_welcome_email
+
+  private
+    def queue_welcome_email
+      UserMailer.welcome(self).deliver_later
+    end
+end
+```
+
+Start the task that will watch for delayed jobs:
+```bash
+$ rake jobs:work
+```
+Work through all queued jobs and then exit:
+```bash
+$ rake jobs:workoff
+```
+
 # The Flash ![The Flash](img/Flash.png)
 
 ```ruby
