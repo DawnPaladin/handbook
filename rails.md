@@ -118,6 +118,38 @@ end
 <% end %>
 ```
 
+## The Flash ![The Flash](img/Flash.png)
+
+```ruby
+# app/controllers/posts_controller.rb
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    flash[:success] = "Great! Your post has been created!"
+    redirect_to @post # go to show page for @post
+  else
+    flash.now[:error] = "Rats! Fix your mistakes, please."
+    render :new
+  end
+end
+```
+
+Viewing Flash messages in Bootstrap:
+```
+<% flash.each do |type, msg| %>
+  <%= content_tag(:div, join_messages(msg), class: "alert alert-#{type}") %>
+<% end %>
+```
+```ruby
+# app/helpers/application_helper.rb
+module ApplicationHelper
+  def join_messages(messages)
+    messages = messages.join('; ') if messages.is_a? Array
+    messages
+  end
+end
+```
+
 ## Better Errors
 
 ```
@@ -498,22 +530,6 @@ $ rake jobs:work
 Work through all queued jobs and then exit:
 ```bash
 $ rake jobs:workoff
-```
-
-# The Flash ![The Flash](img/Flash.png)
-
-```ruby
-# app/controllers/posts_controller.rb
-def create
-  @post = Post.new(params[:post])
-  if @post.save
-    flash[:success] = "Great! Your post has been created!"
-    redirect_to @post # go to show page for @post
-  else
-    flash.now[:error] = "Rats! Fix your mistakes, please."
-    render :new
-  end
-end
 ```
 
 # Links

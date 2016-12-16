@@ -106,7 +106,31 @@ end
     &lt;%= post.body %&gt;
   &lt;/p&gt;
 &lt;% end %&gt;
-</code></pre><h2>Better Errors</h2><pre><code>// Gemfile
+</code></pre><h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
+def create
+  @post = Post.new(params[:post])
+  if @post.save
+    flash[:success] = &quot;Great! Your post has been created!&quot;
+    redirect_to @post # go to show page for @post
+  else
+    flash.now[:error] = &quot;Rats! Fix your mistakes, please.&quot;
+    render :new
+  end
+end
+</code></pre>
+<p>Viewing Flash messages in Bootstrap:</p>
+<pre><code>&lt;% flash.each do |type, msg| %&gt;
+  &lt;%= content_tag(:div, join_messages(msg), class: &quot;alert alert-#{type}&quot;) %&gt;
+&lt;% end %&gt;
+</code></pre><pre><code class="language-ruby"># app/helpers/application_helper.rb
+module ApplicationHelper
+  def join_messages(messages)
+    messages = messages.join(&#39;; &#39;) if messages.is_a? Array
+    messages
+  end
+end
+</code></pre>
+<h2>Better Errors</h2><pre><code>// Gemfile
 group :development do
   gem &quot;better_errors&quot;
   gem &quot;binding_of_caller&quot;
@@ -384,18 +408,6 @@ end
 </code></pre>
 <p>Work through all queued jobs and then exit:</p>
 <pre><code class="language-bash">$ rake jobs:workoff
-</code></pre>
-<h1>The Flash <img src="img/Flash.png" alt="The Flash"></h1><pre><code class="language-ruby"># app/controllers/posts_controller.rb
-def create
-  @post = Post.new(params[:post])
-  if @post.save
-    flash[:success] = &quot;Great! Your post has been created!&quot;
-    redirect_to @post # go to show page for @post
-  else
-    flash.now[:error] = &quot;Rats! Fix your mistakes, please.&quot;
-    render :new
-  end
-end
 </code></pre>
 <h1>Links</h1><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
 
