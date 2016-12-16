@@ -124,7 +124,126 @@ gem &#39;bootstrap-sass&#39;
 </code></pre><h2>Create Postgres database</h2><p>Add &quot;pg&quot; to your Gemfile.</p>
 <p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, change &quot;database&quot; to &quot;devise_development&quot;, under &quot;test&quot; change it to &quot;devise_test&quot;, and under &quot;production&quot; change it to &quot;devise_production&quot;.</p>
 <p>Then run <code>rails db:create</code>.</p>
-<h2>Tests</h2><h3>Unit testing the model with Factory Girl and RSpec</h3><pre><code># Gemfile
+<h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
+<pre><code>{
+    &quot;Version&quot;: &quot;2008-10-17&quot;,
+    &quot;Statement&quot;: [
+        {
+            &quot;Sid&quot;: &quot;AllowPublicRead&quot;,
+            &quot;Effect&quot;: &quot;Allow&quot;,
+            &quot;Principal&quot;: {
+                &quot;AWS&quot;: &quot;*&quot;
+            },
+            &quot;Action&quot;: &quot;s3:GetObject&quot;,
+            &quot;Resource&quot;: &quot;arn:aws:s3:::BUCKET_NAME/*&quot;
+        }
+    ]
+}
+</code></pre><p>Configure your environment:</p>
+<pre><code class="language-ruby"># Gemfile
+gem &#39;paperclip&#39;
+gem &#39;figaro&#39;
+gem &#39;aws-sdk&#39;
+</code></pre>
+<p>Set up your secrets:</p>
+<pre><code># .gitignore
+/config/application.yml
+</code></pre><pre><code># config/application.yml
+development:
+  AWS_HOST_NAME: us-west-2.amazonaws.com
+  AWS_REGION: us-west-2
+  S3_BUCKET_NAME: jamesharris-danebook
+  AWS_ACCESS_KEY_ID: [redacted]
+  AWS_SECRET_KEY_ID: [redacted]
+</code></pre><pre><code># config/secrets.yml
+development:
+  secret_key_base: [redacted]
+  s3_bucket_name: &lt;%= ENV[&quot;S3_BUCKET_NAME&quot;] %&gt;
+  aws_access_key_id: &lt;%= ENV[&quot;AWS_ACCESS_KEY_ID&quot;] %&gt;
+  aws_secret_access_key: &lt;%= ENV[&quot;AWS_SECRET_ACCESS_KEY&quot;] %&gt;
+  aws_region: &lt;%= ENV[&quot;AWS_REGION&quot;] %&gt;
+</code></pre><pre><code class="language-ruby"># config/environments/development.rb
+# This is your imagemagick directory, retrieved using `which convert`
+Paperclip.options[:command_path] = &quot;/usr/bin/convert&quot;
+
+config.paperclip_defaults = {
+  storage: :s3,
+  s3_credentials: {
+    s3_host_name: ENV[&#39;AWS_HOST_NAME&#39;],
+    bucket: ENV[&#39;S3_BUCKET_NAME&#39;],
+    access_key_id: ENV[&#39;AWS_ACCESS_KEY_ID&#39;],
+    secret_access_key: ENV[&#39;AWS_SECRET_KEY_ID&#39;],
+    s3_region: ENV[&#39;AWS_REGION&#39;]
+  }
+}
+</code></pre>
+<p>Repeat for the Production side as necessary.</p>
+<p>Create a table in your database:</p>
+<pre><code class="language-ruby">class CreatePhotos &lt; ActiveRecord::Migration[5.0]
+  def change
+    create_table :photos do |t|
+      t.integer :user_id, null: false
+      t.attachment :image
+      t.timestamps
+    end
+  end
+end
+</code></pre>
+<p>Create a model:</p>
+<pre><code class="language-ruby"># app/models/photo.rb
+class Photo &lt; ApplicationRecord
+  belongs_to :user
+  has_attached_file :image, styles: { medium: &quot;300x300&quot;, thumb: &quot;100x100&quot;}
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+end
+</code></pre>
+<p>Create a controller:</p>
+<pre><code class="language-ruby"># app/controllers/photos_controller.rb
+class PhotosController &lt; ApplicationController
+
+  def index
+    @user = User.find(params[:user_id])
+    @profile = @user.profile
+    @photos = @user.photos
+  end
+
+  def new
+    @user = User.find(params[:user_id])
+    @photo = current_user.photos.build
+  end
+
+  def create
+    @photo = current_user.photos.build(photo_params)
+    if @photo.save
+      flash[:success] = &quot;Photo uploaded!&quot;
+      redirect_to user_photos_path(current_user)
+    else
+      flash[:warning] = @photo.errors.full_messages
+      render :new
+    end
+  end
+
+  def show
+    @photo = Photo.find(params[:id])
+    @profile = @photo.user.profile
+  end
+
+  def photo_params
+    p params
+    params.require(:photo).permit(:image)
+  end
+end
+</code></pre>
+<p>Create a form in your view:</p>
+<pre><code>&lt;%= form_for @photo do |f| %&gt;
+  &lt;%= f.file_field :photo_data %&gt;
+  &lt;%= f.submit %&gt;
+&lt;% end %&gt;
+</code></pre><p>Show the uploaded image in your view:</p>
+<pre><code>&lt;%= image_tag @photo.image.expiring_url %&gt;
+&lt;!-- Or with a style: --&gt;
+&lt;%= image_tag @photo.image.expiring_url(:thumb) %&gt;
+</code></pre><h2>Tests</h2><h3>Unit testing the model with Factory Girl and RSpec</h3><pre><code># Gemfile
 group :development, :test do
   gem &#39;rspec-rails&#39;
   gem &#39;guard-rspec&#39;, require:false

@@ -156,6 +156,159 @@ In config/database.yml, under "default", change "adapter" to "postgresql". Under
 
 Then run `rails db:create`.
 
+## Uploading photos to AWS with Paperclip
+
+Set up your AWS bucket and user. You can learn your region by going [here](https://console.aws.amazon.com/s3/home) and looking at the `region` parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the "Resource" line:
+
+```
+{
+	"Version": "2008-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowPublicRead",
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "*"
+			},
+			"Action": "s3:GetObject",
+			"Resource": "arn:aws:s3:::BUCKET_NAME/*"
+		}
+	]
+}
+```
+
+Configure your environment:
+
+```ruby
+# Gemfile
+gem 'paperclip'
+gem 'figaro'
+gem 'aws-sdk'
+```
+
+Set up your secrets:
+
+```
+# .gitignore
+/config/application.yml
+```
+```
+# config/application.yml
+development:
+  AWS_HOST_NAME: us-west-2.amazonaws.com
+  AWS_REGION: us-west-2
+  S3_BUCKET_NAME: jamesharris-danebook
+  AWS_ACCESS_KEY_ID: [redacted]
+  AWS_SECRET_KEY_ID: [redacted]
+```
+```
+# config/secrets.yml
+development:
+  secret_key_base: [redacted]
+  s3_bucket_name: <%= ENV["S3_BUCKET_NAME"] %>
+  aws_access_key_id: <%= ENV["AWS_ACCESS_KEY_ID"] %>
+  aws_secret_access_key: <%= ENV["AWS_SECRET_ACCESS_KEY"] %>
+  aws_region: <%= ENV["AWS_REGION"] %>
+```
+```ruby
+# config/environments/development.rb
+# This is your imagemagick directory, retrieved using `which convert`
+Paperclip.options[:command_path] = "/usr/bin/convert"
+
+config.paperclip_defaults = {
+  storage: :s3,
+  s3_credentials: {
+    s3_host_name: ENV['AWS_HOST_NAME'],
+    bucket: ENV['S3_BUCKET_NAME'],
+    access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+    secret_access_key: ENV['AWS_SECRET_KEY_ID'],
+    s3_region: ENV['AWS_REGION']
+  }
+}
+```
+Repeat for the Production side as necessary.
+
+Create a table in your database:
+```ruby
+class CreatePhotos < ActiveRecord::Migration[5.0]
+  def change
+    create_table :photos do |t|
+      t.integer :user_id, null: false
+      t.attachment :image
+      t.timestamps
+    end
+  end
+end
+```
+
+Create a model:
+
+```ruby
+# app/models/photo.rb
+class Photo < ApplicationRecord
+  belongs_to :user
+  has_attached_file :image, styles: { medium: "300x300", thumb: "100x100"}
+  validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
+end
+```
+
+Create a controller:
+
+```ruby
+# app/controllers/photos_controller.rb
+class PhotosController < ApplicationController
+
+  def index
+    @user = User.find(params[:user_id])
+    @profile = @user.profile
+    @photos = @user.photos
+  end
+
+  def new
+    @user = User.find(params[:user_id])
+    @photo = current_user.photos.build
+  end
+
+  def create
+    @photo = current_user.photos.build(photo_params)
+    if @photo.save
+      flash[:success] = "Photo uploaded!"
+      redirect_to user_photos_path(current_user)
+    else
+      flash[:warning] = @photo.errors.full_messages
+      render :new
+    end
+  end
+
+  def show
+    @photo = Photo.find(params[:id])
+    @profile = @photo.user.profile
+  end
+
+  def photo_params
+    p params
+    params.require(:photo).permit(:image)
+  end
+end
+```
+
+Create a form in your view:
+
+```
+<%= form_for @photo do |f| %>
+  <%= f.file_field :photo_data %>
+  <%= f.submit %>
+<% end %>
+```
+
+Show the uploaded image in your view:
+
+```
+<%= image_tag @photo.image.expiring_url %>
+<!-- Or with a style: -->
+<%= image_tag @photo.image.expiring_url(:thumb) %>
+```
+
 ## Tests
 
 ### Unit testing the model with Factory Girl and RSpec
