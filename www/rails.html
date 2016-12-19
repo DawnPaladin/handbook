@@ -192,6 +192,7 @@ Paperclip.options[:command_path] = &quot;/usr/bin/convert&quot;
 
 config.paperclip_defaults = {
   storage: :s3,
+  s3_region: &quot;us-west-2&quot;, # your Heroku region
   s3_credentials: {
     s3_host_name: ENV[&#39;AWS_HOST_NAME&#39;],
     bucket: ENV[&#39;S3_BUCKET_NAME&#39;],
@@ -408,6 +409,38 @@ end
 </code></pre>
 <p>Work through all queued jobs and then exit:</p>
 <pre><code class="language-bash">$ rake jobs:workoff
+</code></pre>
+<h1>Deployment</h1><h2>Uploading to Heroku</h2><pre><code>$ heroku create # Create a new app and return its name
+$ heroku git:remote -a name-of-app # Connect your Git repo to your new Heroku app
+$ git push heroku master # Deploy
+</code></pre><p>Remove <code>coffee-rails</code> from your Gemfile, delete app/assets/javascripts/users.coffee, and run <code>bundle install</code>.</p>
+<p>Run through &quot;Create Postgres database&quot; in the Setup section.</p>
+<h2>Securely storing authentication keys</h2><pre><code class="language-ruby"># Gemfile
+gem &#39;figaro&#39;
+</code></pre>
+<pre><code class="language-bash">$ bundle install
+$ bundle exec figaro install # create and .gitignore config/application.yml
+</code></pre>
+<pre><code class="language-yml"># config/application.yml
+SECRET_NAME: secret_value
+</code></pre>
+<pre><code class="language-yml"># config/secrets.yml
+development:
+  secret_name: &lt;%= ENV[&quot;SECRET_NAME&quot;] %&gt;
+test:
+  secret_name: &lt;%= ENV[&quot;SECRET_NAME&quot;] %&gt;
+production:
+  secret_name: &lt;%= ENV[&quot;SECRET_NAME&quot;] %&gt;
+</code></pre>
+<pre><code class="language-ruby"># config/environments/development.rb
+Rails.application.configure do
+  config.some_component.configuration_hash = {
+    :secret =&gt; Rails.application.secrets.secret_name
+  }
+</code></pre>
+<p>Make sure config/secrets.yml and the files in config/environments have values for all the environments you need. Copy everything you need from development to production.</p>
+<p>Upload values in config/environments/production.rb to Heroku:</p>
+<pre><code class="language-bash">$ figaro heroku:set -e production
 </code></pre>
 <h1>Links</h1><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
 
@@ -648,7 +681,7 @@ belongs_to :category, optional: true
 </code></pre>
 <h2>Other options</h2><pre><code class="language-ruby">belongs_to :category, optional: true
 </code></pre>
-<h1>Orphans</h1><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
+<h2>Orphans</h2><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
 <pre><code class="language-ruby">has_many :posts, :dependent =&gt; :destroy # If I die, my children go with me!
 </code></pre>
 <h1>Callbacks</h1><pre><code class="language-ruby"># Be welcoming with an after_create callback

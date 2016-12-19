@@ -249,6 +249,7 @@ Paperclip.options[:command_path] = "/usr/bin/convert"
 
 config.paperclip_defaults = {
   storage: :s3,
+  s3_region: "us-west-2", # your Heroku region
   s3_credentials: {
     s3_host_name: ENV['AWS_HOST_NAME'],
     bucket: ENV['S3_BUCKET_NAME'],
@@ -531,6 +532,58 @@ Work through all queued jobs and then exit:
 ```bash
 $ rake jobs:workoff
 ```
+
+# Deployment
+
+## Uploading to Heroku
+
+```
+$ heroku create # Create a new app and return its name
+$ heroku git:remote -a name-of-app # Connect your Git repo to your new Heroku app
+$ git push heroku master # Deploy
+```
+
+Remove `coffee-rails` from your Gemfile, delete app/assets/javascripts/users.coffee, and run `bundle install`.
+
+Run through "Create Postgres database" in the Setup section.
+
+## Securely storing authentication keys
+
+```ruby
+# Gemfile
+gem 'figaro'
+```
+```bash
+$ bundle install
+$ bundle exec figaro install # create and .gitignore config/application.yml
+```
+```yml
+# config/application.yml
+SECRET_NAME: secret_value
+```
+```yml
+# config/secrets.yml
+development:
+  secret_name: <%= ENV["SECRET_NAME"] %>
+test:
+  secret_name: <%= ENV["SECRET_NAME"] %>
+production:
+  secret_name: <%= ENV["SECRET_NAME"] %>
+```
+```ruby
+# config/environments/development.rb
+Rails.application.configure do
+  config.some_component.configuration_hash = {
+    :secret => Rails.application.secrets.secret_name
+  }
+```
+Make sure config/secrets.yml and the files in config/environments have values for all the environments you need. Copy everything you need from development to production.
+
+Upload values in config/environments/production.rb to Heroku:
+```bash
+$ figaro heroku:set -e production
+```
+
 
 # Links
 
@@ -854,7 +907,7 @@ belongs_to :category, optional: true
 belongs_to :category, optional: true
 ```
 
-# Orphans
+## Orphans
 
 If a user has many posts, and you a `destroy` a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you `delete` a post, all IDs pointing to it are set to nil, which also isn't great. It's best to set up links to prevent this:
 
