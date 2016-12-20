@@ -24,6 +24,8 @@
 cd app_name
 git init
 git remote add origin &lt;SSH address&gt;
+git add -A
+git commit -m &quot;rails new&quot;
 git push -u origin master
 </code></pre><h2>Create a model</h2><pre><code>rails g model Post title:string body:string
 // Examine the new migration and make any required changes
@@ -57,10 +59,10 @@ class PostsController &lt; ApplicationController
   def create
     @post = Post.new(strong_params)
     if @post.save
-      # Woohoo
+      flash[:success] = &quot;Great! Your post has been created!&quot;
       redirect_to @post
     else
-      # boohoo
+      flash.now[:error] = &quot;Rats! Fix your mistakes, please.&quot;
       render :new
     end
   end
@@ -106,20 +108,28 @@ end
     &lt;%= post.body %&gt;
   &lt;/p&gt;
 &lt;% end %&gt;
-</code></pre><h2>The Flash <img src="img/Flash.png" alt="The Flash"></h2><pre><code class="language-ruby"># app/controllers/posts_controller.rb
-def create
-  @post = Post.new(params[:post])
-  if @post.save
-    flash[:success] = &quot;Great! Your post has been created!&quot;
-    redirect_to @post # go to show page for @post
-  else
-    flash.now[:error] = &quot;Rats! Fix your mistakes, please.&quot;
-    render :new
-  end
+</code></pre><h2>Better Errors</h2><pre><code>// Gemfile
+group :development do
+  gem &quot;better_errors&quot;
+  gem &quot;binding_of_caller&quot;
+  gem &quot;jazz_fingers&quot;
 end
+</code></pre><h2>Remove Turbolinks</h2><ol>
+<li>Remove <code>gem &#39;turbolinks&#39;</code> from <strong>Gemfile</strong></li>
+<li>Remove <code>//= require turbolinks</code> from <strong>app/assets/javascripts/application.js</strong></li>
+<li>Remove both <code>&quot;data-turbolinks-track&quot; =&gt; reload</code> key/value pairs from <strong>app/views/layouts/application.html.erb</strong></li>
+</ol>
+<h2>Add Bootstrap</h2><pre><code class="language-javascript">// app/assets/javascripts/application.js
+
+//= require bootstrap-sprockets
 </code></pre>
-<p>Viewing Flash messages in Bootstrap:</p>
-<pre><code>&lt;% flash.each do |type, msg| %&gt;
+<pre><code>// Gemfile
+gem &#39;bootstrap-sass&#39;
+</code></pre><p>Delete app/assets/stylesheets/application.css. Create an application.scss file in the same folder and add:</p>
+<pre><code>@import &#39;bootstrap-sprockets&#39;;
+@import &#39;bootstrap&#39;;
+</code></pre><h3>Viewing Flash messages in Bootstrap</h3><pre><code># app/views/layouts/application.html.erb
+&lt;% flash.each do |type, msg| %&gt;
   &lt;%= content_tag(:div, join_messages(msg), class: &quot;alert alert-#{type}&quot;) %&gt;
 &lt;% end %&gt;
 </code></pre><pre><code class="language-ruby"># app/helpers/application_helper.rb
@@ -130,22 +140,7 @@ module ApplicationHelper
   end
 end
 </code></pre>
-<h2>Better Errors</h2><pre><code>// Gemfile
-group :development do
-  gem &quot;better_errors&quot;
-  gem &quot;binding_of_caller&quot;
-  gem &quot;jazz_fingers&quot;
-end
-</code></pre><h2>Add Bootstrap</h2><pre><code class="language-javascript">// app/assets/javascripts/application.js
-
-//= require bootstrap-sprockets
-</code></pre>
-<pre><code>// Gemfile
-gem &#39;bootstrap-sass&#39;
-</code></pre><pre><code>/* app/assets/stylesheets/global.scss */
-@import &#39;bootstrap-sprockets&#39;;
-@import &#39;bootstrap&#39;;
-</code></pre><h2>Create Postgres database</h2><p>Add &quot;pg&quot; to your Gemfile.</p>
+<h2>Create Postgres database</h2><p>Add &quot;pg&quot; to your Gemfile.</p>
 <p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, change &quot;database&quot; to &quot;devise_development&quot;, under &quot;test&quot; change it to &quot;devise_test&quot;, and under &quot;production&quot; change it to &quot;devise_production&quot;.</p>
 <p>Then run <code>rails db:create</code>.</p>
 <h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
@@ -410,11 +405,12 @@ end
 <p>Work through all queued jobs and then exit:</p>
 <pre><code class="language-bash">$ rake jobs:workoff
 </code></pre>
-<h1>Deployment</h1><h2>Uploading to Heroku</h2><pre><code>$ heroku create # Create a new app and return its name
+<h1>Deployment</h1><h2>Uploading to Heroku</h2><p>Remove <code>coffee-rails</code> from your Gemfile, delete app/assets/javascripts/users.coffee, and run <code>bundle install</code>.</p>
+<pre><code class="language-bash">$ heroku create # Create a new app and return its name
 $ heroku git:remote -a name-of-app # Connect your Git repo to your new Heroku app
 $ git push heroku master # Deploy
-</code></pre><p>Remove <code>coffee-rails</code> from your Gemfile, delete app/assets/javascripts/users.coffee, and run <code>bundle install</code>.</p>
-<p>Run through &quot;Create Postgres database&quot; in the Setup section.</p>
+</code></pre>
+<p>Run through &quot;Create Postgres database&quot; in the Setup section. Then run <code>heroku run rails db:migrate</code>.</p>
 <h2>Securely storing authentication keys</h2><pre><code class="language-ruby"># Gemfile
 gem &#39;figaro&#39;
 </code></pre>
@@ -920,6 +916,31 @@ describe &quot;secrets/index.html.erb&quot; do
     expect(rendered).to include(user.name)
   end
 end
+</code></pre>
+<h1>Logging</h1><p>The five levels of logging are, in ascending severity:</p>
+<ol>
+<li><code>:debug</code> (default in development)</li>
+<li><code>:info</code> (default in production)</li>
+<li><code>:warn</code></li>
+<li><code>:error</code></li>
+<li><code>:fatal</code></li>
+</ol>
+<p>To set the log level you want in an environment:</p>
+<pre><code class="language-ruby"># config/environments/production.rb
+config.log_level = :warn
+</code></pre>
+<p>This will log anything equal to or more serious than that level.</p>
+<p>Log information with:</p>
+<pre><code class="language-ruby">logger.debug { &quot;Status of user: #{@user}&quot; }
+</code></pre>
+<h2>Heroku logs</h2><pre><code class="language-bash"># just see the default # of lines
+$ heroku logs
+
+# &quot;tail&quot; the logs (continuously update)
+$ heroku logs -t
+
+# return a specified number of rows (1500 max)
+$ heroku logs -n 500
 </code></pre>
 <h1>Useful methods</h1><pre><code class="language-ruby">&quot;User&quot;.pluralize #=&gt; &quot;Users&quot;
 pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;

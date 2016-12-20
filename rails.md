@@ -9,6 +9,8 @@ rails new app_name # optional: --database=postgresql
 cd app_name
 git init
 git remote add origin <SSH address>
+git add -A
+git commit -m "rails new"
 git push -u origin master
 ```
 
@@ -63,10 +65,10 @@ class PostsController < ApplicationController
   def create
     @post = Post.new(strong_params)
     if @post.save
-      # Woohoo
+      flash[:success] = "Great! Your post has been created!"
       redirect_to @post
     else
-      # boohoo
+      flash.now[:error] = "Rats! Fix your mistakes, please."
       render :new
     end
   end
@@ -118,38 +120,6 @@ end
 <% end %>
 ```
 
-## The Flash ![The Flash](img/Flash.png)
-
-```ruby
-# app/controllers/posts_controller.rb
-def create
-  @post = Post.new(params[:post])
-  if @post.save
-    flash[:success] = "Great! Your post has been created!"
-    redirect_to @post # go to show page for @post
-  else
-    flash.now[:error] = "Rats! Fix your mistakes, please."
-    render :new
-  end
-end
-```
-
-Viewing Flash messages in Bootstrap:
-```
-<% flash.each do |type, msg| %>
-  <%= content_tag(:div, join_messages(msg), class: "alert alert-#{type}") %>
-<% end %>
-```
-```ruby
-# app/helpers/application_helper.rb
-module ApplicationHelper
-  def join_messages(messages)
-    messages = messages.join('; ') if messages.is_a? Array
-    messages
-  end
-end
-```
-
 ## Better Errors
 
 ```
@@ -160,6 +130,12 @@ group :development do
   gem "jazz_fingers"
 end
 ```
+
+## Remove Turbolinks
+
+1. Remove `gem 'turbolinks'` from **Gemfile**
+2. Remove `//= require turbolinks` from **app/assets/javascripts/application.js**
+3. Remove both `"data-turbolinks-track" => reload` key/value pairs from **app/views/layouts/application.html.erb**
 
 ## Add Bootstrap
 
@@ -174,10 +150,28 @@ end
 gem 'bootstrap-sass'
 ```
 
+Delete app/assets/stylesheets/application.css. Create an application.scss file in the same folder and add:
 ```
-/* app/assets/stylesheets/global.scss */
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+```
+
+### Viewing Flash messages in Bootstrap
+
+```
+# app/views/layouts/application.html.erb
+<% flash.each do |type, msg| %>
+  <%= content_tag(:div, join_messages(msg), class: "alert alert-#{type}") %>
+<% end %>
+```
+```ruby
+# app/helpers/application_helper.rb
+module ApplicationHelper
+  def join_messages(messages)
+    messages = messages.join('; ') if messages.is_a? Array
+    messages
+  end
+end
 ```
 
 ## Create Postgres database
@@ -537,15 +531,15 @@ $ rake jobs:workoff
 
 ## Uploading to Heroku
 
-```
+Remove `coffee-rails` from your Gemfile, delete app/assets/javascripts/users.coffee, and run `bundle install`.
+
+```bash
 $ heroku create # Create a new app and return its name
 $ heroku git:remote -a name-of-app # Connect your Git repo to your new Heroku app
 $ git push heroku master # Deploy
 ```
 
-Remove `coffee-rails` from your Gemfile, delete app/assets/javascripts/users.coffee, and run `bundle install`.
-
-Run through "Create Postgres database" in the Setup section.
+Run through "Create Postgres database" in the Setup section. Then run `heroku run rails db:migrate`.
 
 ## Securely storing authentication keys
 
@@ -583,7 +577,6 @@ Upload values in config/environments/production.rb to Heroku:
 ```bash
 $ figaro heroku:set -e production
 ```
-
 
 # Links
 
@@ -1204,6 +1197,41 @@ describe "secrets/index.html.erb" do
     expect(rendered).to include(user.name)
   end
 end
+```
+
+# Logging
+
+The five levels of logging are, in ascending severity:
+
+1. `:debug` (default in development)
+2. `:info` (default in production)
+3. `:warn`
+4. `:error`
+5. `:fatal`
+
+To set the log level you want in an environment:
+```ruby
+# config/environments/production.rb
+config.log_level = :warn
+```
+This will log anything equal to or more serious than that level.
+
+Log information with:
+```ruby
+logger.debug { "Status of user: #{@user}" }
+```
+
+## Heroku logs
+
+```bash
+# just see the default # of lines
+$ heroku logs
+
+# "tail" the logs (continuously update)
+$ heroku logs -t
+
+# return a specified number of rows (1500 max)
+$ heroku logs -n 500
 ```
 
 # Useful methods
