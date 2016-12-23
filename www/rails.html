@@ -342,7 +342,7 @@ end
 </code></pre>
 <pre><code class="language-ruby"># config/environments/development.rb
 config.action_mailer.delivery_method = :letter_opener
-config.action_mailer.default_url_options = { host: &#39;localhost:3000&#39; }
+config.action_mailer.default_url_options = { host: &#39;localhost&#39;, port: 3000 }
 </code></pre>
 <p>Create mailer:</p>
 <pre><code>$ rails generate mailer UserMailer
