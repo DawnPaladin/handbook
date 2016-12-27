@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
+  <script src="lib/jquery-ui.min.js"></script>
+  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="lib/jquery.tocify.js"></script>
+  <link href="handbook.css" rel="stylesheet"></link>
+
+</head>
+<body>
+
+<div id="toc"></div>
+
+<div class="main-column">
+  <p><strong>Ruby</strong></p>
+<h1>Loops</h1><pre><code class="language-ruby">counter = 1
+while counter &lt; 11
+  puts counter
+  counter += 1
+end
+</code></pre>
+<pre><code class="language-ruby">counter = 1
+until counter &gt; 10
+  puts counter
+  counter += 1
+end
+</code></pre>
+<pre><code class="language-ruby">for num in 1..10
+  puts num
+end
+
+for num in 1...11
+  puts num
+end
+</code></pre>
+<pre><code class="language-ruby">i = 0
+loop do
+  i += 1
+  puts i
+  break if i &gt; 10
+end
+</code></pre>
+<pre><code class="language-ruby">for i in 1..5
+  next if i % 2 == 0
+  print i
+end
+</code></pre>
+<pre><code class="language-ruby">range = 1..10
+range.each do |i|
+  puts i
+end
+</code></pre>
+<pre><code class="language-ruby">10.times { |i| puts i }
+1.upto(10) { |i| puts i }
+10.downto(1) { |i| puts i }
+</code></pre>
+<pre><code class="language-ruby">[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].each do |e|
+  print &quot;#{e}! &quot;
+end
+# prints &quot;a! b! c!&quot;; returns the array
+</code></pre>
+<pre><code class="language-ruby">{&quot;Pinkie Pie&quot; =&gt; &quot;earth pony&quot;, &quot;Rainbow Dash&quot; =&gt; &quot;pegasus&quot;, &quot;Twilight Sparkle&quot; =&gt; &quot;unicorn&quot;}.each do |name, race|
+  puts &quot;#{name} is a #{race}&quot;
+end
+
+[:hearts, :spades, :clubs, :diamonds].each_with_index do |suit, i|
+  puts &quot;#{i}: #{suit}&quot;
+end
+</code></pre>
+<pre><code class="language-ruby">next # jump to next iteration
+redo # restart loop; don&#39;t recheck the condition
+retry # restart loop, rechecking the condition
+break # exit loop
+</code></pre>
+<h1>Closures</h1><pre><code class="language-ruby"># One line block
+[1,2,3].each { |num| print &quot;#{num}! &quot; }
+</code></pre>
+<pre><code class="language-ruby"># Multi-line block
+[1,2,3].each do |num|
+  print &quot;#{num}! &quot;
+end
+</code></pre>
+<pre><code class="language-ruby"># Yielding to a block
+def method_taking_block
+  yield(&quot;some argument for the block&quot;) if block_given?
+end
+</code></pre>
+<pre><code class="language-ruby"># Create and use a Proc
+my_proc = Proc.new { |arg1| print &quot;#{arg1}! &quot; }
+[1,2,3].each(my_proc)
+</code></pre>
+<pre><code class="language-ruby"># Call a Proc inside a method
+# Sort of like `yield`ing
+my_proc.call(&quot;Some Argument&quot;)
+</code></pre>
+<pre><code class="language-ruby"># Make a new Lambda (just like Procs)
+my_lam = lambda { |word| puts word }
+</code></pre>
+<pre><code class="language-ruby"># Use a Method
+method(:print_stuff_method).call(&quot;something to print&quot;)
+</code></pre>
+</div>
+
+<script>
+hljs.initHighlightingOnLoad(); // syntax highlighting
+
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
+</script>
+
+
+</body>

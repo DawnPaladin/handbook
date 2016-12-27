@@ -1,6 +1,6 @@
-# HTML
+**HTML**
 
-## Forms
+# Forms
 
 <form action="/posts" method="post" style="width: 200px">
   <label for="title">Title:</label>

@@ -594,7 +594,9 @@ Note that in `rails routes`, `edit_user` is listed in the Prefix column, so the 
 
 # Forms
 
-[HTML5 Form Input Validation](http://stackoverflow.com/documentation/html/277/input-control-elements/2259/input-validation#t=201612081944357410854) on StackOverflow Documentation
+* [More details](rails-forms.html)
+
+* [HTML5 Form Input Validation](http://stackoverflow.com/documentation/html/277/input-control-elements/2259/input-validation#t=201612081944357410854) on StackOverflow Documentation
 
 ## Simple
 
@@ -695,6 +697,11 @@ end
 
 # Validation
 
+```ruby
+@user.persisted?
+@user.new_record?
+@user.valid?
+```
 ```ruby
 # app/models/post.rb
 class Post < ActiveRecord::Base

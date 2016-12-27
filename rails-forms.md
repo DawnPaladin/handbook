@@ -1,6 +1,6 @@
-# Rails forms
+**Rails forms**
 
-## Building forms
+# Building forms
 
 Including your own form authenticity token (if you're not using one of Rails' forms)
 ```html
@@ -37,7 +37,7 @@ Parameters: { "utf8"=>"✓",
 </form>
 ```
 
-## Validation
+# Validation
 
 ```ruby
 @user.persisted?
@@ -71,7 +71,7 @@ validates :title, :body, :subheading
 @user.errors.full_messages  # Array (potentially many strings)
 ```
 
-## Check boxes
+# Check boxes
 
 ```ruby
 # basic check box tag
@@ -85,7 +85,7 @@ f.check_box(:id)
 f.check_box(:id, true, false) # Specifying "checked" & "unchecked" values
 ```
 
-### Collection check boxes
+## Collection check boxes
 Signature:
 ```ruby
 collection_check_boxes( object,
@@ -120,7 +120,7 @@ f.collection_check_boxes(:tag_ids, Tag.all, :id, :name)
 # same as previous, except you're calling it on :post instead of passing :post in as a param
 ```
 
-## Radio buttons
+# Radio buttons
 
 ```ruby
 # basic radio button tag helper (`form_tag`)
@@ -136,7 +136,7 @@ f.radio_button("receive_newsletter", "yes")
 f.radio_button("receive_newsletter", "no")
 ```
 
-### Collection radio buttons
+## Collection radio buttons
 Signature:
 
 ```ruby
@@ -179,9 +179,9 @@ Examples:
 <% end %>
 ```
 
-## Nested forms
+# Nested forms
 
-### Data handling
+## Data handling
 
 Must accept data in the following format:
 
@@ -232,7 +232,7 @@ def whitelisted_user_params
                 :zip ] } )
 end
 ```
-### Form generation
+## Form generation
 
 ```ruby
 # generic fields_for case
@@ -264,9 +264,9 @@ fields_for(record_name, record_object = nil, options = {}, &block)
 <% end %>
 ```
 
-### Sample nested form
+## Sample nested form
 
-#### Model
+### Model
 
 ```ruby
 # app/models/product.rb
@@ -287,7 +287,7 @@ class Review < ActiveRecord::Base
 end
 ```
 
-#### View
+### View
 
 ```
 # app/views/products/new.html.erb
@@ -353,7 +353,7 @@ end
 <% end %>
 ```
 
-#### Controller
+### Controller
 
 ```ruby
 # app/controllers/products_controller.rb

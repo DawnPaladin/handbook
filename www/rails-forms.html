@@ -19,7 +19,8 @@
 <div id="toc"></div>
 
 <div class="main-column">
-  <h1>Rails forms</h1><h2>Building forms</h2><p>Including your own form authenticity token (if you&#39;re not using one of Rails&#39; forms)</p>
+  <p><strong>Rails forms</strong></p>
+<h1>Building forms</h1><p>Including your own form authenticity token (if you&#39;re not using one of Rails&#39; forms)</p>
 <pre><code class="language-html">&lt;input  type=&quot;hidden&quot;
         name=&quot;authenticity_token&quot;
         value=&quot;&lt;%= form_authenticity_token %&gt;&quot;&gt;
@@ -46,7 +47,7 @@
   &lt;textarea id=&quot;article_body&quot; name=&quot;article[body]&quot; cols=&quot;60&quot; rows=&quot;12&quot;&gt;&lt;/textarea&gt;
   &lt;input name=&quot;commit&quot; type=&quot;submit&quot; value=&quot;Create&quot; /&gt;
 &lt;/form&gt;
-</code></pre><h2>Validation</h2><pre><code class="language-ruby">@user.persisted?
+</code></pre><h1>Validation</h1><pre><code class="language-ruby">@user.persisted?
 @user.new_record?
 @user.valid?
 
@@ -76,7 +77,7 @@ validates :title, :body, :subheading
 @user.errors[:name]         # Array (just one string)
 @user.errors.full_messages  # Array (potentially many strings)
 </code></pre>
-<h2>Check boxes</h2><pre><code class="language-ruby"># basic check box tag
+<h1>Check boxes</h1><pre><code class="language-ruby"># basic check box tag
 # signature: check_box_tag(name, value = &quot;1&quot;, checked = false, options = {})
 check_box_tag(:tag, 1234)
 
@@ -86,7 +87,7 @@ check_box(:tag, :id)
 f.check_box(:id)
 f.check_box(:id, true, false) # Specifying &quot;checked&quot; &amp; &quot;unchecked&quot; values
 </code></pre>
-<h3>Collection check boxes</h3><p>Signature:</p>
+<h2>Collection check boxes</h2><p>Signature:</p>
 <pre><code class="language-ruby">collection_check_boxes( object,
                         method,
                         collection,
@@ -117,7 +118,7 @@ collection_check_boxes(
 f.collection_check_boxes(:tag_ids, Tag.all, :id, :name)
 # same as previous, except you&#39;re calling it on :post instead of passing :post in as a param
 </code></pre>
-<h2>Radio buttons</h2><pre><code class="language-ruby"># basic radio button tag helper (`form_tag`)
+<h1>Radio buttons</h1><pre><code class="language-ruby"># basic radio button tag helper (`form_tag`)
 # signature: radio_button_tag(name, value, checked = false, options = {})
 radio_button_tag(:age, &quot;child&quot;)
 radio_button_tag(:age, &quot;adult&quot;)
@@ -129,7 +130,7 @@ radio_button(&quot;user&quot;, &quot;receive_newsletter&quot;, &quot;no&quot;)
 f.radio_button(&quot;receive_newsletter&quot;, &quot;yes&quot;)
 f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)
 </code></pre>
-<h3>Collection radio buttons</h3><p>Signature:</p>
+<h2>Collection radio buttons</h2><p>Signature:</p>
 <pre><code class="language-ruby">collection_radio_buttons(  object,
                                 method,
                                 collection,
@@ -164,7 +165,7 @@ f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)
   ...
 &lt;% end %&gt;
 </code></pre>
-<h2>Nested forms</h2><h3>Data handling</h3><p>Must accept data in the following format:</p>
+<h1>Nested forms</h1><h2>Data handling</h2><p>Must accept data in the following format:</p>
 <pre><code class="language-ruby">{ :user =&gt; {
     :name =&gt; &quot;foo&quot;,
     :email =&gt; &quot;foo@bar.com&quot;,
@@ -205,7 +206,7 @@ end
                 :zip ] } )
 end
 </code></pre>
-<h3>Form generation</h3><pre><code class="language-ruby"># generic fields_for case
+<h2>Form generation</h2><pre><code class="language-ruby"># generic fields_for case
 fields_for(record_name, record_object = nil, options = {}, &amp;block)
 
 # fields_for a totally independent/unrelated record
@@ -233,7 +234,7 @@ fields_for(record_name, record_object = nil, options = {}, &amp;block)
   &lt;%= address_fields.check_box :_destroy %&gt;
 &lt;% end %&gt;
 </code></pre>
-<h3>Sample nested form</h3><h4>Model</h4><pre><code class="language-ruby"># app/models/product.rb
+<h2>Sample nested form</h2><h3>Model</h3><pre><code class="language-ruby"># app/models/product.rb
 class Product &lt; ActiveRecord::Base
   has_many :category_placements
   has_many :categories, :through =&gt; :category_placements
@@ -250,7 +251,7 @@ class Review &lt; ActiveRecord::Base
   belongs_to :product
 end
 </code></pre>
-<h4>View</h4><pre><code># app/views/products/new.html.erb
+<h3>View</h3><pre><code># app/views/products/new.html.erb
 &lt;h1&gt;New Product&lt;/h1&gt;
 &lt;%= render &quot;form&quot; %&gt;
 
@@ -311,7 +312,7 @@ end
   &lt;% end %&gt;
 
 &lt;% end %&gt;
-</code></pre><h4>Controller</h4><pre><code class="language-ruby"># app/controllers/products_controller.rb
+</code></pre><h3>Controller</h3><pre><code class="language-ruby"># app/controllers/products_controller.rb
 class ProductsController &lt; ApplicationController
   def index
     @products = Product.all
