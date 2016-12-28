@@ -23,6 +23,12 @@
 		margin: 0 2%;
 	}
 	.tocify {
-		display: none;
+		display: block;
+    position: static;
+    width: 100%;
+    margin-bottom: 1em;
 	}
+  .tocify-subheader {
+    display: none !important;
+  }
 }
