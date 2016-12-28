@@ -3,9 +3,12 @@
   margin: .5em;
   text-align: center;
 }
-
-.tocify {
+.main-column > p:first-of-type > strong {
+  font-style: italic;
+  font-size: 2em;
+  color: #505050;
 }
+
 .tocify .active {
   background-color: hsl(360, 0%, 92.5%);
 }
