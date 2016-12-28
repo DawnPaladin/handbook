@@ -17,9 +17,9 @@ git push -u origin master
 ## Create a model
 
 ```
-rails g model Post title:string body:string
+$ rails g model Post title:string body:string
 // Examine the new migration and make any required changes
-rails db:migrate
+$ rails db:migrate
 ```
 
 ## Create routes

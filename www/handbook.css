@@ -6,9 +6,12 @@
 .main-column > p:first-of-type > strong {
   font-style: italic;
   font-size: 2em;
-  color: #505050;
+  color: #f4fef9;
 }
 
+.tocify {
+  margin-top: 1em;
+}
 .tocify .active {
   background-color: hsl(360, 0%, 92.5%);
 }
