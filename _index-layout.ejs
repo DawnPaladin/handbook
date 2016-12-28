@@ -6,12 +6,13 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/styles/default.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.8.0/highlight.min.js"></script>
   <script src="lib/jquery-ui.min.js"></script>
   <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
   <script src="lib/jquery.tocify.js"></script>
+  <script src="lib/prism.js"></script>
+  <link rel="stylesheet" href="lib/prism.css"/>
   <link href="handbook.css" rel="stylesheet"></link>
+  <link href="blueprint.css" rel="stylesheet"></link>
 
 </head>
 <body>
@@ -19,10 +20,5 @@
 <div class="main-column">
   <%- yield %>
 </div>
-
-<script>
-hljs.initHighlightingOnLoad(); // syntax highlighting
-</script>
-
 
 </body>

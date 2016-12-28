@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:300,400');
+body {
+  background: #25487e;
+  color: #f4fef9;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 300;
+}
+a {
+  color: hsl(215, 66%, 77%);
+  text-decoration: underline;
+}
+a:hover {
+  color: hsl(215, 66%, 87%)
+}
+
+code, pre {
+  font-family: "Roboto Mono", monospace;
+  font-size: 14px;
+}
+
+.tocify .active {
+  background-color: hsla(360, 0%, 92.5%, 0.1)
+}
+.tocify .nav>li>a:focus, .tocify .nav>li>a:hover {
+  background-color: hsla(360, 0%, 92.5%, 0.2)
+}
+.tocify a {
+  text-decoration: none;
+}
