@@ -16,24 +16,12 @@
 </head>
 <body>
 
-<div id="toc">
-  <a href="index.html" class="index-link">Index</a>
-</div>
-
 <div class="main-column">
-  <h1>handbook</h1><p>Notes and code samples</p>
+  <%- yield %>
 </div>
 
 <script>
 hljs.initHighlightingOnLoad(); // syntax highlighting
-
-jQuery(document).ready(function() {
-  if (jQuery(window).height() < jQuery(document).height()) {
-    $('#toc').tocify({
-      extendPage: false
-    });
-  }
-});
 </script>
 
 

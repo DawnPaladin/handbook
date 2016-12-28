@@ -5,3 +5,4 @@
 - [Ruby](ruby.html)
 - [Rails](rails.html)
 - [HTML](HTML.html)
+- [JavaScript](javascript.html)

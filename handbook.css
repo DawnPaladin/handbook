@@ -1,3 +1,9 @@
+.index-link {
+  display: block;
+  margin: .5em;
+  text-align: center;
+}
+
 .tocify {
 }
 .tocify .active {
