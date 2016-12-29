@@ -61,6 +61,101 @@ do {
 ```
 Break a loop with `break` or jump to the next iteration with `continue`.
 
+# Strings
+
+All of these functions are nondestructive.
+
+## split
+
+Splits a string into arrays. Opposite of `join()`.
+
+```js
+"abc def".split(' '); // ["abc", "def"]
+```
+
+## substr
+
+Returns characters from a string, starting at an index through a specified number of characters.
+
+```js
+str.substr(start[, length])
+
+"Bird is the word".substr(0,4); // "Bird"
+```
+
+## slice
+
+Extracts a section of a string and returns a new string.
+```js
+str.slice(beginSlice[, endSlice])
+
+"123456".slice(2);    // "3456"
+"123456".slice(2,4);  // "34"
+"123456".slice(2,-1); // "345"
+```
+
+## substring
+
+Same as `slice`, except the order of the arguments doesn't matter, and you can't use negatives.
+
+```js
+str.slice(beginSlice[, endSlice])
+
+"123456".substring(2);    // "3456"
+"123456".substring(2,4);  // "34"
+"123456".substring(4,2);  // "34"
+```
+
+## toLowerCase, toUpperCase
+
+```js
+"abc".toUpperCase(); // "ABC"
+"ABC".toLowerCase(); // "abc"
+```
+
+## trim
+
+Removes whitespace from the beginning and end of a string.
+
+```js
+str.trim()
+```
+
+
+## indexOf
+
+Find a string within another string. Returns the index at which the string was found, or -1 if it wasn't found.
+
+```js
+str.indexOf(searchValue[, fromIndex])
+
+str.lastIndexOf(searchValue[, fromIndex]) // same, but searching from the end
+```
+
+## match
+
+Retrieves regex matches. Returns an array containing the entire match result and any parentheses-captured matched results; `null` if there were no matches.
+
+```js
+str.match(regexp)
+```
+
+## search
+
+Runs a regex search and returns the index at which a match was found.
+
+```js
+str.search(regexp)
+```
+
+## replace
+
+Searches a string, using either a regex or a simple substring, and replaces, using a function or a simple substring.
+
+```js
+str.replace(regexp|substr, newSubStr|someFunction)
+```
+
 # Arrays
 
 ## Nondestructive manipulation
@@ -116,6 +211,31 @@ for ( var i = 0; i < myArray.length; i = i + 1 ) {
 myArray.forEach(
   function(currentElement, elementIndex, array) {
     console.log(currentElement);
-  } 
+  }
 )
+```
+
+# Objects
+
+Literal syntax:
+
+```js
+myObj = {
+  foo: "bar",
+  fooFunc: function(){ console.log("hi") }
+}
+```
+
+Constructor syntax:
+
+```js
+function MyConstructor(){
+  this.someProp = "value!";
+  this.someMethod = function(){ return "I'm a method!" } ;
+}
+
+var myObj = new MyConstructor();
+
+myObj.someProp; // "value!"
+myObj.someMethod(); // "I'm a method!"
 ```

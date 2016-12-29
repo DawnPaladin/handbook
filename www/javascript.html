@@ -71,6 +71,49 @@ while ( i &lt; 100 ){
 } while ( false );
 </code></pre>
 <p>Break a loop with <code>break</code> or jump to the next iteration with <code>continue</code>.</p>
+<h1>Strings</h1><p>All of these functions are nondestructive.</p>
+<h2>split</h2><p>Splits a string into arrays. Opposite of <code>join()</code>.</p>
+<pre><code class="language-js">&quot;abc def&quot;.split(&#39; &#39;); // [&quot;abc&quot;, &quot;def&quot;]
+</code></pre>
+<h2>substr</h2><p>Returns characters from a string, starting at an index through a specified number of characters.</p>
+<pre><code class="language-js">str.substr(start[, length])
+
+&quot;Bird is the word&quot;.substr(0,4); // &quot;Bird&quot;
+</code></pre>
+<h2>slice</h2><p>Extracts a section of a string and returns a new string.</p>
+<pre><code class="language-js">str.slice(beginSlice[, endSlice])
+
+&quot;123456&quot;.slice(2);    // &quot;3456&quot;
+&quot;123456&quot;.slice(2,4);  // &quot;34&quot;
+&quot;123456&quot;.slice(2,-1); // &quot;345&quot;
+</code></pre>
+<h2>substring</h2><p>Same as <code>slice</code>, except the order of the arguments doesn&#39;t matter, and you can&#39;t use negatives.</p>
+<pre><code class="language-js">str.slice(beginSlice[, endSlice])
+
+&quot;123456&quot;.substring(2);    // &quot;3456&quot;
+&quot;123456&quot;.substring(2,4);  // &quot;34&quot;
+&quot;123456&quot;.substring(4,2);  // &quot;34&quot;
+</code></pre>
+<h2>toLowerCase, toUpperCase</h2><pre><code class="language-js">&quot;abc&quot;.toUpperCase(); // &quot;ABC&quot;
+&quot;ABC&quot;.toLowerCase(); // &quot;abc&quot;
+</code></pre>
+<h2>trim</h2><p>Removes whitespace from the beginning and end of a string.</p>
+<pre><code class="language-js">str.trim()
+</code></pre>
+<h2>indexOf</h2><p>Find a string within another string. Returns the index at which the string was found, or -1 if it wasn&#39;t found.</p>
+<pre><code class="language-js">str.indexOf(searchValue[, fromIndex])
+
+str.lastIndexOf(searchValue[, fromIndex]) // same, but searching from the end
+</code></pre>
+<h2>match</h2><p>Retrieves regex matches. Returns an array containing the entire match result and any parentheses-captured matched results; <code>null</code> if there were no matches.</p>
+<pre><code class="language-js">str.match(regexp)
+</code></pre>
+<h2>search</h2><p>Runs a regex search and returns the index at which a match was found.</p>
+<pre><code class="language-js">str.search(regexp)
+</code></pre>
+<h2>replace</h2><p>Searches a string, using either a regex or a simple substring, and replaces, using a function or a simple substring.</p>
+<pre><code class="language-js">str.replace(regexp|substr, newSubStr|someFunction)
+</code></pre>
 <h1>Arrays</h1><h2>Nondestructive manipulation</h2><p>These return a new array rather than modifying the existing one.</p>
 <pre><code class="language-js">[1,2].concat([3,4]); // [1,2,3,4]
 [1,2].join(&#39; &#39;); // &quot;1 2&quot;
@@ -104,8 +147,25 @@ for ( var i = 0; i &lt; myArray.length; i = i + 1 ) {
 myArray.forEach(
   function(currentElement, elementIndex, array) {
     console.log(currentElement);
-  } 
+  }
 )
+</code></pre>
+<h1>Objects</h1><p>Literal syntax:</p>
+<pre><code class="language-js">myObj = {
+  foo: &quot;bar&quot;,
+  fooFunc: function(){ console.log(&quot;hi&quot;) }
+}
+</code></pre>
+<p>Constructor syntax:</p>
+<pre><code class="language-js">function MyConstructor(){
+  this.someProp = &quot;value!&quot;;
+  this.someMethod = function(){ return &quot;I&#39;m a method!&quot; } ;
+}
+
+var myObj = new MyConstructor();
+
+myObj.someProp; // &quot;value!&quot;
+myObj.someMethod(); // &quot;I&#39;m a method!&quot;
 </code></pre>
 </div>
 
