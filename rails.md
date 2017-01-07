@@ -915,6 +915,156 @@ If a user has many posts, and you a `destroy` a user, all their posts are orphan
 has_many :posts, :dependent => :destroy # If I die, my children go with me!
 ```
 
+# Authentication
+
+## Create users
+
+```bash
+$ rails g model User name:string email:string password_digest:string
+```
+```ruby
+# app/models/user.rb
+class User < ActiveRecord::Base
+  has_secure_password
+  validates :name, presence: true
+  validates :email, presence: true
+  validates :password, length: { minimum: 8 }, allow_nil: true
+end
+```
+
+Uncomment `bcrypt` in the Gemfile.
+
+## Set up session-based authentication
+
+```bash
+$ rails g controller sessions
+```
+```ruby
+# config/routes.rb
+resource :session, only: [:new, :create, :destroy]
+get "login" => "sessions#new"
+delete "logout" => "sessions#destroy"
+```
+```
+# app/views/sessions/new.html.erb
+<%= form_tag session_path do %>
+
+  <%= label_tag do %>
+    Email
+    <%= text_field_tag :email %>
+  <% end %>
+
+  <%= label_tag do %>
+    Password
+    <%= password_field_tag :password %>
+  <% end %>
+
+  <%= submit_tag "Log in" %>
+<% end %>
+```
+```ruby
+# app/controllers/sessions_controller.rb
+class SessionsController < ApplicationController
+
+  def create
+    @user = User.find_by_email(params[:email])
+    if @user && @user.authenticate(params[:password])
+
+      sign_in(@user)
+      flash[:success] = "You've successfully signed in"
+      redirect_to root_url
+    else
+      flash.now[:error] = "We couldn't sign you in"
+      render :new
+    end
+  end
+
+  def destroy
+    sign_out
+    flash[:success] = "You've successfully signed out"
+    redirect_to root_url
+  end
+end
+```
+Create helpers:
+```ruby
+# app/controllers/application_controller.rb
+class ApplicationController < ActionController::Base
+  private
+  def sign_in(user)
+    session[:user_id] = user.id
+    @current_user = user
+  end
+
+  def sign_out
+    @current_user = nil
+    session.delete(:user_id)
+  end
+
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  helper_method :current_user
+
+  def signed_in_user?
+    !!current_user
+  end
+  helper_method :signed_in_user?
+end
+```
+Add login/logout links to your navigation:
+```
+# app/views/layouts/application.html.erb
+...
+<% if signed_in_user? %>
+  Welcome, <%= link_to current_user.name, current_user %>!
+  <%= link_to "Logout", logout_path, :method => :delete %>
+<% else %>
+  <%= link_to "Login", login_path %>
+<% end %>
+```
+
+When users sign up, they should be signed in. In app/controllers/users_controller.rb, in `def create`, add `sign_in(@user)` right after `if @user.save`.
+
+## Require authorization
+
+```ruby
+# app/controllers/application_controller.rb
+class ApplicationController < ActionController::Base
+  before_action :require_login
+  private
+    def require_login
+      unless signed_in_user?
+        flash[:error] = "Not authorized, please sign in!"
+        redirect_to login_path
+      end
+    end
+
+    def require_current_user
+      unless params[:id] == current_user.id.to_s
+        flash[:error] = "You're not authorized to view this"
+        redirect_to root_url
+      end
+    end
+end
+```
+
+```ruby
+# app/controllers/users_controller.rb
+class UsersController < ApplicationController
+  before_action :require_login, :except => [:new, :create]
+  skip_before_action :require_login, :only => [:new, :create]
+  before_action :require_current_user, :only => [:edit, :update, :destroy]
+  skip_before_action :require_login, :only => [:new, :create]
+end
+```
+```ruby
+# app/controllers/sessions_controller.rb
+class SessionsController < ApplicationController
+  skip_before_action :require_login, :only => [:new, :create]
+end
+```
+
 # Callbacks
 ```ruby
 # Be welcoming with an after_create callback
