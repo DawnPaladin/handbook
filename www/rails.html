@@ -691,7 +691,20 @@ belongs_to :category, optional: true
 <h2>Orphans</h2><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
 <pre><code class="language-ruby">has_many :posts, :dependent =&gt; :destroy # If I die, my children go with me!
 </code></pre>
-<h1>Authentication</h1><h2>Create users</h2><pre><code class="language-bash">$ rails g model User name:string email:string password_digest:string
+<h1>Authentication</h1><h2>Create users</h2><p>Uncomment <code>bcrypt</code> in the Gemfile.</p>
+<pre><code class="language-ruby"># config/routes.rb
+Rails.application.routes.draw do
+
+  resource :session, only: [:new, :create, :destroy]
+  get &quot;login&quot; =&gt; &quot;sessions#new&quot;
+  delete &quot;logout&quot; =&gt; &quot;sessions#destroy&quot;
+
+  resources :users, only: [:new, :create, :edit, :update]
+  root &quot;sessions#new&quot;
+
+end
+</code></pre>
+<pre><code class="language-bash">$ rails g model User name:string email:string password_digest:string
 </code></pre>
 <pre><code class="language-ruby"># app/models/user.rb
 class User &lt; ActiveRecord::Base
@@ -701,8 +714,27 @@ class User &lt; ActiveRecord::Base
   validates :password, length: { minimum: 8 }, allow_nil: true
 end
 </code></pre>
-<p>Uncomment <code>bcrypt</code> in the Gemfile.</p>
-<h2>Set up session-based authentication</h2><pre><code class="language-bash">$ rails g controller sessions
+<pre><code># app/views/users/new.html.erb
+&lt;%= form_for @user do |form|%&gt;
+
+  &lt;%= label_tag do %&gt;
+    Username
+    &lt;%= form.text_field :name %&gt;
+  &lt;% end %&gt;
+
+  &lt;%= label_tag do %&gt;
+    Email
+    &lt;%= form.text_field :email %&gt;
+  &lt;% end %&gt;
+
+  &lt;%= label_tag do %&gt;
+    Password
+    &lt;%= form.password_field :password %&gt;
+  &lt;% end %&gt;
+
+  &lt;%= submit_tag &quot;Sign up&quot; %&gt;
+&lt;% end %&gt;
+</code></pre><h2>Set up session-based authentication</h2><pre><code class="language-bash">$ rails g controller sessions
 </code></pre>
 <pre><code class="language-ruby"># config/routes.rb
 resource :session, only: [:new, :create, :destroy]
@@ -751,37 +783,73 @@ end
 <pre><code class="language-ruby"># app/controllers/application_controller.rb
 class ApplicationController &lt; ActionController::Base
   private
-  def sign_in(user)
-    session[:user_id] = user.id
-    @current_user = user
-  end
+    def sign_in(user)
+      session[:user_id] = user.id
+      @current_user = user
+    end
 
-  def sign_out
-    @current_user = nil
-    session.delete(:user_id)
-  end
+    def sign_out
+      @current_user = nil
+      session.delete(:user_id)
+    end
 
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-  helper_method :current_user
+    def current_user
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    end
+    helper_method :current_user
 
-  def signed_in_user?
-    !!current_user
-  end
-  helper_method :signed_in_user?
+    def signed_in_user?
+      !!current_user
+    end
+    helper_method :signed_in_user?
 end
 </code></pre>
 <p>Add login/logout links to your navigation:</p>
 <pre><code># app/views/layouts/application.html.erb
 ...
 &lt;% if signed_in_user? %&gt;
-  Welcome, &lt;%= link_to current_user.name, current_user %&gt;!
+  Welcome, &lt;%= current_user.name %&gt;!
   &lt;%= link_to &quot;Logout&quot;, logout_path, :method =&gt; :delete %&gt;
 &lt;% else %&gt;
   &lt;%= link_to &quot;Login&quot;, login_path %&gt;
 &lt;% end %&gt;
-</code></pre><p>When users sign up, they should be signed in. In app/controllers/users_controller.rb, in <code>def create</code>, add <code>sign_in(@user)</code> right after <code>if @user.save</code>.</p>
+</code></pre><pre><code class="language-ruby"># app/controllers/users_controller.rb
+class UsersController &lt; ApplicationController
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(strong_params)
+    if @user.save
+      sign_in(@user)
+      flash[:success] = &quot;Welcome!&quot;
+      redirect_to root_path
+    else
+      flash.now[:error] = &quot;Could not sign you up.&quot;
+      render :new
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(strong_params)
+      redirect_to root_path
+    else
+      render :edit
+    end
+  end
+
+  private
+    def strong_params
+      params.require(:user).permit(:name, :email, :password)
+    end
+end
+</code></pre>
 <h2>Require authorization</h2><pre><code class="language-ruby"># app/controllers/application_controller.rb
 class ApplicationController &lt; ActionController::Base
   before_action :require_login

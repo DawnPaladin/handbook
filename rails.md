@@ -919,6 +919,22 @@ has_many :posts, :dependent => :destroy # If I die, my children go with me!
 
 ## Create users
 
+Uncomment `bcrypt` in the Gemfile.
+
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+
+  resource :session, only: [:new, :create, :destroy]
+  get "login" => "sessions#new"
+  delete "logout" => "sessions#destroy"
+
+  resources :users, only: [:new, :create, :edit, :update]
+  root "sessions#new"
+
+end
+```
+
 ```bash
 $ rails g model User name:string email:string password_digest:string
 ```
@@ -931,8 +947,28 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 8 }, allow_nil: true
 end
 ```
+```
+# app/views/users/new.html.erb
+<%= form_for @user do |form|%>
 
-Uncomment `bcrypt` in the Gemfile.
+  <%= label_tag do %>
+    Username
+    <%= form.text_field :name %>
+  <% end %>
+
+  <%= label_tag do %>
+    Email
+    <%= form.text_field :email %>
+  <% end %>
+
+  <%= label_tag do %>
+    Password
+    <%= form.password_field :password %>
+  <% end %>
+
+  <%= submit_tag "Sign up" %>
+<% end %>
+```
 
 ## Set up session-based authentication
 
@@ -991,25 +1027,25 @@ Create helpers:
 # app/controllers/application_controller.rb
 class ApplicationController < ActionController::Base
   private
-  def sign_in(user)
-    session[:user_id] = user.id
-    @current_user = user
-  end
+    def sign_in(user)
+      session[:user_id] = user.id
+      @current_user = user
+    end
 
-  def sign_out
-    @current_user = nil
-    session.delete(:user_id)
-  end
+    def sign_out
+      @current_user = nil
+      session.delete(:user_id)
+    end
 
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-  helper_method :current_user
+    def current_user
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    end
+    helper_method :current_user
 
-  def signed_in_user?
-    !!current_user
-  end
-  helper_method :signed_in_user?
+    def signed_in_user?
+      !!current_user
+    end
+    helper_method :signed_in_user?
 end
 ```
 Add login/logout links to your navigation:
@@ -1017,14 +1053,52 @@ Add login/logout links to your navigation:
 # app/views/layouts/application.html.erb
 ...
 <% if signed_in_user? %>
-  Welcome, <%= link_to current_user.name, current_user %>!
+  Welcome, <%= current_user.name %>!
   <%= link_to "Logout", logout_path, :method => :delete %>
 <% else %>
   <%= link_to "Login", login_path %>
 <% end %>
 ```
 
-When users sign up, they should be signed in. In app/controllers/users_controller.rb, in `def create`, add `sign_in(@user)` right after `if @user.save`.
+```ruby
+# app/controllers/users_controller.rb
+class UsersController < ApplicationController
+  def new
+    @user = User.new
+  end
+
+  def create
+    @user = User.new(strong_params)
+    if @user.save
+      sign_in(@user)
+      flash[:success] = "Welcome!"
+      redirect_to root_path
+    else
+      flash.now[:error] = "Could not sign you up."
+      render :new
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update(strong_params)
+      redirect_to root_path
+    else
+      render :edit
+    end
+  end
+
+  private
+    def strong_params
+      params.require(:user).permit(:name, :email, :password)
+    end
+end
+```
+
 
 ## Require authorization
 
