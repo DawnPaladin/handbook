@@ -173,6 +173,14 @@ myObj.someMethod(); // &quot;I&#39;m a method!&quot;
 <p>Namespacing:</p>
 <pre><code class="language-js">var MY_APP = MY_APP || {};
 </code></pre>
+<h1>Organization</h1><p>Top of a typical MVC file:</p>
+<pre><code class="language-js">&quot;use strict&quot;;
+
+var APP_NAME = APP_NAME || {};
+var model = APP_NAME.model = {};
+
+model.someProp = &quot;foo&quot;;
+</code></pre>
 </div>
 
 <script>

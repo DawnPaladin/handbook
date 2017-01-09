@@ -251,3 +251,16 @@ Namespacing:
 ```js
 var MY_APP = MY_APP || {};
 ```
+
+# Organization
+
+Top of a typical MVC file:
+
+```js
+"use strict";
+
+var APP_NAME = APP_NAME || {};
+var model = APP_NAME.model = {};
+
+model.someProp = "foo";
+```
