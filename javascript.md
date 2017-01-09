@@ -239,3 +239,15 @@ var myObj = new MyConstructor();
 myObj.someProp; // "value!"
 myObj.someMethod(); // "I'm a method!"
 ```
+
+Adding onto all similar objects via the prototype:
+
+```js
+myObj.prototype.someProp = x;
+```
+
+Namespacing:
+
+```js
+var MY_APP = MY_APP || {};
+```
