@@ -1,5 +1,10 @@
 {
   "index": {
-    "layout": "_index-layout"
+    "layout": "_index-layout",
+    "title": "Handbook"
+  },
+  "javascript": {
+    "layout": "_layout",
+    "title": "JavaScript Handbook"
   }
 }
