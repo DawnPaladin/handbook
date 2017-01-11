@@ -3,8 +3,24 @@
     "layout": "_index-layout",
     "title": "Handbook"
   },
+  "HTML": {
+    "layout": "_layout",
+    "title": "HTML Handbook"
+  },
   "javascript": {
     "layout": "_layout",
     "title": "JavaScript Handbook"
+  },
+  "ruby": {
+    "layout": "_layout",
+    "title": "Ruby Handbook"
+  },
+  "rails": {
+    "layout": "_layout",
+    "title": "Rails Handbook"
+  },
+  "rails-forms": {
+    "layout": "_layout",
+    "title": "Rails Forms Handbook"
   }
 }
