@@ -174,7 +174,8 @@ myObj.someMethod(); // &quot;I&#39;m a method!&quot;
 <p>Namespacing:</p>
 <pre><code class="language-js">var MY_APP = MY_APP || {};
 </code></pre>
-<h1>Organization</h1><p>Top of a typical MVC file:</p>
+<h1>Organization</h1><h2>Object pattern</h2><p>Useful for namespacing. Everything is public. Chainable.</p>
+<p>Top of a typical MVC file:</p>
 <pre><code class="language-js">&quot;use strict&quot;;
 
 var APP_NAME = APP_NAME || {};
@@ -182,6 +183,52 @@ var model = APP_NAME.model = {};
 
 model.someProp = &quot;foo&quot;;
 </code></pre>
+<h2>Module pattern</h2><p>Encloses code in an Immediately-Evaluated Function Expression. Only export the values and interfaces you want to.</p>
+<pre><code class="language-js">var fooModule = (function() {
+  var _privateVar = 123;
+  var publicVar = &quot;foo&quot;;
+  return {
+    getPublicVar: function() { return publicVar; },
+    setPublicVar: function(val) { return publicVar = val; },
+    publicMethod: function() { console.log(&quot;Hi!&quot;); },
+  }
+})();
+</code></pre>
+<h3>Revealing module pattern</h3><pre><code class="language-js">var fooModule = (function() {
+  var _privateVar = 123;
+  var publicVar = &quot;foo&quot;;
+  var getPublicVar = function() { return publicVar; };
+  var setPublicVar = function(val) { return publicVar = val; };
+  var publicMethod = function() { console.log(&quot;Hi!&quot;); };
+  return {
+    getPublicVar: getPublicVar,
+    setPublicVar: setPublicVar,
+    publicMethod: publicMethod,
+  }
+})();
+</code></pre>
+<h3>&quot;Stub&quot; or &quot;export&quot; object</h3><pre><code class="language-js">var fooModule = (function() {
+  var exports = {}; // or &quot;stub&quot;
+  var _privateVar = 123;
+  var publicVar = &quot;foo&quot;;
+  exports.getPublicVar = function() { return publicVar; };
+  exports.setPublicVar = function(val) { return publicVar = val; };
+  exports.publicMethod = function() { console.log(&quot;Hi!&quot;); };
+  return exports;
+})();
+</code></pre>
+<h3>Dependency injection</h3><p>To use another module inside yours, pass it in via a parameter.</p>
+<pre><code class="language-js">var myModule = (function(otherModule) {
+  var localVar = otherModule.moduleMethod();
+  return { localVar: localVar }
+})(OtherModule);
+</code></pre>
+<h3>Extending a module</h3><pre><code class="language-js">var extendedModule = (function(originalModule) {
+  originalModule.extension = function() { doStuff; }
+  return originalModule;
+})(originalModule || {});
+</code></pre>
+<p>If <code>originalModule</code> exists, <code>extension</code> will be added onto it. If it does not exist, you&#39;ll still get <code>extension</code> on a blank object rather than a crash.</p>
 </div>
 
 <script>

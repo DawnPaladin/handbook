@@ -254,6 +254,10 @@ var MY_APP = MY_APP || {};
 
 # Organization
 
+## Object pattern
+
+Useful for namespacing. Everything is public. Chainable.
+
 Top of a typical MVC file:
 
 ```js
@@ -264,3 +268,72 @@ var model = APP_NAME.model = {};
 
 model.someProp = "foo";
 ```
+
+## Module pattern
+
+Encloses code in an Immediately-Evaluated Function Expression. Only export the values and interfaces you want to.
+
+```js
+var fooModule = (function() {
+  var _privateVar = 123;
+  var publicVar = "foo";
+  return {
+    getPublicVar: function() { return publicVar; },
+    setPublicVar: function(val) { return publicVar = val; },
+    publicMethod: function() { console.log("Hi!"); },
+  }
+})();
+```
+
+### Revealing module pattern
+
+```js
+var fooModule = (function() {
+  var _privateVar = 123;
+  var publicVar = "foo";
+  var getPublicVar = function() { return publicVar; };
+  var setPublicVar = function(val) { return publicVar = val; };
+  var publicMethod = function() { console.log("Hi!"); };
+  return {
+    getPublicVar: getPublicVar,
+    setPublicVar: setPublicVar,
+    publicMethod: publicMethod,
+  }
+})();
+```
+
+### "Stub" or "export" object
+
+```js
+var fooModule = (function() {
+  var exports = {}; // or "stub"
+  var _privateVar = 123;
+  var publicVar = "foo";
+  exports.getPublicVar = function() { return publicVar; };
+  exports.setPublicVar = function(val) { return publicVar = val; };
+  exports.publicMethod = function() { console.log("Hi!"); };
+  return exports;
+})();
+```
+
+### Dependency injection
+
+To use another module inside yours, pass it in via a parameter.
+
+```js
+var myModule = (function(otherModule) {
+  var localVar = otherModule.moduleMethod();
+  return { localVar: localVar }
+})(OtherModule);
+```
+
+### Extending a module
+
+```js
+var extendedModule = (function(originalModule) {
+  originalModule.extension = function() { doStuff; }
+  return originalModule;
+})(originalModule || {});
+```
+
+If `originalModule` exists, `extension` will be added onto it. If it does not exist, you'll still get `extension` on a blank object rather than a crash.
