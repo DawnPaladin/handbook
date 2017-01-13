@@ -337,3 +337,45 @@ var extendedModule = (function(originalModule) {
 ```
 
 If `originalModule` exists, `extension` will be added onto it. If it does not exist, you'll still get `extension` on a blank object rather than a crash.
+
+### MVC with dependency injection
+
+```js
+// model.js
+var APP_NAME = APP_NAME || {};
+APP_NAME.model = (function() {
+  "use strict";
+  var exports = {};
+
+  var privateMethod = function privateMethod() { ... };
+  exports.publicMethod = function publicMethod() { ... };
+  exports.init = function init() { ... };
+
+  return exports;
+})();
+```
+```js
+// controller.js
+var APP_NAME = APP_NAME || {};
+APP_NAME.controller = (function(model) {
+  'use strict';
+
+  model.init();
+
+})(APP_NAME.model);
+
+```
+
+# AJAX
+
+Basic xmlHTTPrequest:
+
+```js
+var xhr = new XMLHttpRequest();
+xhr.open( "GET", "http://reqres.in/api/products", true );
+xhr.onload = function() {
+  console.log(xhr);
+  console.log(JSON.parse(xhr.responseText));
+};
+xhr.send();
+```

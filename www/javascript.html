@@ -229,6 +229,37 @@ model.someProp = &quot;foo&quot;;
 })(originalModule || {});
 </code></pre>
 <p>If <code>originalModule</code> exists, <code>extension</code> will be added onto it. If it does not exist, you&#39;ll still get <code>extension</code> on a blank object rather than a crash.</p>
+<h3>MVC with dependency injection</h3><pre><code class="language-js">// model.js
+var APP_NAME = APP_NAME || {};
+APP_NAME.model = (function() {
+  &quot;use strict&quot;;
+  var exports = {};
+
+  var privateMethod = function privateMethod() { ... };
+  exports.publicMethod = function publicMethod() { ... };
+  exports.init = function init() { ... };
+
+  return exports;
+})();
+</code></pre>
+<pre><code class="language-js">// controller.js
+var APP_NAME = APP_NAME || {};
+APP_NAME.controller = (function(model) {
+  &#39;use strict&#39;;
+
+  model.init();
+
+})(APP_NAME.model);
+</code></pre>
+<h1>AJAX</h1><p>Basic xmlHTTPrequest:</p>
+<pre><code class="language-js">var xhr = new XMLHttpRequest();
+xhr.open( &quot;GET&quot;, &quot;http://reqres.in/api/products&quot;, true );
+xhr.onload = function() {
+  console.log(xhr);
+  console.log(JSON.parse(xhr.responseText));
+};
+xhr.send();
+</code></pre>
 </div>
 
 <script>
