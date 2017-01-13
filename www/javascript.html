@@ -251,14 +251,22 @@ APP_NAME.controller = (function(model) {
 
 })(APP_NAME.model);
 </code></pre>
-<h1>AJAX</h1><p>Basic xmlHTTPrequest:</p>
+<h1>AJAX</h1><p>Basic XMLHttpRequest:</p>
 <pre><code class="language-js">var xhr = new XMLHttpRequest();
-xhr.open( &quot;GET&quot;, &quot;http://reqres.in/api/products&quot;, true );
+xhr.open( &quot;GET&quot;, &quot;https://reqres.in/api/products&quot;, true );
 xhr.onload = function() {
   console.log(xhr);
   console.log(JSON.parse(xhr.responseText));
 };
 xhr.send();
+</code></pre>
+<p>Using jQuery&#39;s <a href="http://api.jquery.com/jquery.ajax/">$.ajax</a>:</p>
+<pre><code class="language-js">$.ajax({
+  url: &#39;https://reqres.in/api/products&#39;,
+  complete: function(xhr) {
+    console.log(xhr);
+  }
+});
 </code></pre>
 </div>
 

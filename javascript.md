@@ -368,14 +368,25 @@ APP_NAME.controller = (function(model) {
 
 # AJAX
 
-Basic xmlHTTPrequest:
+Basic XMLHttpRequest:
 
 ```js
 var xhr = new XMLHttpRequest();
-xhr.open( "GET", "http://reqres.in/api/products", true );
+xhr.open( "GET", "https://reqres.in/api/products", true );
 xhr.onload = function() {
   console.log(xhr);
   console.log(JSON.parse(xhr.responseText));
 };
 xhr.send();
+```
+
+Using jQuery's [$.ajax](http://api.jquery.com/jquery.ajax/):
+
+```js
+$.ajax({
+  url: 'https://reqres.in/api/products',
+  complete: function(xhr) {
+    console.log(xhr);
+  }
+});
 ```
