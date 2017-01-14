@@ -390,3 +390,12 @@ $.ajax({
   }
 });
 ```
+
+Options:
+
+- `method:` GET | POST | PUT
+- `contentType:` what we're sending to them
+- `dataType:` what the server should send back
+- `success, error:` callbacks for when a request succeeds or fails
+- `complete:` callback that always runs
+- `data:` data to send along with the request (useful for POST requests)
