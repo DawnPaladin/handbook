@@ -732,6 +732,13 @@ else
 end
 ```
 
+Example of a js.erb file:
+
+```js
+$("<%= j( render partial: 'show', locals: { post: @post }) %>").hide().prependTo('#posts').slideDown();
+document.getElementById('new_post').reset();
+```
+
 # Validation
 
 ```ruby

@@ -549,6 +549,10 @@ else
   render json: { errors: @tag.errors.full_messages }, status: :unprocessable_entity
 end
 </code></pre>
+<p>Example of a js.erb file:</p>
+<pre><code class="language-js">$(&quot;&lt;%= j( render partial: &#39;show&#39;, locals: { post: @post }) %&gt;&quot;).hide().prependTo(&#39;#posts&#39;).slideDown();
+document.getElementById(&#39;new_post&#39;).reset();
+</code></pre>
 <h1>Validation</h1><pre><code class="language-ruby">@user.persisted?
 @user.new_record?
 @user.valid?
