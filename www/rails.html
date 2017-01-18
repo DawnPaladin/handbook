@@ -525,6 +525,30 @@ def whitelisted_params
 end
 </code></pre>
 <p><em><a href="https://www.vikingcodeschool.com/dashboard#/advanced-forms-and-active-record/a-simple-nested-form">Source</a></em></p>
+<h2>Asynchronous</h2><p>Add <code>remote: true</code> to a form helper (such as <code>form_tag</code>, <code>form_for</code>, <code>button_to</code>, <code>link_to</code>...). Example:</p>
+<pre><code class="language-ruby">&lt;%= form_for @task, :remote =&gt; true do |f| %&gt;
+</code></pre>
+<p>Then set up the response in the controller method:</p>
+<pre><code class="language-ruby">respond_to do |format|
+  format.js
+end
+</code></pre>
+<p>If you only need one format, here&#39;s the one-line format: <code>respond_to :js</code></p>
+<p>You can optionally put a block on the end of the <code>format</code> line to do things like <code>redirect_to [path]</code> or <code>render :[template]</code>.</p>
+<p>Rails will look for a JS template to render. If we&#39;re in the #show action, it will look in the following places:</p>
+<ol>
+<li>show.js.erb</li>
+<li>show.html.erb</li>
+<li>show.*</li>
+<li>[500 Internal Server Error]</li>
+</ol>
+<p>Here&#39;s an example returning JSON instead of JS:</p>
+<pre><code class="language-ruby">if @tag.save
+  render json: {tag: @tag}, status: 200
+else
+  render json: { errors: @tag.errors.full_messages }, status: :unprocessable_entity
+end
+</code></pre>
 <h1>Validation</h1><pre><code class="language-ruby">@user.persisted?
 @user.new_record?
 @user.valid?

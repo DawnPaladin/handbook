@@ -695,6 +695,43 @@ end
 
 *[Source](https://www.vikingcodeschool.com/dashboard#/advanced-forms-and-active-record/a-simple-nested-form)*
 
+## Asynchronous
+
+Add `remote: true` to a form helper (such as `form_tag`, `form_for`, `button_to`, `link_to`...). Example:
+
+```ruby
+<%= form_for @task, :remote => true do |f| %>
+```
+
+Then set up the response in the controller method:
+
+```ruby
+respond_to do |format|
+  format.js
+end
+```
+
+If you only need one format, here's the one-line format: `respond_to :js`
+
+You can optionally put a block on the end of the `format` line to do things like `redirect_to [path]` or `render :[template]`.
+
+Rails will look for a JS template to render. If we're in the #show action, it will look in the following places:
+
+1. show.js.erb
+1. show.html.erb
+1. show.*
+1. [500 Internal Server Error]
+
+Here's an example returning JSON instead of JS:
+
+```ruby
+if @tag.save
+  render json: {tag: @tag}, status: 200
+else
+  render json: { errors: @tag.errors.full_messages }, status: :unprocessable_entity
+end
+```
+
 # Validation
 
 ```ruby
