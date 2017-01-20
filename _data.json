@@ -22,5 +22,9 @@
   "rails-forms": {
     "layout": "_layout",
     "title": "Rails Forms Handbook"
+  },
+  "angular": {
+    "layout": "_layout",
+    "title": "Angular Handbook"
   }
 }
