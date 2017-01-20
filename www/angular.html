@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Angular Handbook</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="lib/jquery-ui.min.js"></script>
+  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="lib/jquery.tocify.js"></script>
+  <script src="lib/prism.js"></script>
+  <link rel="stylesheet" href="lib/prism.css"/>
+  <link href="handbook.css" rel="stylesheet"></link>
+  <link href="blueprint.css" rel="stylesheet"></link>
+
+</head>
+<body>
+
+<div id="toc">
+  <a href="index.html" class="index-link">Index</a>
+</div>
+
+<div class="main-column">
+  <p><strong>AngularJS</strong></p>
+<h1>Hello World</h1><pre><code class="language-html">&lt;html ng-app=&quot;appName&quot;&gt;
+&lt;head&gt;
+  &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;app.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body ng-controller=&quot;MyCtrl&quot;&gt;
+  {{ foo }}
+&lt;/body&gt;
+</code></pre>
+<pre><code class="language-js">// app.js
+var appName = angular.module(&#39;appName&#39;, []);
+
+appName.controller(&#39;MyCtrl&#39;,
+  [&#39;$scope&#39;,
+    function($scope) {
+      $scope.foo = &#39;Hello World&#39;;
+      $scope.myFunction = function() {};
+    }
+  ]
+);
+</code></pre>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
+</script>
+
+</body>
