@@ -70,6 +70,9 @@ scope: {
 </first-directive>                 
 ```
 
+- Two-way-bound variables (=) are passed a reference and are watched in the digest loop.
+- One-way-bound variables (&, @) are passed a value and are not updated thereafter.
+
 ## Transclusion
 
 ### Setup

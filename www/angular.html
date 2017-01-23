@@ -73,6 +73,10 @@ app.directive(&#39;firstDirective&#39;, function(){
                  one-way-bound-var=&quot;someFunction()&quot;&gt;
 &lt;/first-directive&gt;
 </code></pre>
+<ul>
+<li>Two-way-bound variables (=) are passed a reference and are watched in the digest loop.</li>
+<li>One-way-bound variables (&amp;, @) are passed a value and are not updated thereafter.</li>
+</ul>
 <h2>Transclusion</h2><h3>Setup</h3><pre><code class="language-js">// directives/customDirective.js
 app.directive(&#39;customTag&#39;, function() {
   return {
