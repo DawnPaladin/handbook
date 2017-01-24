@@ -75,6 +75,27 @@ scope: {
 - Two-way-bound variables (=) are passed a reference and are watched in the digest loop.
 - One-way-bound variables (&, @) are passed a value and are not updated thereafter.
 
+## Passing values into functions in a directive
+
+```js
+// js/directives/myDirective.js
+appName.directive('myDirective', function() {
+  return {
+    ...
+    scope: {
+      directiveFunction: '&'
+    }
+  }
+})
+```
+```html
+<!-- js/directives/myDirective.html -->
+<p ng-click="directiveFunction({param: variable})"></p>
+```
+```html
+<div my-directive directive-function="outsideFunction(param)"></div>
+```
+
 ## Transclusion
 
 ### Setup

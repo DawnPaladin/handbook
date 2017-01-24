@@ -77,6 +77,21 @@ appName.directive(&#39;firstDirective&#39;, function(){
 <li>Two-way-bound variables (=) are passed a reference and are watched in the digest loop.</li>
 <li>One-way-bound variables (&amp;, @) are passed a value and are not updated thereafter.</li>
 </ul>
+<h2>Passing values into functions in a directive</h2><pre><code class="language-js">// js/directives/myDirective.js
+appName.directive(&#39;myDirective&#39;, function() {
+  return {
+    ...
+    scope: {
+      directiveFunction: &#39;&amp;&#39;
+    }
+  }
+})
+</code></pre>
+<pre><code class="language-html">&lt;!-- js/directives/myDirective.html --&gt;
+&lt;p ng-click=&quot;directiveFunction({param: variable})&quot;&gt;&lt;/p&gt;
+</code></pre>
+<pre><code class="language-html">&lt;div my-directive directive-function=&quot;outsideFunction(param)&quot;&gt;&lt;/div&gt;
+</code></pre>
 <h2>Transclusion</h2><h3>Setup</h3><pre><code class="language-js">// directives/customDirective.js
 appName.directive(&#39;customTag&#39;, function() {
   return {
