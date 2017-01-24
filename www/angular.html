@@ -32,7 +32,7 @@
   {{ foo }}
 &lt;/body&gt;
 </code></pre>
-<pre><code class="language-js">// app.js
+<h1>Controller</h1><pre><code class="language-js">// app.js
 var appName = angular.module(&#39;appName&#39;, []);
 
 appName.controller(&#39;MyCtrl&#39;,
@@ -44,11 +44,11 @@ appName.controller(&#39;MyCtrl&#39;,
   ]
 );
 </code></pre>
-<h1>Creating directives</h1><pre><code class="language-html">&lt;!--  js/directives/firstDirective.html --&gt;
+<h1>Directive</h1><pre><code class="language-html">&lt;!--  js/directives/firstDirective.html --&gt;
 &lt;p&gt;My first directive&lt;/p&gt;
 </code></pre>
 <pre><code class="language-js">// directives/firstDirective.js
-app.directive(&#39;firstDirective&#39;, function(){
+appName.directive(&#39;firstDirective&#39;, function(){
   return {
     templateUrl: &quot;js/directives/firstDirective.html&quot;,
     restrict: &quot;E&quot;,
@@ -78,7 +78,7 @@ app.directive(&#39;firstDirective&#39;, function(){
 <li>One-way-bound variables (&amp;, @) are passed a value and are not updated thereafter.</li>
 </ul>
 <h2>Transclusion</h2><h3>Setup</h3><pre><code class="language-js">// directives/customDirective.js
-app.directive(&#39;customTag&#39;, function() {
+appName.directive(&#39;customTag&#39;, function() {
   return {
     ...
     transclude: true,
@@ -103,7 +103,27 @@ app.directive(&#39;customTag&#39;, function() {
   &lt;p&gt;Text in custom-tag&lt;/p&gt;
 &lt;/div&gt;
 </code></pre>
-<h1>Useful functions</h1><p>After clicking an element in the inspector, you can inspect its scope in the console with <code>angular.element($0).scope()</code>.</p>
+<h1>Service</h1><p>Modular storage of data &amp; functions, accessible across multiple controllers</p>
+<pre><code class="language-js">appName.factory(&#39;serviceName&#39;, function() {
+  var exports = {};
+  var privateVar = &quot;foo&quot;;
+  exports.publicVar = &quot;bar&quot;;
+  return exports;
+})
+</code></pre>
+<p>If the service has a dependency, you can inject it like so:</p>
+<pre><code class="language-js">appName.factory(&#39;serviceName&#39;, [&#39;dependency1&#39;, function(dependency1) {
+  ...
+}]);
+</code></pre>
+<h1>Misc</h1><p>After clicking an element in the inspector, you can inspect its scope in the console with <code>angular.element($0).scope()</code>.</p>
+<p>Angular includes <strong>jqLite</strong>, a stripped-down version of jQuery.</p>
+<ul>
+<li>If you want the full version of jQuery, be sure to include it before you include Angular so Angular knows it&#39;s there.</li>
+<li>Do queries with <code>angular.element(&#39;selector&#39;)</code>.</li>
+<li>When Angular gives you an element, you can typically run jqLite methods on it.</li>
+<li>It&#39;s not conventional to prefix jqLite variables with $, since $ is commonly used for Angular variables.</li>
+</ul>
 </div>
 
 <script>

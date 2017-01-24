@@ -13,6 +13,8 @@
 </body>
 ```
 
+# Controller
+
 ```js
 // app.js
 var appName = angular.module('appName', []);
@@ -27,7 +29,7 @@ appName.controller('MyCtrl',
 );
 ```
 
-# Creating directives
+# Directive
 
 ```html
 <!--  js/directives/firstDirective.html -->
@@ -36,7 +38,7 @@ appName.controller('MyCtrl',
 
 ```js
 // directives/firstDirective.js
-app.directive('firstDirective', function(){
+appName.directive('firstDirective', function(){
   return {
     templateUrl: "js/directives/firstDirective.html",
     restrict: "E",
@@ -79,7 +81,7 @@ scope: {
 
 ```js
 // directives/customDirective.js
-app.directive('customTag', function() {
+appName.directive('customTag', function() {
   return {
     ...
     transclude: true,
@@ -114,6 +116,33 @@ Output:
 </div>
 ```
 
-# Useful functions
+# Service
+
+Modular storage of data & functions, accessible across multiple controllers
+
+```js
+appName.factory('serviceName', function() {
+  var exports = {};
+  var privateVar = "foo";
+  exports.publicVar = "bar";
+  return exports;
+})
+```
+
+If the service has a dependency, you can inject it like so:
+```js
+appName.factory('serviceName', ['dependency1', function(dependency1) {
+  ...
+}]);
+```
+
+# Misc
 
 After clicking an element in the inspector, you can inspect its scope in the console with `angular.element($0).scope()`.
+
+Angular includes **jqLite**, a stripped-down version of jQuery.
+
+- If you want the full version of jQuery, be sure to include it before you include Angular so Angular knows it's there.
+- Do queries with `angular.element('selector')`.
+- When Angular gives you an element, you can typically run jqLite methods on it.
+- It's not conventional to prefix jqLite variables with $, since $ is commonly used for Angular variables.
