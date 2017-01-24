@@ -40,7 +40,7 @@ appName.controller('MyCtrl',
 // directives/firstDirective.js
 appName.directive('firstDirective', function(){
   return {
-    templateUrl: "js/directives/firstDirective.html",
+    templateUrl: "/js/directives/firstDirective.html",
     restrict: "E",
     scope: {},
     link: function(scope, element, attrs) {
@@ -74,6 +74,28 @@ scope: {
 
 - Two-way-bound variables (=) are passed a reference and are watched in the digest loop.
 - One-way-bound variables (&, @) are passed a value and are not updated thereafter.
+
+## Passing objects into a repeating directive
+
+```js
+// javascripts/directives/puppy.js
+pupShelter.directive('puppy', function() {
+  return {
+    templateUrl: "/javascripts/directives/puppy.html",
+    restrict: "E",
+    scope: {
+      puppy: '=', // objects need two-way binding
+    }
+  };
+});
+```
+```html
+<!-- javascripts/directives/puppy.html -->
+<li>{{ puppy.name }} ({{ puppy.breed.name }})</li>
+```
+```html
+<puppy ng-repeat="puppy in puppies" puppy="puppy"></puppy>
+```
 
 ## Passing values into functions in a directive
 
