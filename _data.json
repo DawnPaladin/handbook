@@ -1,8 +1,4 @@
 {
-  "index": {
-    "layout": "_index-layout",
-    "title": "Handbook"
-  },
   "HTML": {
     "layout": "_layout",
     "title": "HTML Handbook"
