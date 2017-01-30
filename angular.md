@@ -159,6 +159,25 @@ Output:
 </div>
 ```
 
+# Filter
+
+```js
+appName.filter('filterName', function() {
+  return function(collection, someParam) {
+    var filteredCollection = [];
+    angular.forEach(collection, function(item) {
+      if (someTest) {
+        filteredCollection.push(item);
+      }
+    })
+    return filteredCollection;
+  }
+});
+```
+```html
+{{ collection | filterName : someParam }}
+```
+
 # Service
 
 Modular storage of data & functions, accessible across multiple controllers

@@ -134,6 +134,20 @@ appName.directive(&#39;customTag&#39;, function() {
   &lt;p&gt;Text in custom-tag&lt;/p&gt;
 &lt;/div&gt;
 </code></pre>
+<h1>Filter</h1><pre><code class="language-js">appName.filter(&#39;filterName&#39;, function() {
+  return function(collection, someParam) {
+    var filteredCollection = [];
+    angular.forEach(collection, function(item) {
+      if (someTest) {
+        filteredCollection.push(item);
+      }
+    })
+    return filteredCollection;
+  }
+});
+</code></pre>
+<pre><code class="language-html">{{ collection | filterName : someParam }}
+</code></pre>
 <h1>Service</h1><p>Modular storage of data &amp; functions, accessible across multiple controllers</p>
 <pre><code class="language-js">appName.factory(&#39;serviceName&#39;, function() {
   var exports = {};
