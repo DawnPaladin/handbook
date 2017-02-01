@@ -5,7 +5,7 @@
 ## Set up repo
 
 ```
-rails new app_name # optional: --database=postgresql
+rails new app_name
 cd app_name
 git init
 git remote add origin <SSH address>
@@ -13,6 +13,12 @@ git add -A
 git commit -m "rails new"
 git push -u origin master
 ```
+
+Options for `rails new`:
+
+- `--database=postgresql`
+- `--skip-turbolinks`
+- `-T` (skip testing)
 
 ## Create a model
 

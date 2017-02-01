@@ -23,14 +23,20 @@
 
 <div class="main-column">
   <p><strong>Ruby on Rails</strong></p>
-<h1>Setup</h1><h2>Set up repo</h2><pre><code>rails new app_name # optional: --database=postgresql
+<h1>Setup</h1><h2>Set up repo</h2><pre><code>rails new app_name
 cd app_name
 git init
 git remote add origin &lt;SSH address&gt;
 git add -A
 git commit -m &quot;rails new&quot;
 git push -u origin master
-</code></pre><h2>Create a model</h2><pre><code>$ rails g model Post title:string body:string
+</code></pre><p>Options for <code>rails new</code>:</p>
+<ul>
+<li><code>--database=postgresql</code></li>
+<li><code>--skip-turbolinks</code></li>
+<li><code>-T</code> (skip testing)</li>
+</ul>
+<h2>Create a model</h2><pre><code>$ rails g model Post title:string body:string
 // Examine the new migration and make any required changes
 $ rails db:migrate
 </code></pre><h2>Create routes</h2><pre><code class="language-ruby"># config/routes.rb
