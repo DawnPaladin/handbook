@@ -198,6 +198,43 @@ appName.factory('serviceName', ['dependency1', function(dependency1) {
 }]);
 ```
 
+# Routing
+
+```html
+<!-- index.html -->
+<script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+```
+Inject `ui.router` as a dependency in your app and set up routes:
+```js
+// app.js
+var appName = angular.module('appName', ['ui.router']);
+
+appName.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/route1');
+  $stateProvider
+    .state('basicState', {
+      url: '/route1',
+      templateUrl: "partials/state1.html",
+      controller: "MyCtrl"
+    })
+    .state('nestedViews', {
+      url: '/route3',
+      views: {
+        'view1': {
+          templateUrl: 'templates/view.html',
+          controller: "ViewCtrl",
+        },
+        'view2': {
+          template: "<h1>My View</h1>",
+          controller: ['$scope', function($scope) {
+            $scope.listOfStuff = ["Mary", 'had', 1, "Little", "lamb"];
+          }]
+        }
+      }
+    })
+});
+```
+
 # Misc
 
 After clicking an element in the inspector, you can inspect its scope in the console with `angular.element($0).scope()`.

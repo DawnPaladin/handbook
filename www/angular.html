@@ -161,6 +161,38 @@ appName.directive(&#39;customTag&#39;, function() {
   ...
 }]);
 </code></pre>
+<h1>Routing</h1><pre><code class="language-html">&lt;!-- index.html --&gt;
+&lt;script src=&quot;http://angular-ui.github.io/ui-router/release/angular-ui-router.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>Inject <code>ui.router</code> as a dependency in your app and set up routes:</p>
+<pre><code class="language-js">// app.js
+var appName = angular.module(&#39;appName&#39;, [&#39;ui.router&#39;]);
+
+appName.config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise(&#39;/route1&#39;);
+  $stateProvider
+    .state(&#39;basicState&#39;, {
+      url: &#39;/route1&#39;,
+      templateUrl: &quot;partials/state1.html&quot;,
+      controller: &quot;MyCtrl&quot;
+    })
+    .state(&#39;nestedViews&#39;, {
+      url: &#39;/route3&#39;,
+      views: {
+        &#39;view1&#39;: {
+          templateUrl: &#39;templates/view.html&#39;,
+          controller: &quot;ViewCtrl&quot;,
+        },
+        &#39;view2&#39;: {
+          template: &quot;&lt;h1&gt;My View&lt;/h1&gt;&quot;,
+          controller: [&#39;$scope&#39;, function($scope) {
+            $scope.listOfStuff = [&quot;Mary&quot;, &#39;had&#39;, 1, &quot;Little&quot;, &quot;lamb&quot;];
+          }]
+        }
+      }
+    })
+});
+</code></pre>
 <h1>Misc</h1><p>After clicking an element in the inspector, you can inspect its scope in the console with <code>angular.element($0).scope()</code>.</p>
 <p>Angular includes <strong>jqLite</strong>, a stripped-down version of jQuery.</p>
 <ul>
