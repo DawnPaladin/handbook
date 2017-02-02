@@ -237,8 +237,6 @@ appName.config(function($stateProvider, $urlRouterProvider) {
 
 # Restangular
 
-## Setup
-
 Download [Restangular](https://raw.github.com/mgonto/restangular/master/dist/restangular.js) and [Lodash](https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js); save them to vendor/assets/javascripts.
 
 Add to app/assets/javascripts/application.js, under Angular:
@@ -254,11 +252,11 @@ Append this to app.js:
 ```js
 appName.config( ['RestangularProvider', function(RestangularProvider) {
 
-RestangularProvider.setBaseUrl('/api/v1');
-RestangularProvider.setRequestSuffix('.json');
-RestangularProvider.setDefaultHttpFields({
-    "content-type": "application/json"
-});
+  RestangularProvider.setBaseUrl('/api/v1');
+  RestangularProvider.setRequestSuffix('.json');
+  RestangularProvider.setDefaultHttpFields({
+      "content-type": "application/json"
+  });
 }]);
 ```
 
@@ -269,6 +267,16 @@ RestangularProvider.setResponseExtractor( function( response, operation ) {
     // it would have defaulted to response.data but we wanted the first item.
     return response.data[0];
 });
+```
+
+Now, to have Rails serve that data, in your routes.rb:
+
+```ruby
+scope :api do
+  scope :v1 do
+    resources :resourceName
+  end
+end
 ```
 
 # Misc

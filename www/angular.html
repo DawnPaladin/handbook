@@ -193,7 +193,7 @@ appName.config(function($stateProvider, $urlRouterProvider) {
     })
 });
 </code></pre>
-<h1>Restangular</h1><h2>Setup</h2><p>Download <a href="https://raw.github.com/mgonto/restangular/master/dist/restangular.js">Restangular</a> and <a href="https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js">Lodash</a>; save them to vendor/assets/javascripts.</p>
+<h1>Restangular</h1><p>Download <a href="https://raw.github.com/mgonto/restangular/master/dist/restangular.js">Restangular</a> and <a href="https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js">Lodash</a>; save them to vendor/assets/javascripts.</p>
 <p>Add to app/assets/javascripts/application.js, under Angular:</p>
 <pre><code>//= require lodash.js
 //= require restangular.js
@@ -201,11 +201,11 @@ appName.config(function($stateProvider, $urlRouterProvider) {
 <p>Append this to app.js:</p>
 <pre><code class="language-js">appName.config( [&#39;RestangularProvider&#39;, function(RestangularProvider) {
 
-RestangularProvider.setBaseUrl(&#39;/api/v1&#39;);
-RestangularProvider.setRequestSuffix(&#39;.json&#39;);
-RestangularProvider.setDefaultHttpFields({
-    &quot;content-type&quot;: &quot;application/json&quot;
-});
+  RestangularProvider.setBaseUrl(&#39;/api/v1&#39;);
+  RestangularProvider.setRequestSuffix(&#39;.json&#39;);
+  RestangularProvider.setDefaultHttpFields({
+      &quot;content-type&quot;: &quot;application/json&quot;
+  });
 }]);
 </code></pre>
 <p>If the API you&#39;re using requires grunt work, you can set up a responseExtractor to get straight to the data:</p>
@@ -213,6 +213,13 @@ RestangularProvider.setDefaultHttpFields({
     // it would have defaulted to response.data but we wanted the first item.
     return response.data[0];
 });
+</code></pre>
+<p>Now, to have Rails serve that data, in your routes.rb:</p>
+<pre><code class="language-ruby">scope :api do
+  scope :v1 do
+    resources :resourceName
+  end
+end
 </code></pre>
 <h1>Misc</h1><p>After clicking an element in the inspector, you can inspect its scope in the console with <code>angular.element($0).scope()</code>.</p>
 <p>Angular includes <strong>jqLite</strong>, a stripped-down version of jQuery.</p>
