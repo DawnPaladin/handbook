@@ -235,6 +235,42 @@ appName.config(function($stateProvider, $urlRouterProvider) {
 });
 ```
 
+# Restangular
+
+## Setup
+
+Download [Restangular](https://raw.github.com/mgonto/restangular/master/dist/restangular.js) and [Lodash](https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js); save them to vendor/assets/javascripts.
+
+Add to app/assets/javascripts/application.js, under Angular:
+
+```
+//= require lodash.js
+//= require restangular.js
+```
+
+In your app.js file, add `'restangular'` to your dependencies on line 1.
+
+Append this to app.js:
+```js
+appName.config( ['RestangularProvider', function(RestangularProvider) {
+
+RestangularProvider.setBaseUrl('/api/v1');
+RestangularProvider.setRequestSuffix('.json');
+RestangularProvider.setDefaultHttpFields({
+    "content-type": "application/json"
+});
+}]);
+```
+
+If the API you're using requires grunt work, you can set up a responseExtractor to get straight to the data:
+
+```js
+RestangularProvider.setResponseExtractor( function( response, operation ) {
+    // it would have defaulted to response.data but we wanted the first item.
+    return response.data[0];
+});
+```
+
 # Misc
 
 After clicking an element in the inspector, you can inspect its scope in the console with `angular.element($0).scope()`.

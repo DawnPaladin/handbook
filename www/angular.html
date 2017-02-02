@@ -193,6 +193,27 @@ appName.config(function($stateProvider, $urlRouterProvider) {
     })
 });
 </code></pre>
+<h1>Restangular</h1><h2>Setup</h2><p>Download <a href="https://raw.github.com/mgonto/restangular/master/dist/restangular.js">Restangular</a> and <a href="https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js">Lodash</a>; save them to vendor/assets/javascripts.</p>
+<p>Add to app/assets/javascripts/application.js, under Angular:</p>
+<pre><code>//= require lodash.js
+//= require restangular.js
+</code></pre><p>In your app.js file, add <code>&#39;restangular&#39;</code> to your dependencies on line 1.</p>
+<p>Append this to app.js:</p>
+<pre><code class="language-js">appName.config( [&#39;RestangularProvider&#39;, function(RestangularProvider) {
+
+RestangularProvider.setBaseUrl(&#39;/api/v1&#39;);
+RestangularProvider.setRequestSuffix(&#39;.json&#39;);
+RestangularProvider.setDefaultHttpFields({
+    &quot;content-type&quot;: &quot;application/json&quot;
+});
+}]);
+</code></pre>
+<p>If the API you&#39;re using requires grunt work, you can set up a responseExtractor to get straight to the data:</p>
+<pre><code class="language-js">RestangularProvider.setResponseExtractor( function( response, operation ) {
+    // it would have defaulted to response.data but we wanted the first item.
+    return response.data[0];
+});
+</code></pre>
 <h1>Misc</h1><p>After clicking an element in the inspector, you can inspect its scope in the console with <code>angular.element($0).scope()</code>.</p>
 <p>Angular includes <strong>jqLite</strong>, a stripped-down version of jQuery.</p>
 <ul>
