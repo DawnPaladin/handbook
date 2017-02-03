@@ -1444,7 +1444,7 @@ end
 
 ```
 
-Full tests of a [user controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb) and a [posts controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/secrets_controller_spec.rb)
+[Full tests](https://gist.github.com/DawnPaladin/977a872f74989fc521a900b47f63b08b) of a user controller and a posts controller
 
 ### Testing a JSON server
 
