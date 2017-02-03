@@ -1446,6 +1446,77 @@ end
 
 Full tests of a [user controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb) and a [posts controller](https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/secrets_controller_spec.rb)
 
+### Testing a JSON server
+
+Factories:
+
+```ruby
+FactoryGirl.define do
+
+  factory :user do
+    username "username"
+  end
+
+  factory :pin do
+    item_name "item_name"
+    description "description"
+    buy_sell true
+    user
+  end
+
+end
+```
+
+Tests:
+
+```ruby
+require 'rails_helper'
+
+RSpec.describe PinsController, type: :controller do
+
+  describe "GET /pins.json" do
+
+    let (:json) { JSON.parse(response.body) }
+
+    before do
+      process :index, format: :json
+    end
+
+    it 'should respond with status 200' do
+      expect(response.status).to eq(200);
+    end
+
+    it 'returns a valid JSON object' do
+      expect(json).to be_a Array
+    end
+
+  end
+
+  describe "POST /pins.json" do
+
+    let(:user) { create(:user) }
+    let(:pin) { create(:pin) }
+
+    let(:json) { JSON.parse(response.body) }
+
+    before do
+      post :create, params: { pin: attributes_for(:pin, user_id: user.id)  }, format: :json
+    end
+
+    it 'should respond with status 200' do
+      expect(response.status).to eq(200);
+    end
+
+    it 'returns a valid JSON object' do
+      expect(json).to be_a Hash
+    end
+
+  end
+
+end
+```
+
+
 ## View tests
 
 These tests any conditional logic in your view (which shouldn't be much).

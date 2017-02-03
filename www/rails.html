@@ -1130,6 +1130,68 @@ describe UsersController do
 end
 </code></pre>
 <p>Full tests of a <a href="https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/users_controller_spec.rb">user controller</a> and a <a href="https://github.com/DawnPaladin/assignment_rspec_secrets/blob/Jessica/spec/controllers/secrets_controller_spec.rb">posts controller</a></p>
+<h3>Testing a JSON server</h3><p>Factories:</p>
+<pre><code class="language-ruby">FactoryGirl.define do
+
+  factory :user do
+    username &quot;username&quot;
+  end
+
+  factory :pin do
+    item_name &quot;item_name&quot;
+    description &quot;description&quot;
+    buy_sell true
+    user
+  end
+
+end
+</code></pre>
+<p>Tests:</p>
+<pre><code class="language-ruby">require &#39;rails_helper&#39;
+
+RSpec.describe PinsController, type: :controller do
+
+  describe &quot;GET /pins.json&quot; do
+
+    let (:json) { JSON.parse(response.body) }
+
+    before do
+      process :index, format: :json
+    end
+
+    it &#39;should respond with status 200&#39; do
+      expect(response.status).to eq(200);
+    end
+
+    it &#39;returns a valid JSON object&#39; do
+      expect(json).to be_a Array
+    end
+
+  end
+
+  describe &quot;POST /pins.json&quot; do
+
+    let(:user) { create(:user) }
+    let(:pin) { create(:pin) }
+
+    let(:json) { JSON.parse(response.body) }
+
+    before do
+      post :create, params: { pin: attributes_for(:pin, user_id: user.id)  }, format: :json
+    end
+
+    it &#39;should respond with status 200&#39; do
+      expect(response.status).to eq(200);
+    end
+
+    it &#39;returns a valid JSON object&#39; do
+      expect(json).to be_a Hash
+    end
+
+  end
+
+end
+</code></pre>
 <h2>View tests</h2><p>These tests any conditional logic in your view (which shouldn&#39;t be much).</p>
 <p>You still have access to helper methods, but not those added via <code>helper_method</code> in the controller. You will need to stub out all methods that get called.</p>
 <p>By default, <code>render</code> only renders the specific view you&#39;re testing. You can define a method to render composite layouts:</p>
