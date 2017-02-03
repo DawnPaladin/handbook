@@ -9,6 +9,10 @@
   color: #f4fef9;
 }
 
+.star-me {
+  float: right;
+}
+
 .tocify {
   margin-top: 1em;
 }
