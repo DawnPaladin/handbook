@@ -237,10 +237,6 @@ appName.config(function($stateProvider, $urlRouterProvider) {
 
 # Rails
 
-```ruby
-# Gemfile
-gem 'angular_rails_csrf'
-```
 ```html
 <!-- app/views/layouts/application.html.erb -->
 <html ng-app="appName">
@@ -250,6 +246,17 @@ gem 'angular_rails_csrf'
 ```js
 // app/assets/javascripts/angular/app.js
 var appName = angular.module('appName', []);
+
+appName.config(
+  ["$httpProvider",
+  function($httpProvider) {
+    var token = $('meta[name=csrf-token]')
+      .attr('content');
+    $httpProvider
+      .defaults
+      .headers
+      .common['X-CSRF-Token'] = token;
+  }]);
 ```
 ```ruby
 # routes.rb

@@ -193,16 +193,24 @@ appName.config(function($stateProvider, $urlRouterProvider) {
     })
 });
 </code></pre>
-<h1>Rails</h1><pre><code class="language-ruby"># Gemfile
-gem &#39;angular_rails_csrf&#39;
-</code></pre>
-<pre><code class="language-html">&lt;!-- app/views/layouts/application.html.erb --&gt;
+<h1>Rails</h1><pre><code class="language-html">&lt;!-- app/views/layouts/application.html.erb --&gt;
 &lt;html ng-app=&quot;appName&quot;&gt;
 
 &lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js&quot;&gt;&lt;/script&gt;
 </code></pre>
 <pre><code class="language-js">// app/assets/javascripts/angular/app.js
 var appName = angular.module(&#39;appName&#39;, []);
+
+appName.config(
+  [&quot;$httpProvider&quot;,
+  function($httpProvider) {
+    var token = $(&#39;meta[name=csrf-token]&#39;)
+      .attr(&#39;content&#39;);
+    $httpProvider
+      .defaults
+      .headers
+      .common[&#39;X-CSRF-Token&#39;] = token;
+  }]);
 </code></pre>
 <pre><code class="language-ruby"># routes.rb
 root &#39;angular#index&#39;
