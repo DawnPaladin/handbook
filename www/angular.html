@@ -193,6 +193,24 @@ appName.config(function($stateProvider, $urlRouterProvider) {
     })
 });
 </code></pre>
+<h1>Rails</h1><pre><code class="language-ruby"># Gemfile
+gem &#39;angular_rails_csrf&#39;
+</code></pre>
+<pre><code class="language-html">&lt;!-- app/views/layouts/application.html.erb --&gt;
+&lt;html ng-app=&quot;appName&quot;&gt;
+
+&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<pre><code class="language-js">// app/assets/javascripts/angular/app.js
+var appName = angular.module(&#39;appName&#39;, []);
+</code></pre>
+<pre><code class="language-ruby"># routes.rb
+root &#39;angular#index&#39;
+get &#39;angular/index&#39;
+</code></pre>
+<pre><code class="language-bash">$ bundle install
+$ rails g controller angular index
+</code></pre>
 <h1>Restangular</h1><p>Download <a href="https://raw.github.com/mgonto/restangular/master/dist/restangular.js">Restangular</a> and <a href="https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js">Lodash</a>; save them to vendor/assets/javascripts.</p>
 <p>Add to app/assets/javascripts/application.js, under Angular:</p>
 <pre><code>//= require lodash.js
