@@ -233,6 +233,9 @@ appName.config(function($stateProvider, $urlRouterProvider) {
       }
     })
 });
+appName.run(function($rootScope){
+  $rootScope.$on("$stateChangeError", console.warn.bind(console));
+});
 ```
 
 # Rails

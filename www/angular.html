@@ -192,6 +192,9 @@ appName.config(function($stateProvider, $urlRouterProvider) {
       }
     })
 });
+appName.run(function($rootScope){
+  $rootScope.$on(&quot;$stateChangeError&quot;, console.warn.bind(console));
+});
 </code></pre>
 <h1>Rails</h1><pre><code class="language-html">&lt;!-- app/views/layouts/application.html.erb --&gt;
 &lt;html ng-app=&quot;appName&quot;&gt;
