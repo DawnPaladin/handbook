@@ -338,18 +338,42 @@ output = `first: ${first}, second: ${second}`
 }
 </code></pre>
 <h2>Rest paramenter</h2><pre><code class="language-js">function sum(a, b, ...otherArgs) {
-    var total = 0;
+    let total = 0;
     total += a;
     total += b;
     otherArgs.each(function(el) { total += el; }); // otherArgs is an array of all the other arguments passed in
     return total;
 }
 </code></pre>
-<h2>Spread operator</h2><pre><code class="language-js">let KingKillerChronicles = [&quot;The Name of the Wind&quot;, &quot;The Wise Man&#39;s Fear&quot;, &quot;The Doors of Stone&quot;];
-let StormlightArchive = [&quot;The Way of Kings&quot;, &quot;Words of Radiance&quot;];
+<h2>Spread operator</h2><pre><code class="language-js">const KingKillerChronicles = [&quot;The Name of the Wind&quot;, &quot;The Wise Man&#39;s Fear&quot;, &quot;The Doors of Stone&quot;];
+const StormlightArchive = [&quot;The Way of Kings&quot;, &quot;Words of Radiance&quot;];
 
-let fantasyBooks = [&quot;Elantris&quot;, ...KingKillerChronicles, ...StormlightArchive];
+const fantasyBooks = [&quot;Elantris&quot;, ...KingKillerChronicles, ...StormlightArchive];
 // [&quot;Elantris&quot;, &quot;The Name of the Wind&quot;, &quot;The Wise Man&#39;s Fear&quot;, &quot;The Doors of Stone&quot;, &quot;The Way of Kings&quot;, &quot;Words of Radiance&quot;]
+</code></pre>
+<h2>Destructuring objects</h2><pre><code class="language-js">const obj = {
+    a: &#39;foo&#39;,
+    b: &#39;bar&#39;
+};
+
+let { a, b } = obj;
+// a === &#39;foo&#39;
+// b === &#39;bar&#39;
+</code></pre>
+<h3>In the signature of a function</h3><pre><code class="language-js">const file = {
+    name: &#39;Macguffin&#39;,
+    extension: &#39;exe&#39;,
+    size: &#39;1024&#39;
+};
+
+function fileSummary({ name, extension, size}) {
+    return `The file ${name}.${extension} is of size ${size}.`;
+}
+fileSummary(file);
+</code></pre>
+<p>This is useful when creating functions that take lots of arguments. Instead of worrying about the order of arguments, you can pass in an options object with a bunch of properties on it. In the function signature, you destructure out the specific properties you&#39;re interested in, and now you don&#39;t have to reference <code>options.property</code> a bunch of times in the body of the function.</p>
+<h3>With an array</h3><pre><code class="language-js">const colors = [&#39;red&#39;, &#39;blue&#39;, &#39;green&#39;];
+let [ firstColor, secondColor ] = colors; // firstColor === &#39;red&#39;, secondColor === &#39;blue&#39;
 </code></pre>
 </div>
 

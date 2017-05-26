@@ -533,7 +533,7 @@ function makeAjaxRequest(url, method = 'GET') {
 
 ```js
 function sum(a, b, ...otherArgs) {
-	var total = 0;
+	let total = 0;
 	total += a;
 	total += b;
 	otherArgs.each(function(el) { total += el; }); // otherArgs is an array of all the other arguments passed in
@@ -544,9 +544,46 @@ function sum(a, b, ...otherArgs) {
 ## Spread operator
 
 ```js
-let KingKillerChronicles = ["The Name of the Wind", "The Wise Man's Fear", "The Doors of Stone"];
-let StormlightArchive = ["The Way of Kings", "Words of Radiance"];
+const KingKillerChronicles = ["The Name of the Wind", "The Wise Man's Fear", "The Doors of Stone"];
+const StormlightArchive = ["The Way of Kings", "Words of Radiance"];
 
-let fantasyBooks = ["Elantris", ...KingKillerChronicles, ...StormlightArchive];
+const fantasyBooks = ["Elantris", ...KingKillerChronicles, ...StormlightArchive];
 // ["Elantris", "The Name of the Wind", "The Wise Man's Fear", "The Doors of Stone", "The Way of Kings", "Words of Radiance"]
+```
+
+## Destructuring objects
+
+```js
+const obj = {
+	a: 'foo',
+	b: 'bar'
+};
+
+let { a, b } = obj;
+// a === 'foo'
+// b === 'bar'
+```
+
+### In the signature of a function
+
+```js
+const file = {
+	name: 'Macguffin',
+	extension: 'exe',
+	size: '1024'
+};
+
+function fileSummary({ name, extension, size}) {
+	return `The file ${name}.${extension} is of size ${size}.`;
+}
+fileSummary(file);
+```
+
+This is useful when creating functions that take lots of arguments. Instead of worrying about the order of arguments, you can pass in an options object with a bunch of properties on it. In the function signature, you destructure out the specific properties you're interested in, and now you don't have to reference `options.property` a bunch of times in the body of the function.
+
+### With an array
+
+```js
+const colors = ['red', 'blue', 'green'];
+let [ firstColor, secondColor ] = colors; // firstColor === 'red', secondColor === 'blue'
 ```
