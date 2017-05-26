@@ -402,6 +402,8 @@ Options:
 
 # ES6
 
+[Source](https://www.udemy.com/javascript-es6-tutorial/learn/v4/content)
+
 ## const & let
 
 In ES5, you declare new variables with `var`. They're scoped to the function.
@@ -419,3 +421,132 @@ output = `first: ${first}, second: ${second}`
 ```
 
 Backtick syntax also enables easy multiline strings.
+
+## Arrow functions
+
+### ES5
+
+```js
+var add = function(a,b) {
+	return a + b;
+}
+```
+
+### ES6
+
+Instead of a `function` keyword before the arguments list, an arrow function has an arrow (`=>`) after the arguments list.
+
+```js
+const add = (a, b) => {
+	return a + b;
+}
+```
+
+### Implicit return
+
+If your function has just one expression, you can omit the curly braces and the `return` keyword.
+
+```js
+const add = (a, b) => a + b;
+```
+
+### Single argument
+
+If the function has only one argument, you can omit the parens.
+
+```js
+const double = num => num * 2;
+```
+
+### Non-binding of this
+
+Arrow functions don't create a new context for the `this` keyword. In an arrow function, the value of `this` is the same as outside the function. [Further details](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_binding_of_this)
+
+## Enhanced object literals
+
+### Deduplicate property names
+
+If the key and the value have the same name, you don't need both.
+
+#### ES5
+
+```js
+function createBook(name, author) {
+	return {
+		name: name,
+		author: author
+	}
+}
+```
+
+#### ES6
+
+```js
+function createBook(name, author) {
+	return {
+		name,
+		author
+	}
+}
+```
+
+### Omit function keyword
+
+#### ES5
+
+```js
+{
+	increment: function() { value += 1; }
+}
+```
+
+#### ES6
+
+```js
+{
+	increment() { value += 1; }
+}
+```
+
+## Default arguments for functions
+
+### ES5
+
+```js
+function makeAjaxRequest(url, method) {
+	if (!method) {
+		method = 'GET';
+	}
+	// logic to make the request
+}
+```
+
+### ES6
+
+```js
+function makeAjaxRequest(url, method = 'GET') {
+	// logic to make the request
+}
+```
+
+## Rest paramenter
+
+```js
+function sum(a, b, ...otherArgs) {
+	var total = 0;
+	total += a;
+	total += b;
+	otherArgs.each(function(el) { total += el; }); // otherArgs is an array of all the other arguments passed in
+	return total;
+}
+```
+
+## Spread operator
+
+```js
+let KingKillerChronicles = ["The Name of the Wind", "The Wise Man's Fear", "The Doors of Stone"];
+let StormlightArchive = ["The Way of Kings", "Words of Radiance"];
+
+let fantasyBooks = ["Elantris", ...KingKillerChronicles, ...StormlightArchive];
+// ["Elantris", "The Name of the Wind", "The Wise Man's Fear", "The Doors of Stone", "The Way of Kings", "Words of Radiance"]
+```

@@ -277,7 +277,8 @@ xhr.send();
 <li><code>complete:</code> callback that always runs</li>
 <li><code>data:</code> data to send along with the request (useful for POST requests)</li>
 </ul>
-<h1>ES6</h1><h2>const &amp; let</h2><p>In ES5, you declare new variables with <code>var</code>. They&#39;re scoped to the function.</p>
+<h1>ES6</h1><p><a href="https://www.udemy.com/javascript-es6-tutorial/learn/v4/content">Source</a></p>
+<h2>const &amp; let</h2><p>In ES5, you declare new variables with <code>var</code>. They&#39;re scoped to the function.</p>
 <p>In ES6, you declare new variables with <code>const</code> if they won&#39;t change and <code>let</code> if they will. This makes it clear when variables are expected to change. <code>let</code> is scoped to the block (<code>if {}</code>, <code>for {}</code>, etc.)</p>
 <h2>Template strings</h2><pre><code class="language-js">// ES5
 output = &quot;first: &quot; + first + &quot;, second: &quot; + second
@@ -286,6 +287,70 @@ output = &quot;first: &quot; + first + &quot;, second: &quot; + second
 output = `first: ${first}, second: ${second}`
 </code></pre>
 <p>Backtick syntax also enables easy multiline strings.</p>
+<h2>Arrow functions</h2><h3>ES5</h3><pre><code class="language-js">var add = function(a,b) {
+    return a + b;
+}
+</code></pre>
+<h3>ES6</h3><p>Instead of a <code>function</code> keyword before the arguments list, an arrow function has an arrow (<code>=&gt;</code>) after the arguments list.</p>
+<pre><code class="language-js">const add = (a, b) =&gt; {
+    return a + b;
+}
+</code></pre>
+<h3>Implicit return</h3><p>If your function has just one expression, you can omit the curly braces and the <code>return</code> keyword.</p>
+<pre><code class="language-js">const add = (a, b) =&gt; a + b;
+</code></pre>
+<h3>Single argument</h3><p>If the function has only one argument, you can omit the parens.</p>
+<pre><code class="language-js">const double = num =&gt; num * 2;
+</code></pre>
+<h3>Non-binding of this</h3><p>Arrow functions don&#39;t create a new context for the <code>this</code> keyword. In an arrow function, the value of <code>this</code> is the same as outside the function. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_binding_of_this">Further details</a></p>
+<h2>Enhanced object literals</h2><h3>Deduplicate property names</h3><p>If the key and the value have the same name, you don&#39;t need both.</p>
+<h4>ES5</h4><pre><code class="language-js">function createBook(name, author) {
+    return {
+        name: name,
+        author: author
+    }
+}
+</code></pre>
+<h4>ES6</h4><pre><code class="language-js">function createBook(name, author) {
+    return {
+        name,
+        author
+    }
+}
+</code></pre>
+<h3>Omit function keyword</h3><h4>ES5</h4><pre><code class="language-js">{
+    increment: function() { value += 1; }
+}
+</code></pre>
+<h4>ES6</h4><pre><code class="language-js">{
+    increment() { value += 1; }
+}
+</code></pre>
+<h2>Default arguments for functions</h2><h3>ES5</h3><pre><code class="language-js">function makeAjaxRequest(url, method) {
+    if (!method) {
+        method = &#39;GET&#39;;
+    }
+    // logic to make the request
+}
+</code></pre>
+<h3>ES6</h3><pre><code class="language-js">function makeAjaxRequest(url, method = &#39;GET&#39;) {
+    // logic to make the request
+}
+</code></pre>
+<h2>Rest paramenter</h2><pre><code class="language-js">function sum(a, b, ...otherArgs) {
+    var total = 0;
+    total += a;
+    total += b;
+    otherArgs.each(function(el) { total += el; }); // otherArgs is an array of all the other arguments passed in
+    return total;
+}
+</code></pre>
+<h2>Spread operator</h2><pre><code class="language-js">let KingKillerChronicles = [&quot;The Name of the Wind&quot;, &quot;The Wise Man&#39;s Fear&quot;, &quot;The Doors of Stone&quot;];
+let StormlightArchive = [&quot;The Way of Kings&quot;, &quot;Words of Radiance&quot;];
+
+let fantasyBooks = [&quot;Elantris&quot;, ...KingKillerChronicles, ...StormlightArchive];
+// [&quot;Elantris&quot;, &quot;The Name of the Wind&quot;, &quot;The Wise Man&#39;s Fear&quot;, &quot;The Doors of Stone&quot;, &quot;The Way of Kings&quot;, &quot;Words of Radiance&quot;]
+</code></pre>
 </div>
 
 <script>
