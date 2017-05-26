@@ -399,3 +399,23 @@ Options:
 - `success, error:` callbacks for when a request succeeds or fails
 - `complete:` callback that always runs
 - `data:` data to send along with the request (useful for POST requests)
+
+# ES6
+
+## const & let
+
+In ES5, you declare new variables with `var`. They're scoped to the function.
+
+In ES6, you declare new variables with `const` if they won't change and `let` if they will. This makes it clear when variables are expected to change. `let` is scoped to the block (`if {}`, `for {}`, etc.)
+
+## Template strings
+
+```js
+// ES5
+output = "first: " + first + ", second: " + second
+
+// ES6
+output = `first: ${first}, second: ${second}`
+```
+
+Backtick syntax also enables easy multiline strings.

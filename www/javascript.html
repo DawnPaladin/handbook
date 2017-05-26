@@ -277,6 +277,15 @@ xhr.send();
 <li><code>complete:</code> callback that always runs</li>
 <li><code>data:</code> data to send along with the request (useful for POST requests)</li>
 </ul>
+<h1>ES6</h1><h2>const &amp; let</h2><p>In ES5, you declare new variables with <code>var</code>. They&#39;re scoped to the function.</p>
+<p>In ES6, you declare new variables with <code>const</code> if they won&#39;t change and <code>let</code> if they will. This makes it clear when variables are expected to change. <code>let</code> is scoped to the block (<code>if {}</code>, <code>for {}</code>, etc.)</p>
+<h2>Template strings</h2><pre><code class="language-js">// ES5
+output = &quot;first: &quot; + first + &quot;, second: &quot; + second
+
+// ES6
+output = `first: ${first}, second: ${second}`
+</code></pre>
+<p>Backtick syntax also enables easy multiline strings.</p>
 </div>
 
 <script>
