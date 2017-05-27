@@ -375,6 +375,25 @@ fileSummary(file);
 <h3>With an array</h3><pre><code class="language-js">const colors = [&#39;red&#39;, &#39;blue&#39;, &#39;green&#39;];
 let [ firstColor, secondColor ] = colors; // firstColor === &#39;red&#39;, secondColor === &#39;blue&#39;
 </code></pre>
+<h2>Classes</h2><pre><code class="language-js">class Car {
+    constructor({ color }) { // pass in an options object and destructure it
+        this.color = color;
+    } // no comma or semicolon
+    honk() { return &#39;beep&#39;; }
+}
+const car = new Car({ color: &#39;red&#39; })
+</code></pre>
+<h3>Inheritance</h3><pre><code class="language-js">class Toyota extends Car {
+    constructor(options) {
+        super(options); // `super` calls Car.constructor
+        this.make = &quot;Toyota&quot;;
+        this.mileage = options.mileage;
+    }
+}
+
+let Camry = new Toyota({ mileage: 10000 });
+Camry.honk(); // &#39;beep&#39;
+</code></pre>
 </div>
 
 <script>

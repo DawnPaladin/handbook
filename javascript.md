@@ -587,3 +587,30 @@ This is useful when creating functions that take lots of arguments. Instead of w
 const colors = ['red', 'blue', 'green'];
 let [ firstColor, secondColor ] = colors; // firstColor === 'red', secondColor === 'blue'
 ```
+
+## Classes
+
+```js
+class Car {
+	constructor({ color }) { // pass in an options object and destructure it
+		this.color = color;
+	} // no comma or semicolon
+	honk() { return 'beep'; }
+}
+const car = new Car({ color: 'red' })
+```
+
+### Inheritance
+
+```js
+class Toyota extends Car {
+	constructor(options) {
+		super(options); // `super` calls Car.constructor
+		this.make = "Toyota";
+		this.mileage = options.mileage;
+	}
+}
+
+let Camry = new Toyota({ mileage: 10000 });
+Camry.honk(); // 'beep'
+```
