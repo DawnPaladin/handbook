@@ -614,3 +614,39 @@ class Toyota extends Car {
 let Camry = new Toyota({ mileage: 10000 });
 Camry.honk(); // 'beep'
 ```
+
+## Promises
+
+Use promises to start some long-running process and define what will happen when the process finishes and also when it fails. When the process finishes, run `resolve()` and callbacks passed into `.then()` will trigger in sequence; if it fails, run `reject()` and callbacks attached to `.catch()` will trigger.
+
+```js
+let promise = new Promise((resolve, reject) => {
+	setTimeout(function() { // async function
+		resolve("Waited 250ms"); // when then async function completes, return "Success" to the `then` function
+	}, 250);
+});
+
+promise
+	.then((successMessage) => {
+		return "Success: " + successMessage;
+	})
+	.then((message) => {
+		console.log(message);
+	})
+	.catch((failureMessage) => {
+		console.warn("Failure: " + failureMessage);
+	})
+;
+```
+
+### Fetching JSON without a library
+
+```js
+let url = 'https://jsonplaceholder.typicode.com/posts';
+fetch(url)
+	.then(response => response.json())
+	.then(data => console.log(data))
+;
+```
+
+Note that [`.catch()` will only catch network errors on your device](https://www.tjvantoll.com/2015/09/13/fetch-and-errors/), not 404s or 401s or anything else. In production apps, you may want to use a library like [Request](https://github.com/request/request).

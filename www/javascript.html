@@ -394,6 +394,32 @@ const car = new Car({ color: &#39;red&#39; })
 let Camry = new Toyota({ mileage: 10000 });
 Camry.honk(); // &#39;beep&#39;
 </code></pre>
+<h2>Promises</h2><p>Use promises to start some long-running process and define what will happen when the process finishes and also when it fails. When the process finishes, run <code>resolve()</code> and callbacks passed into <code>.then()</code> will trigger in sequence; if it fails, run <code>reject()</code> and callbacks attached to <code>.catch()</code> will trigger.</p>
+<pre><code class="language-js">let promise = new Promise((resolve, reject) =&gt; {
+    setTimeout(function() { // async function
+        resolve(&quot;Waited 250ms&quot;); // when then async function completes, return &quot;Success&quot; to the `then` function
+    }, 250);
+});
+
+promise
+    .then((successMessage) =&gt; {
+        return &quot;Success: &quot; + successMessage;
+    })
+    .then((message) =&gt; {
+        console.log(message);
+    })
+    .catch((failureMessage) =&gt; {
+        console.warn(&quot;Failure: &quot; + failureMessage);
+    })
+;
+</code></pre>
+<h3>Fetching JSON without a library</h3><pre><code class="language-js">let url = &#39;https://jsonplaceholder.typicode.com/posts&#39;;
+fetch(url)
+    .then(response =&gt; response.json())
+    .then(data =&gt; console.log(data))
+;
+</code></pre>
+<p>Note that <a href="https://www.tjvantoll.com/2015/09/13/fetch-and-errors/"><code>.catch()</code> will only catch network errors on your device</a>, not 404s or 401s or anything else. In production apps, you may want to use a library like <a href="https://github.com/request/request">Request</a>.</p>
 </div>
 
 <script>
