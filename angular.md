@@ -274,12 +274,12 @@ $ rails g controller angular index
 
 # Restangular
 
-Download [Restangular](https://raw.github.com/mgonto/restangular/master/dist/restangular.js) and [Lodash](https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js); save them to vendor/assets/javascripts.
+Download [Restangular](https://raw.github.com/mgonto/restangular/master/dist/restangular.js) and [Underscore](http://underscorejs.org/underscore.js); save them to vendor/assets/javascripts.
 
 Add to app/assets/javascripts/application.js, under Angular:
 
 ```
-//= require lodash.js
+//= require underscore.js
 //= require restangular.js
 ```
 

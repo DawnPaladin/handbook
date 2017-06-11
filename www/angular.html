@@ -223,9 +223,9 @@ get &#39;angular/index&#39;
 <pre><code class="language-bash">$ bundle install
 $ rails g controller angular index
 </code></pre>
-<h1>Restangular</h1><p>Download <a href="https://raw.github.com/mgonto/restangular/master/dist/restangular.js">Restangular</a> and <a href="https://raw.githubusercontent.com/lodash/lodash/4.17.4/dist/lodash.core.js">Lodash</a>; save them to vendor/assets/javascripts.</p>
+<h1>Restangular</h1><p>Download <a href="https://raw.github.com/mgonto/restangular/master/dist/restangular.js">Restangular</a> and <a href="http://underscorejs.org/underscore.js">Underscore</a>; save them to vendor/assets/javascripts.</p>
 <p>Add to app/assets/javascripts/application.js, under Angular:</p>
-<pre><code>//= require lodash.js
+<pre><code>//= require underscore.js
 //= require restangular.js
 </code></pre><p>In your app.js file, add <code>&#39;restangular&#39;</code> to your dependencies on line 1.</p>
 <p>Append this to app.js:</p>
