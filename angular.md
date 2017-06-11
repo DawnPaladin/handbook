@@ -202,7 +202,7 @@ appName.factory('serviceName', ['dependency1', function(dependency1) {
 
 ```html
 <!-- index.html -->
-<script src="http://angular-ui.github.io/ui-router/release/angular-ui-router.js"></script>
+<script src="https://unpkg.com/angular-ui-router@1.0.0/release/angular-ui-router.js"></script>
 ```
 Inject `ui.router` as a dependency in your app and set up routes:
 ```js
