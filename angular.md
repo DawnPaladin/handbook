@@ -246,6 +246,7 @@ appName.run(function($rootScope){
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
 ```
+The `<script>` tag must precede `javascript_include_tag`.
 ```js
 // app/assets/javascripts/angular/app.js
 var appName = angular.module('appName', []);
