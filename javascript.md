@@ -399,3 +399,254 @@ Options:
 - `success, error:` callbacks for when a request succeeds or fails
 - `complete:` callback that always runs
 - `data:` data to send along with the request (useful for POST requests)
+
+# ES6
+
+[Source](https://www.udemy.com/javascript-es6-tutorial/learn/v4/content)
+
+## const & let
+
+In ES5, you declare new variables with `var`. They're scoped to the function.
+
+In ES6, you declare new variables with `const` if they won't change and `let` if they will. This makes it clear when variables are expected to change. `let` is scoped to the block (`if {}`, `for {}`, etc.)
+
+## Template strings
+
+```js
+// ES5
+output = "first: " + first + ", second: " + second
+
+// ES6
+output = `first: ${first}, second: ${second}`
+```
+
+Backtick syntax also enables easy multiline strings.
+
+## Arrow functions
+
+### ES5
+
+```js
+var add = function(a,b) {
+	return a + b;
+}
+```
+
+### ES6
+
+Instead of a `function` keyword before the arguments list, an arrow function has an arrow (`=>`) after the arguments list.
+
+```js
+const add = (a, b) => {
+	return a + b;
+}
+```
+
+### Implicit return
+
+If your function has just one expression, you can omit the curly braces and the `return` keyword.
+
+```js
+const add = (a, b) => a + b;
+```
+
+### Single argument
+
+If the function has only one argument, you can omit the parens.
+
+```js
+const double = num => num * 2;
+```
+
+### Non-binding of this
+
+Arrow functions don't create a new context for the `this` keyword. In an arrow function, the value of `this` is the same as outside the function. [Further details](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_binding_of_this)
+
+## Enhanced object literals
+
+### Deduplicate property names
+
+If the key and the value have the same name, you don't need both.
+
+#### ES5
+
+```js
+function createBook(name, author) {
+	return {
+		name: name,
+		author: author
+	}
+}
+```
+
+#### ES6
+
+```js
+function createBook(name, author) {
+	return {
+		name,
+		author
+	}
+}
+```
+
+### Omit function keyword
+
+#### ES5
+
+```js
+{
+	increment: function() { value += 1; }
+}
+```
+
+#### ES6
+
+```js
+{
+	increment() { value += 1; }
+}
+```
+
+## Default arguments for functions
+
+### ES5
+
+```js
+function makeAjaxRequest(url, method) {
+	if (!method) {
+		method = 'GET';
+	}
+	// logic to make the request
+}
+```
+
+### ES6
+
+```js
+function makeAjaxRequest(url, method = 'GET') {
+	// logic to make the request
+}
+```
+
+## Rest paramenter
+
+```js
+function sum(a, b, ...otherArgs) {
+	let total = 0;
+	total += a;
+	total += b;
+	otherArgs.each(function(el) { total += el; }); // otherArgs is an array of all the other arguments passed in
+	return total;
+}
+```
+
+## Spread operator
+
+```js
+const KingKillerChronicles = ["The Name of the Wind", "The Wise Man's Fear", "The Doors of Stone"];
+const StormlightArchive = ["The Way of Kings", "Words of Radiance"];
+
+const fantasyBooks = ["Elantris", ...KingKillerChronicles, ...StormlightArchive];
+// ["Elantris", "The Name of the Wind", "The Wise Man's Fear", "The Doors of Stone", "The Way of Kings", "Words of Radiance"]
+```
+
+## Destructuring objects
+
+```js
+const obj = {
+	a: 'foo',
+	b: 'bar'
+};
+
+let { a, b } = obj;
+// a === 'foo'
+// b === 'bar'
+```
+
+### In the signature of a function
+
+```js
+const file = {
+	name: 'Macguffin',
+	extension: 'exe',
+	size: '1024'
+};
+
+function fileSummary({ name, extension, size}) {
+	return `The file ${name}.${extension} is of size ${size}.`;
+}
+fileSummary(file);
+```
+
+This is useful when creating functions that take lots of arguments. Instead of worrying about the order of arguments, you can pass in an options object with a bunch of properties on it. In the function signature, you destructure out the specific properties you're interested in, and now you don't have to reference `options.property` a bunch of times in the body of the function.
+
+### With an array
+
+```js
+const colors = ['red', 'blue', 'green'];
+let [ firstColor, secondColor ] = colors; // firstColor === 'red', secondColor === 'blue'
+```
+
+## Classes
+
+```js
+class Car {
+	constructor({ color }) { // pass in an options object and destructure it
+		this.color = color;
+	} // no comma or semicolon
+	honk() { return 'beep'; }
+}
+const car = new Car({ color: 'red' })
+```
+
+### Inheritance
+
+```js
+class Toyota extends Car {
+	constructor(options) {
+		super(options); // `super` calls Car.constructor
+		this.make = "Toyota";
+		this.mileage = options.mileage;
+	}
+}
+
+let Camry = new Toyota({ mileage: 10000 });
+Camry.honk(); // 'beep'
+```
+
+## Promises
+
+Use promises to start some long-running process and define what will happen when the process finishes and also when it fails. When the process finishes, run `resolve()` and callbacks passed into `.then()` will trigger in sequence; if it fails, run `reject()` and callbacks attached to `.catch()` will trigger.
+
+```js
+let promise = new Promise((resolve, reject) => {
+	setTimeout(function() { // async function
+		resolve("Waited 250ms"); // when then async function completes, return "Success" to the `then` function
+	}, 250);
+});
+
+promise
+	.then((successMessage) => {
+		return "Success: " + successMessage;
+	})
+	.then((message) => {
+		console.log(message);
+	})
+	.catch((failureMessage) => {
+		console.warn("Failure: " + failureMessage);
+	})
+;
+```
+
+### Fetching JSON without a library
+
+```js
+let url = 'https://jsonplaceholder.typicode.com/posts';
+fetch(url)
+	.then(response => response.json())
+	.then(data => console.log(data))
+;
+```
+
+Note that [`.catch()` will only catch network errors on your device](https://www.tjvantoll.com/2015/09/13/fetch-and-errors/), not 404s or 401s or anything else. In production apps, you may want to use a library like [Request](https://github.com/request/request).

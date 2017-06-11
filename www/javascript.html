@@ -277,6 +277,149 @@ xhr.send();
 <li><code>complete:</code> callback that always runs</li>
 <li><code>data:</code> data to send along with the request (useful for POST requests)</li>
 </ul>
+<h1>ES6</h1><p><a href="https://www.udemy.com/javascript-es6-tutorial/learn/v4/content">Source</a></p>
+<h2>const &amp; let</h2><p>In ES5, you declare new variables with <code>var</code>. They&#39;re scoped to the function.</p>
+<p>In ES6, you declare new variables with <code>const</code> if they won&#39;t change and <code>let</code> if they will. This makes it clear when variables are expected to change. <code>let</code> is scoped to the block (<code>if {}</code>, <code>for {}</code>, etc.)</p>
+<h2>Template strings</h2><pre><code class="language-js">// ES5
+output = &quot;first: &quot; + first + &quot;, second: &quot; + second
+
+// ES6
+output = `first: ${first}, second: ${second}`
+</code></pre>
+<p>Backtick syntax also enables easy multiline strings.</p>
+<h2>Arrow functions</h2><h3>ES5</h3><pre><code class="language-js">var add = function(a,b) {
+    return a + b;
+}
+</code></pre>
+<h3>ES6</h3><p>Instead of a <code>function</code> keyword before the arguments list, an arrow function has an arrow (<code>=&gt;</code>) after the arguments list.</p>
+<pre><code class="language-js">const add = (a, b) =&gt; {
+    return a + b;
+}
+</code></pre>
+<h3>Implicit return</h3><p>If your function has just one expression, you can omit the curly braces and the <code>return</code> keyword.</p>
+<pre><code class="language-js">const add = (a, b) =&gt; a + b;
+</code></pre>
+<h3>Single argument</h3><p>If the function has only one argument, you can omit the parens.</p>
+<pre><code class="language-js">const double = num =&gt; num * 2;
+</code></pre>
+<h3>Non-binding of this</h3><p>Arrow functions don&#39;t create a new context for the <code>this</code> keyword. In an arrow function, the value of <code>this</code> is the same as outside the function. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions#No_binding_of_this">Further details</a></p>
+<h2>Enhanced object literals</h2><h3>Deduplicate property names</h3><p>If the key and the value have the same name, you don&#39;t need both.</p>
+<h4>ES5</h4><pre><code class="language-js">function createBook(name, author) {
+    return {
+        name: name,
+        author: author
+    }
+}
+</code></pre>
+<h4>ES6</h4><pre><code class="language-js">function createBook(name, author) {
+    return {
+        name,
+        author
+    }
+}
+</code></pre>
+<h3>Omit function keyword</h3><h4>ES5</h4><pre><code class="language-js">{
+    increment: function() { value += 1; }
+}
+</code></pre>
+<h4>ES6</h4><pre><code class="language-js">{
+    increment() { value += 1; }
+}
+</code></pre>
+<h2>Default arguments for functions</h2><h3>ES5</h3><pre><code class="language-js">function makeAjaxRequest(url, method) {
+    if (!method) {
+        method = &#39;GET&#39;;
+    }
+    // logic to make the request
+}
+</code></pre>
+<h3>ES6</h3><pre><code class="language-js">function makeAjaxRequest(url, method = &#39;GET&#39;) {
+    // logic to make the request
+}
+</code></pre>
+<h2>Rest paramenter</h2><pre><code class="language-js">function sum(a, b, ...otherArgs) {
+    let total = 0;
+    total += a;
+    total += b;
+    otherArgs.each(function(el) { total += el; }); // otherArgs is an array of all the other arguments passed in
+    return total;
+}
+</code></pre>
+<h2>Spread operator</h2><pre><code class="language-js">const KingKillerChronicles = [&quot;The Name of the Wind&quot;, &quot;The Wise Man&#39;s Fear&quot;, &quot;The Doors of Stone&quot;];
+const StormlightArchive = [&quot;The Way of Kings&quot;, &quot;Words of Radiance&quot;];
+
+const fantasyBooks = [&quot;Elantris&quot;, ...KingKillerChronicles, ...StormlightArchive];
+// [&quot;Elantris&quot;, &quot;The Name of the Wind&quot;, &quot;The Wise Man&#39;s Fear&quot;, &quot;The Doors of Stone&quot;, &quot;The Way of Kings&quot;, &quot;Words of Radiance&quot;]
+</code></pre>
+<h2>Destructuring objects</h2><pre><code class="language-js">const obj = {
+    a: &#39;foo&#39;,
+    b: &#39;bar&#39;
+};
+
+let { a, b } = obj;
+// a === &#39;foo&#39;
+// b === &#39;bar&#39;
+</code></pre>
+<h3>In the signature of a function</h3><pre><code class="language-js">const file = {
+    name: &#39;Macguffin&#39;,
+    extension: &#39;exe&#39;,
+    size: &#39;1024&#39;
+};
+
+function fileSummary({ name, extension, size}) {
+    return `The file ${name}.${extension} is of size ${size}.`;
+}
+fileSummary(file);
+</code></pre>
+<p>This is useful when creating functions that take lots of arguments. Instead of worrying about the order of arguments, you can pass in an options object with a bunch of properties on it. In the function signature, you destructure out the specific properties you&#39;re interested in, and now you don&#39;t have to reference <code>options.property</code> a bunch of times in the body of the function.</p>
+<h3>With an array</h3><pre><code class="language-js">const colors = [&#39;red&#39;, &#39;blue&#39;, &#39;green&#39;];
+let [ firstColor, secondColor ] = colors; // firstColor === &#39;red&#39;, secondColor === &#39;blue&#39;
+</code></pre>
+<h2>Classes</h2><pre><code class="language-js">class Car {
+    constructor({ color }) { // pass in an options object and destructure it
+        this.color = color;
+    } // no comma or semicolon
+    honk() { return &#39;beep&#39;; }
+}
+const car = new Car({ color: &#39;red&#39; })
+</code></pre>
+<h3>Inheritance</h3><pre><code class="language-js">class Toyota extends Car {
+    constructor(options) {
+        super(options); // `super` calls Car.constructor
+        this.make = &quot;Toyota&quot;;
+        this.mileage = options.mileage;
+    }
+}
+
+let Camry = new Toyota({ mileage: 10000 });
+Camry.honk(); // &#39;beep&#39;
+</code></pre>
+<h2>Promises</h2><p>Use promises to start some long-running process and define what will happen when the process finishes and also when it fails. When the process finishes, run <code>resolve()</code> and callbacks passed into <code>.then()</code> will trigger in sequence; if it fails, run <code>reject()</code> and callbacks attached to <code>.catch()</code> will trigger.</p>
+<pre><code class="language-js">let promise = new Promise((resolve, reject) =&gt; {
+    setTimeout(function() { // async function
+        resolve(&quot;Waited 250ms&quot;); // when then async function completes, return &quot;Success&quot; to the `then` function
+    }, 250);
+});
+
+promise
+    .then((successMessage) =&gt; {
+        return &quot;Success: &quot; + successMessage;
+    })
+    .then((message) =&gt; {
+        console.log(message);
+    })
+    .catch((failureMessage) =&gt; {
+        console.warn(&quot;Failure: &quot; + failureMessage);
+    })
+;
+</code></pre>
+<h3>Fetching JSON without a library</h3><pre><code class="language-js">let url = &#39;https://jsonplaceholder.typicode.com/posts&#39;;
+fetch(url)
+    .then(response =&gt; response.json())
+    .then(data =&gt; console.log(data))
+;
+</code></pre>
+<p>Note that <a href="https://www.tjvantoll.com/2015/09/13/fetch-and-errors/"><code>.catch()</code> will only catch network errors on your device</a>, not 404s or 401s or anything else. In production apps, you may want to use a library like <a href="https://github.com/request/request">Request</a>.</p>
 </div>
 
 <script>
