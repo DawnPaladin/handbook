@@ -12,6 +12,7 @@ git remote add origin <SSH address>
 git add -A
 git commit -m "rails new"
 git push -u origin master
+rails db:create
 ```
 
 Options for `rails new`:
