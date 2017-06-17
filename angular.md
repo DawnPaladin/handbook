@@ -32,15 +32,15 @@ appName.controller('MyCtrl',
 # Directive
 
 ```html
-<!--  js/directives/firstDirective.html -->
+<!--  public/directives/firstDirective.html -->
 <p>My first directive</p>
 ```
 
 ```js
-// directives/firstDirective.js
+// javascripts/directives/firstDirective.js
 appName.directive('firstDirective', function(){
   return {
-    templateUrl: "/js/directives/firstDirective.html",
+    templateUrl: "/directives/firstDirective.html",
     restrict: "E",
     scope: {},
     link: function(scope, element, attrs) {
