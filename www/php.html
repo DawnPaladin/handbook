@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Handbook</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="lib/jquery-ui.min.js"></script>
+  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="lib/jquery.tocify.js"></script>
+  <script src="lib/prism.js"></script>
+  <link rel="stylesheet" href="lib/prism.css"/>
+  <link href="handbook.css" rel="stylesheet"></link>
+  <link href="blueprint.css" rel="stylesheet"></link>
+
+</head>
+<body>
+
+<div id="toc">
+  <a href="index.html" class="index-link">Index</a>
+</div>
+
+<div class="main-column">
+  <p><strong>PHP</strong></p>
+<h1>Forms</h1><pre><code class="language-html">&lt;form action=&quot;processForm.php&quot; method=&quot;post&quot;&gt;
+    &lt;label&gt;Name &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;John Smith&quot;&gt;&lt;/label&gt;
+    &lt;label&gt;Comment &lt;textarea name=&quot;comment&quot; placeholder=&quot;What&#39;s up?&quot;&gt;&lt;/textarea&gt;&lt;/label&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; /&gt;
+&lt;/form&gt;
+</code></pre>
+<pre><code class="language-php">&lt;?php // processForm.php
+    if (isset($_POST[&#39;submit&#39;])) {
+        echo &quot;It works!&quot;;
+    }
+?&gt;
+</code></pre>
+<h1>Databases</h1><pre><code class="language-php">&lt;?php
+    $connection = mysqli_connect($serverAddress, $username, $password, $dbName);
+    if ($connection) {
+        echo &#39;Logged in&#39;;
+    } else {
+        die(&#39;Database connection failed&#39;);
+    }
+?&gt;
+</code></pre>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
+</script>
+
+</body>
