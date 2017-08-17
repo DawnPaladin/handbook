@@ -44,6 +44,41 @@
     }
 ?&gt;
 </code></pre>
+<h1>Passwords</h1><pre><code class="language-php">&lt;?php
+
+$connection = mysqli_connect($serverAddress, $username, $password, $dbName);
+if (!$connection) die(&#39;Database connection failed&#39;);
+
+if(isset($_POST[&#39;submit&#39;])) {
+    $username = $_POST[&#39;username&#39;];
+    $password = $_POST[&#39;password&#39;];
+    $username = mysqli_real_escape_string($connection, $username);
+    $password = mysqli_real_escape_string($connection, $password);
+    $password = password_hash($password, PASSWORD_DEFAULT);
+
+    $query = &quot;INSERT INTO users(username, password) VALUES (&#39;$username&#39;, &#39;$password&#39;)&quot;;
+    $result = mysqli_query($connection, $query);
+    if (!$result) {
+        die(&#39;Query failed &#39; . mysqli_error()); 
+    } else {
+        echo &quot;Record created&quot;;
+    }
+}
+
+?&gt;
+</code></pre>
+<h1>Cookies</h1><h2>Setting cookies</h2><pre><code class="language-php">$minute = 60;
+$hour = $minute * 60;
+$day = $hour * 24;
+$year = $day * 365;
+$expiration = time() + $year * 2;
+setcookie($cookieName, $cookieValue, $expiration);
+</code></pre>
+<h2>Reading cookies</h2><pre><code class="language-php">$myCookie = $_COOKIE[&quot;NameOfCookie&quot;];
+if (isset($myCookie)) {
+    echo $myCookie;
+}
+</code></pre>
 </div>
 
 <script>
