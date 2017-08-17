@@ -79,6 +79,18 @@ if (isset($myCookie)) {
     echo $myCookie;
 }
 </code></pre>
+<h1>File I/O</h1><h2>Reading</h2><pre><code class="language-php">$file = fopen(&#39;filename.txt&#39;, &#39;r&#39;); // &#39;r&#39; for &#39;read&#39;
+echo fread($file, 10); // read first 10 characters
+echo fread($file, filesize(&#39;filename.txt&#39;)); // read entire file
+fclose($file);
+</code></pre>
+<h2>Writing</h2><pre><code class="language-php">$file = fopen(&#39;filename.txt&#39;, &#39;w&#39;); // &#39;w&#39; for &#39;write&#39;. Warning: entire file will be overwritten.
+fwrite($file, &#39;Write this text to the file&#39;);
+fclose($file);
+</code></pre>
+<p>See the &quot;mode&quot; flags in the <a href="http://php.net/manual/en/function.fopen.php"><code>fopen()</code> documentation</a>.</p>
+<h2>Erasing</h2><pre><code class="language-php">unlink(&quot;doomed-file.txt&quot;);
+</code></pre>
 </div>
 
 <script>

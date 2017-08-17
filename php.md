@@ -78,3 +78,29 @@ if (isset($myCookie)) {
     echo $myCookie;
 }
 ```
+
+# File I/O
+
+## Reading
+
+```php
+$file = fopen('filename.txt', 'r'); // 'r' for 'read'
+echo fread($file, 10); // read first 10 characters
+echo fread($file, filesize('filename.txt')); // read entire file
+fclose($file);
+```
+
+## Writing
+
+```php
+$file = fopen('filename.txt', 'w'); // 'w' for 'write'. Warning: entire file will be overwritten.
+fwrite($file, 'Write this text to the file');
+fclose($file);
+```
+
+See the "mode" flags in the [`fopen()` documentation](http://php.net/manual/en/function.fopen.php).
+## Erasing
+
+```php
+unlink("doomed-file.txt");
+```
