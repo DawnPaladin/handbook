@@ -91,6 +91,21 @@ fclose($file);
 <p>See the &quot;mode&quot; flags in the <a href="http://php.net/manual/en/function.fopen.php"><code>fopen()</code> documentation</a>.</p>
 <h2>Erasing</h2><pre><code class="language-php">unlink(&quot;doomed-file.txt&quot;);
 </code></pre>
+<h1>Secrets</h1><pre><code class="language-php">&lt;?php // includes/db.php
+
+$secretsFile = file_get_contents(&#39;../secrets.json&#39;);
+$secretsJson = json_decode($secretsFile, true);
+$dbSecrets = $secretsJson[&#39;db&#39;];
+
+$connection = mysqli_connect($dbSecrets[&#39;ip&#39;], $dbSecrets[&#39;username&#39;], $dbSecrets[&#39;password&#39;], $dbSecrets[&#39;name&#39;]);
+
+if (!$connection) { die(&quot;Database connection failed&quot;); }
+
+?&gt;
+</code></pre>
+<pre><code>// .gitignore
+secrets.json
+</code></pre>
 </div>
 
 <script>

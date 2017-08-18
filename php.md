@@ -104,3 +104,24 @@ See the "mode" flags in the [`fopen()` documentation](http://php.net/manual/en/f
 ```php
 unlink("doomed-file.txt");
 ```
+
+# Secrets
+
+```php
+<?php // includes/db.php
+
+$secretsFile = file_get_contents('../secrets.json');
+$secretsJson = json_decode($secretsFile, true);
+$dbSecrets = $secretsJson['db'];
+
+$connection = mysqli_connect($dbSecrets['ip'], $dbSecrets['username'], $dbSecrets['password'], $dbSecrets['name']);
+
+if (!$connection) { die("Database connection failed"); }
+
+?>
+```
+
+```
+// .gitignore
+secrets.json
+```
