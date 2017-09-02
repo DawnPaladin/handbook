@@ -650,3 +650,101 @@ fetch(url)
 ```
 
 Note that [`.catch()` will only catch network errors on your device](https://www.tjvantoll.com/2015/09/13/fetch-and-errors/), not 404s or 401s or anything else. In production apps, you may want to use a library like [Request](https://github.com/request/request).
+
+# Debugging in the browser
+
+If you're monitoring the value of an object property, try making it private and using getters and setters to change its values. Then you can `console.log()` in the setter to be notified every time it changes.
+
+## Interactive interpreter variables
+
+`$_` gives you the value of whatever expression was evaluated last.  `$_` gives you the value of whatever expression was evaluated last.
+
+```js
+"foo"    // "foo"
+$_       // "foo"
+```
+
+`$0` refers to the DOM element currently selected in the Inspector. So if `<div id="foo">` is highlighted:  `$0` refers to the DOM element currently selected in the Inspector. So if `<div id="foo">` is highlighted:
+
+```js
+$0                      // <div id="foo">
+$0.getAttribute('id')   // "foo"
+```
+
+`$1` refers to the element previously selected, `$2` to the one selected before that, and so forth for `$3` and `$4`.  `$1` refers to the element previously selected, `$2` to the one selected before that, and so forth for `$3` and `$4`.
+
+To get a collection of elements matching a CSS selector, use `$$(selector)`. This is essentially a shortcut for `document.querySelectorAll`.
+
+```js
+var images = $$('img'); // Returns an array or a nodelist of all matching elements
+```
+
+## Using getters and setters to find out what changed a property
+
+Let's say you have an object like this:
+
+```js
+var myObject = {
+	name: 'Peter'
+}
+```
+
+Later in your code, you try to access `myObject.name` and you get **George** instead of **Peter**. You start wondering who changed it and where exactly it was changed. There is a way to place a `debugger` (or something else) on every set (every time someone does `myObject.name = 'something'`):
+
+```js
+var myObject = {
+	_name: 'Peter',
+	set name(name){debugger;this._name=name},
+	get name(){return this._name}
+};
+```
+
+Note that we renamed `name` to `_name` and we are going to define a setter and a getter for `name`.
+
+`set name` is the setter. That is a sweet spot where you can place `debugger`, `console.trace()`, or anything else you need for debugging. The setter will set the value for name in `_name`. The getter (the `get name` part) will read the value from there. Now we have a fully functional object with debugging functionality.
+
+Most of the time, though, the object that gets changed is not under our control. Fortunately, we can define setters and getters on **existing** objects to debug them.
+
+```js
+// First, save the name to _name, because we are going to use name for setter/getter
+otherObject._name = otherObject.name;
+
+// Create setter and getter
+Object.defineProperty(otherObject, "name", {
+    set: function(name) {debugger;this._name = name},
+    get: function() {return this._name}
+});
+```
+
+Check out [setters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/set) and [getters](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) at MDN for more information.
+
+## Using the console
+
+In many environments, you have access to a global `console` object that contains some basic methods for communicating with standard output devices. Most commonly, this will be the browser's JavaScript console (see [Chrome](https://developers.google.com/web/tools/chrome-devtools/debug/console/?utm_source=dcc), [Firefox](https://developer.mozilla.org/en-US/docs/Tools/Browser_Console), [Safari](https://developer.apple.com/safari/tools/), and [Edge](https://developer.microsoft.com/en-us/microsoft-edge/platform/documentation/f12-devtools-guide/console/) for more information).
+
+```js
+// At its simplest, you can 'log' a string
+console.log("Hello, World!");
+
+// You can also log any number of comma-separated values
+console.log("Hello", "World!");
+
+// You can also use string substitution
+console.log("%s %s", "Hello", "World!");
+
+// You can also log any variable that exist in the same scope
+var arr = [1, 2, 3];
+console.log(arr.length, this);
+```
+
+## Pausing execution
+
+You can place a `debugger;` statement anywhere in your JavaScript code. Once the JS interpreter reaches that line, it will stop the script execution, allowing you to inspect variables and step through your code.
+
+For named (non-anonymous) functions, you can use `debug()` to break when the function is executed:
+
+```js
+debug(functionName);
+```
+
+More options are available in your browser's developer tools.

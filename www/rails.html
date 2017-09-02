@@ -1242,6 +1242,24 @@ $ heroku logs -t
 # return a specified number of rows (1500 max)
 $ heroku logs -n 500
 </code></pre>
+<h1>Debugging</h1><h2>Stepping through code with Pry and Byebug</h2><p>First, you need to install the <code>pry-byebug</code> gem. Run this command:</p>
+<pre><code>$ gem install pry-byebug
+</code></pre><p>Add this line at the top of your .rb file:</p>
+<pre><code class="language-rb">require &#39;pry-byebug&#39;
+</code></pre>
+<p>Then insert this line wherever you want a breakpoint:</p>
+<pre><code class="language-rb">binding.pry
+</code></pre>
+<p>A hello.rb example:</p>
+<pre><code class="language-rb">require &#39;pry-byebug&#39;
+
+def hello_world
+  puts &quot;Hello&quot;
+  binding.pry # break point here
+  puts &quot;World&quot;
+end
+</code></pre>
+<p>When you run the <code>hello.rb</code> file, the program will pause at that line. You can then step through your code with the <code>step</code> command. Type a variable&#39;s name to learn its value. Exit the debugger with <code>exit-program</code> or  <code>!!!</code>.</p>
 <h1>Useful methods</h1><pre><code class="language-ruby">&quot;User&quot;.pluralize #=&gt; &quot;Users&quot;
 pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;
 </code></pre>

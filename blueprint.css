@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:300,400,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono:400,700|Roboto:300,400,400i,700,700i');
 body {
   background: #25487e;
   color: #f4fef9;
@@ -26,7 +26,7 @@ pre code {
 code {
   color: white;
   border: none;
-  background-color: transparent;
+  background-color: rgba(255,255,255,.2);
   font-weight: bold;
   padding: 0;
 }
@@ -39,4 +39,8 @@ code {
 }
 .tocify a {
   text-decoration: none;
+}
+
+input {
+	color: black;
 }

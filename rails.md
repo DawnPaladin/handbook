@@ -1587,6 +1587,43 @@ $ heroku logs -t
 $ heroku logs -n 500
 ```
 
+# Debugging
+
+## Stepping through code with Pry and Byebug
+
+First, you need to install the `pry-byebug` gem. Run this command:
+
+```
+$ gem install pry-byebug
+```
+
+Add this line at the top of your .rb file:
+
+```rb
+require 'pry-byebug'
+```
+
+Then insert this line wherever you want a breakpoint:
+
+```rb
+binding.pry
+```
+
+A hello.rb example:
+
+```rb
+require 'pry-byebug'
+
+def hello_world
+  puts "Hello"
+  binding.pry # break point here
+  puts "World"
+end
+```
+
+When you run the `hello.rb` file, the program will pause at that line. You can then step through your code with the `step` command. Type a variable's name to learn its value. Exit the debugger with `exit-program` or  `!!!`.
+
+
 # Useful methods
 ```ruby
 "User".pluralize #=> "Users"
