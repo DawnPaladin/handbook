@@ -62,6 +62,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 </code></pre><pre><code class="language-js">const cookieParser = require(&#39;cookie-parser&#39;);
 app.use(cookieParser());
 </code></pre>
+<h1>Services</h1><p>Used for persisting and managing data throughout the app.</p>
+<pre><code class="language-js">// services/myService.js
+var privateData = &quot;foo&quot;;
+
+function getData() {
+    return privateData;
+}
+
+modules.exports = {
+    getData
+};
+</code></pre>
+<pre><code class="language-js">const myService = require(&#39;services/myService&#39;);
+myService.getData();
+</code></pre>
 </div>
 
 <script>

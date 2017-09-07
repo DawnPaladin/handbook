@@ -70,3 +70,25 @@ $ npm i -S cookie-parser
 const cookieParser = require('cookie-parser');
 app.use(cookieParser());
 ```
+
+# Services
+
+Used for persisting and managing data throughout the app.
+
+```js
+// services/myService.js
+var privateData = "foo";
+
+function getData() {
+	return privateData;
+}
+
+modules.exports = {
+	getData
+};
+```
+
+```js
+const myService = require('services/myService');
+myService.getData();
+```
