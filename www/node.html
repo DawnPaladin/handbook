@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Handbook</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="lib/jquery-ui.min.js"></script>
+  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="lib/jquery.tocify.js"></script>
+  <script src="lib/prism.js"></script>
+  <link rel="stylesheet" href="lib/prism.css"/>
+  <link href="handbook.css" rel="stylesheet"></link>
+  <link href="blueprint.css" rel="stylesheet"></link>
+
+</head>
+<body>
+
+<div id="toc">
+  <a href="index.html" class="index-link">Index</a>
+</div>
+
+<div class="main-column">
+  <p><strong>Node.js</strong></p>
+<h1>Setup</h1><p><code>npm install --save</code> shortcuts to <code>npm i -S</code>. You can install as many packages at once as you like.</p>
+<h2>Repo</h2><ul>
+<li><a href="https://github.com/new">Create and clone repository</a></li>
+<li>Create <strong>.gitignore</strong> file with <code>/node_modules</code></li>
+<li><code>npm init</code></li>
+<li><code>npm i -S nodemon</code></li>
+<li>In <strong>package.json</strong> under <code>scripts</code>, add <code>&quot;start&quot;: &quot;nodemon&quot;</code></li>
+<li>Basic README. Include &quot;Start server with <code>npm start</code>.&quot; </li>
+<li>Commit</li>
+</ul>
+<h2>Express</h2><pre><code class="language-js">// index.js
+const app = require(&#39;express&#39;)();
+
+// declare and configure other modules here
+
+app.listen(1000, function() {
+    console.log(&quot;Listening on port 1000&quot;);
+});
+</code></pre>
+<h3>Handlebars layout engine</h3><pre><code>$ npm i -S express-handlebars
+</code></pre><pre><code class="language-js">const hbs = require(&#39;express-handlebars&#39;);
+app.engine(&#39;handlebars&#39;, hbs({ defaultLayout: &quot;main&quot; }));
+app.set(&quot;view engine&quot;, &quot;handlebars&quot;);
+
+app.get(&quot;/&quot;, (req, res) =&gt; {
+    res.render(&quot;index&quot;, { myData });
+})
+</code></pre>
+<p>Create file <strong>views/layouts/handlebars/main.handlebars</strong>. Use Emmet&#39;s <code>!</code> shortcut to create an HTML template, then put <code>{{{body}}}</code> in the <code>&lt;body&gt;</code> tag.</p>
+<p>Also create <strong>views/index.handlebars</strong> containing your HTML content. <code>{ myData }</code> will be passed to it.</p>
+<h3>body-parser</h3><p>For handling form data and enabling middleware</p>
+<pre><code>$ npm i -S body-parser
+</code></pre><pre><code class="language-js">const bodyParser = require(&#39;body-parser&#39;);
+app.use(bodyParser.urlencoded({ extended: false }));
+</code></pre>
+<h3>Cookies</h3><pre><code>$ npm i -S cookie-parser
+</code></pre><pre><code class="language-js">const cookieParser = require(&#39;cookie-parser&#39;);
+app.use(cookieParser());
+</code></pre>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
+</script>
+
+</body>
