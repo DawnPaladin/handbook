@@ -34,7 +34,8 @@
 <li>Commit</li>
 </ul>
 <h2>Express</h2><pre><code class="language-js">// index.js
-const app = require(&#39;express&#39;)();
+const express = require(&#39;express&#39;);
+const app = express();
 
 // declare and configure other modules here
 
@@ -42,6 +43,11 @@ app.listen(1000, function() {
     console.log(&quot;Listening on port 1000&quot;);
 });
 </code></pre>
+<h3>CSS file</h3><pre><code class="language-js">app.use(express.static(__dirname + &#39;/public&#39;));
+</code></pre>
+<pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;
+</code></pre>
+<p>This will load a CSS file from <strong>/public/css/style.css</strong>.</p>
 <h3>Handlebars layout engine</h3><pre><code>$ npm i -S express-handlebars
 </code></pre><pre><code class="language-js">const hbs = require(&#39;express-handlebars&#39;);
 app.engine(&#39;handlebars&#39;, hbs({ defaultLayout: &quot;main&quot; }));
@@ -74,7 +80,7 @@ modules.exports = {
     getData
 };
 </code></pre>
-<pre><code class="language-js">const myService = require(&#39;services/myService&#39;);
+<pre><code class="language-js">const myService = require(&#39;./services/myService&#39;);
 myService.getData();
 </code></pre>
 </div>

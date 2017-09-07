@@ -18,7 +18,8 @@
 
 ```js
 // index.js
-const app = require('express')();
+const express = require('express');
+const app = express();
 
 // declare and configure other modules here
 
@@ -26,6 +27,16 @@ app.listen(1000, function() {
 	console.log("Listening on port 1000");
 });
 ```
+
+### CSS file
+
+```js
+app.use(express.static(__dirname + '/public'));
+```
+```html
+<link rel="stylesheet" href="css/style.css">
+```
+This will load a CSS file from **/public/css/style.css**.
 
 ### Handlebars layout engine
 
@@ -89,6 +100,6 @@ modules.exports = {
 ```
 
 ```js
-const myService = require('services/myService');
+const myService = require('./services/myService');
 myService.getData();
 ```
