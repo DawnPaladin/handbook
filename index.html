@@ -35,6 +35,23 @@
   max-width: 100%;
   margin-bottom: .5em;
 }
+.bg {
+  position: relative;
+}
+.bg::before {
+  content: "";
+  background-color: rgba(255,255,255,.2);
+  width: 120%;
+  height: 40%;
+  position: absolute;
+  margin-left: -10%;
+  margin-top: -40%;
+  border-radius: 4px;
+  z-index: -1;
+}
+.bg img {
+  margin-bottom: 1em;
+}
 </style>
 
 <div class="main-column">
@@ -45,13 +62,13 @@
   <p><strong>Table of Contents</strong></p>
 
   <div class="boxes">
-    <a class="box" href="ruby.html"><img src="img/logos/ruby.svg" alt="Ruby">Ruby</a>
-    <a class="box" href="rails.html"><img src="img/logos/rails.svg" alt="Rails">Rails</a>
     <a class="box" href="HTML.html"><img src="img/logos/html5.svg" alt="HTML5">HTML</a>
     <a class="box" href="javascript.html"><img src="img/logos/js.svg" alt="JavaScript">JavaScript</a>
+    <a class="box bg" href="node.html"><img src="img/logos/node.svg" alt="Node">Node</a>
     <a class="box" href="angular.html"><img src="img/logos/angular.svg" alt="Angular">Angular</a>
+    <a class="box" href="ruby.html"><img src="img/logos/ruby.svg" alt="Ruby">Ruby</a>
+    <a class="box" href="rails.html"><img src="img/logos/rails.svg" alt="Rails">Rails</a>
     <a class="box" href="php.html"><img src="img/logos/php.svg" alt="PHP">PHP</a>
-    <a class="box" href="node.html"><img src="img/logos/node.svg" alt="Node">Node</a>
   </div>
 
 </div>
