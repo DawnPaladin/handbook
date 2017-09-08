@@ -8,14 +8,17 @@
 
 - [Create and clone repository](https://github.com/new)
 - Create **.gitignore** file with `/node_modules`
-- `npm init`
+- `npm init` (`-y` to skip questions)
 - `npm i -S nodemon`
 - In **package.json** under `scripts`, add `"start": "nodemon"`
-- Basic README. Include "Start server with `npm start`." 
+- Basic README. Include "Start server with \`npm start\`." 
 - Commit
 
 ## Express
 
+```
+$ npm i -S express
+```
 ```js
 // index.js
 const express = require('express');

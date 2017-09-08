@@ -27,13 +27,14 @@
 <h2>Repo</h2><ul>
 <li><a href="https://github.com/new">Create and clone repository</a></li>
 <li>Create <strong>.gitignore</strong> file with <code>/node_modules</code></li>
-<li><code>npm init</code></li>
+<li><code>npm init</code> (<code>-y</code> to skip questions)</li>
 <li><code>npm i -S nodemon</code></li>
 <li>In <strong>package.json</strong> under <code>scripts</code>, add <code>&quot;start&quot;: &quot;nodemon&quot;</code></li>
-<li>Basic README. Include &quot;Start server with <code>npm start</code>.&quot; </li>
+<li>Basic README. Include &quot;Start server with `npm start`.&quot; </li>
 <li>Commit</li>
 </ul>
-<h2>Express</h2><pre><code class="language-js">// index.js
+<h2>Express</h2><pre><code>$ npm i -S express
+</code></pre><pre><code class="language-js">// index.js
 const express = require(&#39;express&#39;);
 const app = express();
 
