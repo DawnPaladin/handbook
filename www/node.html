@@ -58,12 +58,16 @@ app.get(&quot;/&quot;, (req, res) =&gt; {
     res.render(&quot;index&quot;, { myData });
 })
 </code></pre>
-<p>Create file <strong>views/layouts/handlebars/main.handlebars</strong>. Use Emmet&#39;s <code>!</code> shortcut to create an HTML template, then put <code>{{{body}}}</code> in the <code>&lt;body&gt;</code> tag.</p>
+<p>Create file <strong>views/layouts/main.handlebars</strong>. Use Emmet&#39;s <code>!</code> shortcut to create an HTML template, then put <code>{{{body}}}</code> in the <code>&lt;body&gt;</code> tag.</p>
 <p>Also create <strong>views/index.handlebars</strong> containing your HTML content. <code>{ myData }</code> will be passed to it.</p>
-<h3>body-parser</h3><p>For handling form data and enabling middleware</p>
-<pre><code>$ npm i -S body-parser
+<h3>Handling forms</h3><pre><code>$ npm i -S body-parser
 </code></pre><pre><code class="language-js">const bodyParser = require(&#39;body-parser&#39;);
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post(&#39;/&#39;, (req, res) =&gt; {
+    const fieldValue = req.body.fieldName;
+    res.redirect(&#39;back&#39;);
+});
 </code></pre>
 <h3>Cookies</h3><pre><code>$ npm i -S cookie-parser
 </code></pre><pre><code class="language-js">const cookieParser = require(&#39;cookie-parser&#39;);

@@ -57,13 +57,11 @@ app.get("/", (req, res) => {
 })
 ```
 
-Create file **views/layouts/handlebars/main.handlebars**. Use Emmet's `!` shortcut to create an HTML template, then put `{{{body}}}` in the `<body>` tag.
+Create file **views/layouts/main.handlebars**. Use Emmet's `!` shortcut to create an HTML template, then put `{{{body}}}` in the `<body>` tag.
 
 Also create **views/index.handlebars** containing your HTML content. `{ myData }` will be passed to it.
 
-### body-parser
-
-For handling form data and enabling middleware
+### Handling forms
 
 ```
 $ npm i -S body-parser
@@ -72,6 +70,11 @@ $ npm i -S body-parser
 ```js
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.post('/', (req, res) => {
+	const fieldValue = req.body.fieldName;
+	res.redirect('back');
+});
 ```
 
 ### Cookies
