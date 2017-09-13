@@ -81,12 +81,81 @@ function getData() {
     return privateData;
 }
 
-modules.exports = {
+module.exports = {
     getData
 };
 </code></pre>
 <pre><code class="language-js">const myService = require(&#39;./services/myService&#39;);
 myService.getData();
+</code></pre>
+<h1>Socket.io</h1><h2>Basic demo</h2><p>Raise or lower a value and watch it be instantly visible across multiple tabs/browsers - no refresh necessary and no AJAX.</p>
+<pre><code class="language-js">// index.js
+const express = require(&#39;express&#39;);
+const app = express();
+const server = require(&#39;http&#39;).createServer(app);
+const io = require(&#39;socket.io&#39;)(server);
+
+var count = 0;
+
+app.get(&quot;/&quot;, (req, res) =&gt; {
+    res.sendFile(__dirname + &quot;/index.html&quot;);
+});
+
+io.on(&quot;connection&quot;, client =&gt; {
+    client.emit(&quot;new count&quot;, count);
+
+    client.on(&quot;increment&quot;, () =&gt; {
+        count++;
+        io.emit(&quot;new count&quot;, count);
+    });
+
+    client.on(&quot;decrement&quot;, () =&gt; {
+        count--;
+        io.emit(&quot;new count&quot;, count);
+    });
+});
+
+server.listen(3002, function() { // not &quot;app.listen&quot;
+    console.log(&quot;Listening on port 3002&quot;);
+});
+</code></pre>
+<pre><code class="language-html">&lt;!-- index.html --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.slim.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Sockets!&lt;/h1&gt;
+
+    &lt;h1 id=&quot;count&quot;&gt;&lt;/h1&gt;
+
+    &lt;button id=&quot;increment&quot;&gt;increment&lt;/button&gt;
+    &lt;button id=&quot;decrement&quot;&gt;decrement&lt;/button&gt;
+&lt;/body&gt;
+
+&lt;script&gt;
+    var socket = io.connect();
+    socket.on(&#39;new count&#39;, function(count) {
+        $(&#39;#count&#39;).html(count);
+    });
+    $(&#39;#increment&#39;).click(function() {
+        socket.emit(&#39;increment&#39;);
+    });
+    $(&#39;#decrement&#39;).click(function() {
+        socket.emit(&#39;decrement&#39;);
+    });
+&lt;/script&gt;
+&lt;/html&gt;
+</code></pre>
+<h2>URL parameters</h2><pre><code class="language-js">// client.js
+var socket = io.connect({query: &quot;foo=bar&quot;});
+</code></pre>
+<pre><code class="language-js">// index.js
+io.on(&#39;connect&#39;, (socket) =&gt; {
+    var query = socket.handshake.query;
+})
 </code></pre>
 </div>
 

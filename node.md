@@ -100,7 +100,7 @@ function getData() {
 	return privateData;
 }
 
-modules.exports = {
+module.exports = {
 	getData
 };
 ```
@@ -108,4 +108,88 @@ modules.exports = {
 ```js
 const myService = require('./services/myService');
 myService.getData();
+```
+
+# Socket.io
+
+## Basic demo
+
+Raise or lower a value and watch it be instantly visible across multiple tabs/browsers - no refresh necessary and no AJAX.
+
+```js
+// index.js
+const express = require('express');
+const app = express();
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+var count = 0;
+
+app.get("/", (req, res) => {
+	res.sendFile(__dirname + "/index.html");
+});
+
+io.on("connection", client => {
+	client.emit("new count", count);
+
+	client.on("increment", () => {
+		count++;
+		io.emit("new count", count);
+	});
+
+	client.on("decrement", () => {
+		count--;
+		io.emit("new count", count);
+	});
+});
+
+server.listen(3002, function() { // not "app.listen"
+	console.log("Listening on port 3002");
+});
+```
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+</head>
+<body>
+	<h1>Sockets!</h1>
+
+	<h1 id="count"></h1>
+
+	<button id="increment">increment</button>
+	<button id="decrement">decrement</button>
+</body>
+
+<script>
+	var socket = io.connect();
+	socket.on('new count', function(count) {
+		$('#count').html(count);
+	});
+	$('#increment').click(function() {
+		socket.emit('increment');
+	});
+	$('#decrement').click(function() {
+		socket.emit('decrement');
+	});
+</script>
+</html>
+
+```
+
+## URL parameters
+
+```js
+// client.js
+var socket = io.connect({query: "foo=bar"});
+```
+```js
+// index.js
+io.on('connect', (socket) => {
+	var query = socket.handshake.query;
+})
 ```
