@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Handbook</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="lib/jquery-ui.min.js"></script>
+  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="lib/jquery.tocify.js"></script>
+  <script src="lib/prism.js"></script>
+  <link rel="stylesheet" href="lib/prism.css"/>
+  <link href="handbook.css" rel="stylesheet"></link>
+  <link href="blueprint.css" rel="stylesheet"></link>
+
+</head>
+<body>
+
+<div id="toc">
+  <a href="index.html" class="index-link">Index</a>
+</div>
+
+<div class="main-column">
+  <p><strong>C#</strong></p>
+<h1>Data types</h1><p>Primitives (<code>int</code>, <code>char</code>, <code>float</code>, <code>byte</code>, etc.) and custom <code>struct</code>s are <strong>value types</strong>.</p>
+<ul>
+<li>Accessed by value</li>
+<li>Allocated on the stack</li>
+<li>Instantly removed when they go out of scope</li>
+</ul>
+<p>Array, strings, and custom classes are <strong>reference types</strong>.</p>
+<ul>
+<li>Accessed by reference</li>
+<li>Allocated on the heap</li>
+<li>Marked for garbage collection when they go out of scope</li>
+</ul>
+<pre><code class="language-csharp">var a = [&quot;a&quot;, &quot;b&quot;];
+var b = a;
+a[0] = &quot;c&quot;;
+Console.WriteLine(b[0]); // &quot;c&quot;
+</code></pre>
+<p>To <strong>convert</strong> from one type to another:</p>
+<pre><code class="language-csharp">var a = 1; // declare an integer
+var b = (byte)a; // convert it to a byte
+</code></pre>
+<h2>Strings</h2><p>Strings in C# are immutable.</p>
+<h3>Combining strings</h3><pre><code class="language-csharp">var firstName = &quot;James&quot;;
+var lastName = &quot;Harris&quot;;
+
+var concatFullName = firstName + &quot; &quot; + lastName;
+var interpolFullName = string.Format(&quot;{0} {1}&quot;, firstName, lastName);
+
+var nameArray = new string[2] {firstName, lastName};
+var joinedFullName = string.Join(&quot; &quot;, nameArray);
+</code></pre>
+<h3>Verbatim strings</h3><p>Escape characters such as <code>\</code> do not apply within verbatim strings.</p>
+<pre><code class="language-csharp">var standardStringPath = &quot;System path: \n C:\\Windows\\System&quot;;
+var verbatimStringPath = @&quot;System path: 
+C:\Windows\System&quot;;
+</code></pre>
+<h2>Enums</h2><p>Collections of constants. Defaults to the <code>int</code> type.</p>
+<pre><code class="language-csharp">namespace StarWars
+{
+    public enum Episodes
+    {
+        ThePhantomMenace = 1,
+        AttackOfTheClones = 2,
+        RevengeOfTheSith = 3,
+        ANewHope = 4,
+        TheEmpireStrikesBack = 5,
+        ReturnOfTheJedi = 6,
+        TheForceAwakens = 7,
+        TheLastJedi = 8
+    }
+    class Program
+    {
+        static void Main()
+        {
+            var bestEpisode = (Episodes)6; // ReturnOfTheJedi
+        }
+    }
+}
+</code></pre>
+<h1>Debugging</h1><p>Logging several values with labels:</p>
+<pre><code class="language-csharp">Console.WriteLine(string.Format(&quot;var1: {0}, var2: {1}&quot;, var1, var2));
+</code></pre>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
+</script>
+
+</body>
