@@ -44,6 +44,7 @@ Console.WriteLine(b[0]); // &quot;c&quot;
 <pre><code class="language-csharp">var a = 1; // declare an integer
 var b = (byte)a; // convert it to a byte
 </code></pre>
+<p>For more advanced conversions, use the <code>Convert</code> class, which does things like <code>Convert.ToByte()</code> and <code>Convert.ToInt32</code>.</p>
 <h2>Strings</h2><p>Strings in C# are immutable.</p>
 <h3>Combining strings</h3><pre><code class="language-csharp">var firstName = &quot;James&quot;;
 var lastName = &quot;Harris&quot;;
@@ -58,6 +59,43 @@ var joinedFullName = string.Join(&quot; &quot;, nameArray);
 <pre><code class="language-csharp">var standardStringPath = &quot;System path: \n C:\\Windows\\System&quot;;
 var verbatimStringPath = @&quot;System path: 
 C:\Windows\System&quot;;
+</code></pre>
+<h3>String interpolation</h3><pre><code class="language-csharp">var firstName = &quot;James&quot;;
+var lastName = &quot;Harris&quot;;
+var fullName = $&quot;{firstName} {lastName}&quot;;
+</code></pre>
+<h2>Arrays</h2><p>Once declared, arrays in C# are of a fixed size and type. If you don&#39;t know how long the array should be, use a list.</p>
+<pre><code class="language-csharp">var emptyArray = new int[3];
+var prefilledArray = new[] { 1, 2, 3 };
+</code></pre>
+<p>To find an item in an array:</p>
+<pre><code class="language-csharp">var index = Array.IndexOf(arr, 3); // 2
+</code></pre>
+<h3>Multidimensional arrays</h3><h4>Rectangular arrays</h4><pre><code class="language-csharp">var matrix = new int[2, 5]
+{
+    { 1, 2, 3, 4, 5 },
+    { 6, 7, 8, 9, 10 }
+};
+</code></pre>
+<h4>Jagged arrays</h4><pre><code class="language-csharp">var matrix = new int[3][];
+matrix[0] = new int[3] { 1, 2, 3 };
+matrix[1] = new int[2] { 1, 2 };
+matrix[2] = new int[4] { 1, 2, 3, 4 };
+</code></pre>
+<h2>Lists</h2><p>Lists are like variable-size arrays.</p>
+<pre><code class="language-csharp">using System.Collections.Generic;
+
+var emptyList = new List&lt;int&gt;();
+var prefilledList = new List&lt;int&gt;() { 1, 2, 3 };
+
+emptyList.Add(1);
+emptyList.Add(someArray);
+</code></pre>
+<p>To find an item in a list:</p>
+<pre><code class="language-csharp">var index = prefilledList.IndexOf(3); // 2
+</code></pre>
+<p>Instead of <code>.Length</code>, lists use <code>.Count</code>.</p>
+<pre><code class="language-csharp">prefilledList.Count // 3
 </code></pre>
 <h2>Enums</h2><p>Collections of constants. Defaults to the <code>int</code> type.</p>
 <pre><code class="language-csharp">namespace StarWars
@@ -84,6 +122,10 @@ C:\Windows\System&quot;;
 </code></pre>
 <h1>Debugging</h1><p>Logging several values with labels:</p>
 <pre><code class="language-csharp">Console.WriteLine(string.Format(&quot;var1: {0}, var2: {1}&quot;, var1, var2));
+</code></pre>
+<h1>Misc</h1><h2>Generating random numbers</h2><pre><code class="language-csharp">var random = new Random();
+var myRandomNumber = random.Next(); // outputs integer between 1 and INT_MAX
+var randomBetween1and10 = random.Next(1, 10);
 </code></pre>
 </div>
 
