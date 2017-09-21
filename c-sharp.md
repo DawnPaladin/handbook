@@ -80,6 +80,14 @@ To find an item in an array:
 var index = Array.IndexOf(arr, 3); // 2
 ```
 
+To check if an array contains an item:
+
+```csharp
+using System.Linq;
+
+prefilledArray.Contains(3); // true
+```
+
 ### Multidimensional arrays
 
 #### Rectangular arrays
@@ -127,6 +135,21 @@ Instead of `.Length`, lists use `.Count`.
 prefilledList.Count // 3
 ```
 
+## Methods for collections (lists and arrays)
+
+To convert everything in a collection to a different type, use `.Select()`:
+
+```csharp
+var intList = strList.Select(x => Convert.ToInt32(x)).ToList();
+```
+
+To list all items in a collection:
+
+```csharp
+foreach (var item in list) { Console.Write($"{item} "); }
+Console.WriteLine();
+```
+
 ## Enums
 
 Collections of constants. Defaults to the `int` type.
@@ -154,6 +177,40 @@ namespace StarWars
 	}
 }
 ```
+
+# File operations
+
+`File` provides static methods. These can be used without setting up a FileInfo object.
+
+```csharp
+var path = @"C:\somefile.txt";
+File.Exists(path);
+File.Copy(path, path2);
+var content = File.ReadAllText(path);
+```
+
+`FileInfo` provides instance methods. You instantiate it with a path and call methods on the instance. This provides a performance benefit if you need to provide multiple operations on one file.
+
+```csharp
+var file = new FileInfo(path);
+if (file.Exists) {
+	file.copyTo(path2);
+}
+```
+
+Useful methods:
+
+- `Create()`
+- `Copy()`
+- `Delete()`
+- `Exists()`
+- `GetAttributes()`
+- `Move()`
+- `ReadAllText()`
+
+`Directory()` and `DirectoryInfo()` follow similar principles.
+
+We also have the `Path()` class, which provides tools for working with a string that represents a path.
 
 # Debugging
 
