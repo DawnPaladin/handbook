@@ -180,6 +180,10 @@ namespace StarWars
 
 # File operations
 
+```csharp
+using System.IO;
+```
+
 `File` provides static methods. These can be used without setting up a FileInfo object.
 
 ```csharp
@@ -208,7 +212,14 @@ Useful methods:
 - `Move()`
 - `ReadAllText()`
 
-`Directory()` and `DirectoryInfo()` follow similar principles.
+`Directory()` and `DirectoryInfo()` follow similar principles. To list files in a folder:
+
+```csharp
+var files = Directory.GetFiles(@"D:\Repositories\handbook", "*.html", SearchOption.AllDirectories);
+foreach (var file in files) {
+	Console.WriteLine(file);
+}
+```
 
 We also have the `Path()` class, which provides tools for working with a string that represents a path.
 

@@ -132,7 +132,9 @@ Console.WriteLine();
     }
 }
 </code></pre>
-<h1>File operations</h1><p><code>File</code> provides static methods. These can be used without setting up a FileInfo object.</p>
+<h1>File operations</h1><pre><code class="language-csharp">using System.IO;
+</code></pre>
+<p><code>File</code> provides static methods. These can be used without setting up a FileInfo object.</p>
 <pre><code class="language-csharp">var path = @&quot;C:\somefile.txt&quot;;
 File.Exists(path);
 File.Copy(path, path2);
@@ -154,7 +156,12 @@ if (file.Exists) {
 <li><code>Move()</code></li>
 <li><code>ReadAllText()</code></li>
 </ul>
-<p><code>Directory()</code> and <code>DirectoryInfo()</code> follow similar principles.</p>
+<p><code>Directory()</code> and <code>DirectoryInfo()</code> follow similar principles. To list files in a folder:</p>
+<pre><code class="language-csharp">var files = Directory.GetFiles(@&quot;D:\Repositories\handbook&quot;, &quot;*.html&quot;, SearchOption.AllDirectories);
+foreach (var file in files) {
+    Console.WriteLine(file);
+}
+</code></pre>
 <p>We also have the <code>Path()</code> class, which provides tools for working with a string that represents a path.</p>
 <h1>Debugging</h1><p>Logging several values with labels:</p>
 <pre><code class="language-csharp">Console.WriteLine(string.Format(&quot;var1: {0}, var2: {1}&quot;, var1, var2));
