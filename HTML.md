@@ -567,7 +567,7 @@ Fallback image will always be loaded, even if it's not needed.
 ### img tag
 
 ```html
-<img src="myimage.svg" alt="My File">
+<img src="myimage.svg" alt="My File" />
 ```
 
 #### Advantages

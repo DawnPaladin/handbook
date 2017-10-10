@@ -302,7 +302,7 @@ var fooModule = (function() {
 })();
 ```
 
-### "Stub" or "export" object
+### exports object
 
 ```js
 var fooModule = (function() {
