@@ -527,3 +527,67 @@ Also noteworthy, you can include an exclamation mark `!` after the hashtag in or
 Running JavaScript inline with the element like this is fairly bad practice. Consider using pure JavaScript solutions that look for the element in the page and bind a function to it instead.
 
 Also consider whether this element is really a *button* instead of a *link*. If so, you should use `<button>`.
+
+# SVG
+
+## Using in HTML
+
+### Embedding
+
+```html
+<svg>
+  <rect class="reverse" width="400" height="400"/>
+</svg>
+```
+
+#### Advantages
+
+Can be accessed and modified via CSS and JavaScript
+
+#### Disadvantages
+
+Can't be cached. Might get in the way of editing other parts of the HTML.
+
+### Object
+
+```html
+<object type="image/svg+xml" data="mySVG.svg">
+  <img src="fallback.png" />
+</object>
+```
+
+#### Advantages
+
+Can be accessed and modified via CSS and JavaScript. Can be cached.
+
+#### Disadvantages
+
+Fallback image will always be loaded, even if it's not needed.
+
+### img tag
+
+```html
+<img src="myimage.svg" alt="My File">
+```
+
+#### Advantages
+
+Simple and easy. Can be cached.
+
+#### Disadvantages
+
+Can't be manipulated with CSS or JavaScript.
+
+### background-image
+
+```css
+.logo { background: url(myimage.svg); }
+```
+
+#### Advantages
+
+Can be cached.
+
+#### Disadvantages
+
+Can't be manipulated with CSS or JavaScript.
