@@ -318,22 +318,22 @@ enctype=&quot;application/x-www-form-urlencoded&quot; autocomplete=&quot;off&quo
   &lt;rect class=&quot;reverse&quot; width=&quot;400&quot; height=&quot;400&quot;/&gt;
 &lt;/svg&gt;
 </code></pre>
-<h4>Advantages</h4><p>Can be accessed and modified via CSS and JavaScript</p>
-<h4>Disadvantages</h4><p>Can&#39;t be cached. Might get in the way of editing other parts of the HTML.</p>
+<p><strong>Advantages:</strong> Can be accessed and modified via CSS and JavaScript</p>
+<p><strong>Disadvantages:</strong> Can&#39;t be cached. Might get in the way of editing other parts of the HTML.</p>
 <h3>Object</h3><pre><code class="language-html">&lt;object type=&quot;image/svg+xml&quot; data=&quot;mySVG.svg&quot;&gt;
   &lt;img src=&quot;fallback.png&quot; /&gt;
 &lt;/object&gt;
 </code></pre>
-<h4>Advantages</h4><p>Can be accessed and modified via CSS and JavaScript. Can be cached.</p>
-<h4>Disadvantages</h4><p>Fallback image will always be loaded, even if it&#39;s not needed.</p>
+<p><strong>Advantages:</strong> Can be accessed and modified via CSS and JavaScript. Can be cached.</p>
+<p><strong>Disadvantages:</strong> Fallback image will always be loaded, even if it&#39;s not needed.</p>
 <h3>img tag</h3><pre><code class="language-html">&lt;img src=&quot;myimage.svg&quot; alt=&quot;My File&quot; /&gt;
 </code></pre>
-<h4>Advantages</h4><p>Simple and easy. Can be cached.</p>
-<h4>Disadvantages</h4><p>Can&#39;t be manipulated with CSS or JavaScript.</p>
+<p><strong>Advantages:</strong> Simple and easy. Can be cached.</p>
+<p><strong>Disadvantages:</strong> Can&#39;t be manipulated with CSS or JavaScript.</p>
 <h3>background-image</h3><pre><code class="language-css">.logo { background: url(myimage.svg); }
 </code></pre>
-<h4>Advantages</h4><p>Can be cached.</p>
-<h4>Disadvantages</h4><p>Can&#39;t be manipulated with CSS or JavaScript.</p>
+<p><strong>Advantages:</strong> Can be cached.</p>
+<p><strong>Disadvantages:</strong> Can&#39;t be manipulated with CSS or JavaScript.</p>
 <h2>Elements</h2><h3>svg</h3><p>Root element defining the SVG canvas.</p>
 <pre><code class="language-html">&lt;svg width=&quot;400&quot; height=&quot;400&quot;&gt;
   ...

@@ -540,13 +540,9 @@ Also consider whether this element is really a *button* instead of a *link*. If 
 </svg>
 ```
 
-#### Advantages
+**Advantages:** Can be accessed and modified via CSS and JavaScript
 
-Can be accessed and modified via CSS and JavaScript
-
-#### Disadvantages
-
-Can't be cached. Might get in the way of editing other parts of the HTML.
+**Disadvantages:** Can't be cached. Might get in the way of editing other parts of the HTML.
 
 ### Object
 
@@ -556,13 +552,9 @@ Can't be cached. Might get in the way of editing other parts of the HTML.
 </object>
 ```
 
-#### Advantages
+**Advantages:** Can be accessed and modified via CSS and JavaScript. Can be cached.
 
-Can be accessed and modified via CSS and JavaScript. Can be cached.
-
-#### Disadvantages
-
-Fallback image will always be loaded, even if it's not needed.
+**Disadvantages:** Fallback image will always be loaded, even if it's not needed.
 
 ### img tag
 
@@ -570,13 +562,9 @@ Fallback image will always be loaded, even if it's not needed.
 <img src="myimage.svg" alt="My File" />
 ```
 
-#### Advantages
+**Advantages:** Simple and easy. Can be cached.
 
-Simple and easy. Can be cached.
-
-#### Disadvantages
-
-Can't be manipulated with CSS or JavaScript.
+**Disadvantages:** Can't be manipulated with CSS or JavaScript.
 
 ### background-image
 
@@ -584,13 +572,9 @@ Can't be manipulated with CSS or JavaScript.
 .logo { background: url(myimage.svg); }
 ```
 
-#### Advantages
+**Advantages:** Can be cached.
 
-Can be cached.
-
-#### Disadvantages
-
-Can't be manipulated with CSS or JavaScript.
+**Disadvantages:** Can't be manipulated with CSS or JavaScript.
 
 ## Elements
 
