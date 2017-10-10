@@ -334,6 +334,42 @@ enctype=&quot;application/x-www-form-urlencoded&quot; autocomplete=&quot;off&quo
 </code></pre>
 <h4>Advantages</h4><p>Can be cached.</p>
 <h4>Disadvantages</h4><p>Can&#39;t be manipulated with CSS or JavaScript.</p>
+<h2>Elements</h2><h3>svg</h3><p>Root element defining the SVG canvas.</p>
+<pre><code class="language-html">&lt;svg width=&quot;400&quot; height=&quot;400&quot;&gt;
+  ...
+&lt;/svg&gt;
+</code></pre>
+<h4>Attributes</h4><ul>
+<li><code>width</code>, <code>height</code>: The width and height of the viewport for this SVG element.</li>
+<li><code>preserveAspectRatio</code>: forces the aspect ratio so your image isn’t stretched when using the viewBox element to define a new coordinate system.</li>
+<li><code>viewBox</code>: Allows you to set a new coordinate system by defining where x,y coordinates where the system starts as well as the width and height.</li>
+</ul>
+<h3>g (Group)</h3><p>Groups SVG elements together. Groups of elements can be transformed together. Accepts all global attributes (<code>stroke</code>, <code>fill</code>, etc).</p>
+<h3>circle</h3><h4>Attributes</h4><ul>
+<li><code>cx</code>, <code>cy</code>: X- and Y-coordinates of the circle&#39;s center.</li>
+<li><code>r</code>: Radius of the circle.</li>
+</ul>
+<h3>rect</h3><pre><code class="language-html">&lt;rect x=&quot;50&quot; y=&quot;50&quot; width=&quot;300&quot; height=&quot;300&quot; fill=&quot;#fff&quot; /&gt;
+</code></pre>
+<h4>Elements</h4><ul>
+<li><code>height</code>, <code>width</code>: Height and width of the shape.</li>
+<li><code>x</code>, <code>y</code>: X- and Y-coordinates where the shape should start drawing.</li>
+</ul>
+<h3>line</h3><h4>Attributes</h4><p><code>x1</code>, <code>y1</code>, <code>x2</code>, <code>y2</code>: X- and Y-coordinates of the start and end of the line.</p>
+<h3>path</h3><p>Create your own shape. Probably best done in Illustrator or Figma.</p>
+<h4>Attributes</h4><ul>
+<li><code>d</code>: Define the path using &quot;path descriptions&quot;: Moveto, Lineto, Curveto, Arcto, ClosePath.</li>
+<li><code>pathLength</code>: Total length of the path</li>
+</ul>
+<h3>polygon</h3><p>Many-sided shape. Plot the sides using <code>points</code> (the only specific attribute for this element).</p>
+<h3>text</h3><p>Put text in the SVG.</p>
+<h4>Attributes</h4><ul>
+<li><code>x</code>, <code>y</code>: Coordinates where the text should begin</li>
+<li><code>style</code>: Style the text (size, font, stroke, etc.)</li>
+<li><code>rotate</code>: A list of numbers that will determine the rotation of the text</li>
+<li><code>textLength</code>: An exact value of the length of the text. This used for very specific layouts.</li>
+</ul>
+<h3>textPath</h3><p>Type on a path.</p>
 </div>
 
 <script>

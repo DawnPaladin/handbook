@@ -591,3 +591,77 @@ Can be cached.
 #### Disadvantages
 
 Can't be manipulated with CSS or JavaScript.
+
+## Elements
+
+### svg
+
+Root element defining the SVG canvas.
+
+```html
+<svg width="400" height="400">
+  ...
+</svg>
+```
+
+#### Attributes
+
+- `width`, `height`: The width and height of the viewport for this SVG element.
+- `preserveAspectRatio`: forces the aspect ratio so your image isn’t stretched when using the viewBox element to define a new coordinate system.
+- `viewBox`: Allows you to set a new coordinate system by defining where x,y coordinates where the system starts as well as the width and height.
+
+### g (Group)
+
+Groups SVG elements together. Groups of elements can be transformed together. Accepts all global attributes (`stroke`, `fill`, etc).
+
+### circle
+
+#### Attributes
+
+- `cx`, `cy`: X- and Y-coordinates of the circle's center.
+- `r`: Radius of the circle.
+
+### rect
+
+```html
+<rect x="50" y="50" width="300" height="300" fill="#fff" />
+```
+
+#### Elements
+
+- `height`, `width`: Height and width of the shape.
+- `x`, `y`: X- and Y-coordinates where the shape should start drawing.
+
+### line
+
+#### Attributes
+
+`x1`, `y1`, `x2`, `y2`: X- and Y-coordinates of the start and end of the line.
+
+### path
+
+Create your own shape. Probably best done in Illustrator or Figma.
+
+#### Attributes
+
+- `d`: Define the path using "path descriptions": Moveto, Lineto, Curveto, Arcto, ClosePath.
+- `pathLength`: Total length of the path
+
+### polygon
+
+Many-sided shape. Plot the sides using `points` (the only specific attribute for this element).
+
+### text
+
+Put text in the SVG.
+
+#### Attributes
+
+- `x`, `y`: Coordinates where the text should begin
+- `style`: Style the text (size, font, stroke, etc.)
+- `rotate`: A list of numbers that will determine the rotation of the text
+- `textLength`: An exact value of the length of the text. This used for very specific layouts.
+
+### textPath
+
+Type on a path.
