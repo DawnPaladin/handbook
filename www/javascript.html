@@ -251,6 +251,20 @@ APP_NAME.controller = (function(model) {
 
 })(APP_NAME.model);
 </code></pre>
+<h1>Documentation</h1><h2>DocBlocks</h2><p>DocBlocks let you describe your code, including what type of parameters your functions expect; the results will appear in your editor&#39;s IntelliSense.</p>
+<pre><code class="language-js">/**
+ * Multiplies a string. Example: multiplyString(&#39;!&#39;, 3) == &#39;!!!&#39;
+ * @param {string} string String to be multiplied.
+ * @param {number} times Number of times to copy it.
+ */
+function multiplyString(string, times) {
+  var output = &quot;&quot;;
+  for (var i = 0; i &lt; times; i++) {
+    output += string;
+  }
+  return output;
+}
+</code></pre>
 <h1>AJAX</h1><p>Basic XMLHttpRequest:</p>
 <pre><code class="language-js">var xhr = new XMLHttpRequest();
 xhr.open( &quot;GET&quot;, &quot;https://reqres.in/api/products&quot;, true );

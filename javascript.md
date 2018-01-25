@@ -366,6 +366,27 @@ APP_NAME.controller = (function(model) {
 
 ```
 
+# Documentation
+
+## DocBlocks
+
+DocBlocks let you describe your code, including what type of parameters your functions expect; the results will appear in your editor's IntelliSense.
+
+```js
+/**
+ * Multiplies a string. Example: multiplyString('!', 3) == '!!!'
+ * @param {string} string String to be multiplied.
+ * @param {number} times Number of times to copy it.
+ */
+function multiplyString(string, times) {
+  var output = "";
+  for (var i = 0; i < times; i++) {
+    output += string;
+  }
+  return output;
+}
+```
+
 # AJAX
 
 Basic XMLHttpRequest:
