@@ -23,6 +23,10 @@
 
 <div class="main-column">
   <p><strong>PHP</strong></p>
+<h1>Logic</h1><p>The <strong>null coalescing operator</strong> lets you say succinctly &quot;Use $a if it exists, otherwise use $b.&quot; Like this:</p>
+<pre><code class="language-php">$x = $a ?? &#39;b&#39;; // same as $x = isset($a) ? $a : &#39;b&#39;
+$build_file = $_REQUEST[&quot;build&quot;] ?? $_REQUEST[&quot;file&quot;] ?? &quot;index.html&quot;;
+</code></pre>
 <h1>Forms</h1><pre><code class="language-html">&lt;form action=&quot;processForm.php&quot; method=&quot;post&quot;&gt;
     &lt;label&gt;Name &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;John Smith&quot;&gt;&lt;/label&gt;
     &lt;label&gt;Comment &lt;textarea name=&quot;comment&quot; placeholder=&quot;What&#39;s up?&quot;&gt;&lt;/textarea&gt;&lt;/label&gt;

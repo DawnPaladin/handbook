@@ -1,5 +1,13 @@
 **PHP**
 
+# Logic
+
+The **null coalescing operator** lets you say succinctly "Use $a if it exists, otherwise use $b." Like this:
+```php
+$x = $a ?? 'b'; // same as $x = isset($a) ? $a : 'b'
+$build_file = $_REQUEST["build"] ?? $_REQUEST["file"] ?? "index.html";
+```
+
 # Forms
 
 ```html
