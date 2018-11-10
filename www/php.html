@@ -25,20 +25,17 @@
   <p><strong>PHP</strong></p>
 <h1>Logic</h1><p>The <strong>null coalescing operator</strong> lets you say succinctly &quot;Use $a if it exists, otherwise use $b.&quot; Like this:</p>
 <pre><code class="language-php">$x = $a ?? &#39;b&#39;; // same as $x = isset($a) ? $a : &#39;b&#39;
-$build_file = $_REQUEST[&quot;build&quot;] ?? $_REQUEST[&quot;file&quot;] ?? &quot;index.html&quot;;
-</code></pre>
+$build_file = $_REQUEST[&quot;build&quot;] ?? $_REQUEST[&quot;file&quot;] ?? &quot;index.html&quot;;</code></pre>
 <h1>Forms</h1><pre><code class="language-html">&lt;form action=&quot;processForm.php&quot; method=&quot;post&quot;&gt;
     &lt;label&gt;Name &lt;input type=&quot;text&quot; name=&quot;name&quot; placeholder=&quot;John Smith&quot;&gt;&lt;/label&gt;
     &lt;label&gt;Comment &lt;textarea name=&quot;comment&quot; placeholder=&quot;What&#39;s up?&quot;&gt;&lt;/textarea&gt;&lt;/label&gt;
     &lt;input type=&quot;submit&quot; name=&quot;submit&quot; /&gt;
-&lt;/form&gt;
-</code></pre>
+&lt;/form&gt;</code></pre>
 <pre><code class="language-php">&lt;?php // processForm.php
     if (isset($_POST[&#39;submit&#39;])) {
         echo &quot;It works!&quot;;
     }
-?&gt;
-</code></pre>
+?&gt;</code></pre>
 <h1>Databases</h1><pre><code class="language-php">&lt;?php
     $connection = mysqli_connect($serverAddress, $username, $password, $dbName);
     if ($connection) {
@@ -46,8 +43,7 @@ $build_file = $_REQUEST[&quot;build&quot;] ?? $_REQUEST[&quot;file&quot;] ?? &qu
     } else {
         die(&#39;Database connection failed&#39;);
     }
-?&gt;
-</code></pre>
+?&gt;</code></pre>
 <h1>Passwords</h1><pre><code class="language-php">&lt;?php
 
 $connection = mysqli_connect($serverAddress, $username, $password, $dbName);
@@ -69,32 +65,26 @@ if(isset($_POST[&#39;submit&#39;])) {
     }
 }
 
-?&gt;
-</code></pre>
+?&gt;</code></pre>
 <h1>Cookies</h1><h2>Setting cookies</h2><pre><code class="language-php">$minute = 60;
 $hour = $minute * 60;
 $day = $hour * 24;
 $year = $day * 365;
 $expiration = time() + $year * 2;
-setcookie($cookieName, $cookieValue, $expiration);
-</code></pre>
+setcookie($cookieName, $cookieValue, $expiration);</code></pre>
 <h2>Reading cookies</h2><pre><code class="language-php">$myCookie = $_COOKIE[&quot;NameOfCookie&quot;];
 if (isset($myCookie)) {
     echo $myCookie;
-}
-</code></pre>
+}</code></pre>
 <h1>File I/O</h1><h2>Reading</h2><pre><code class="language-php">$file = fopen(&#39;filename.txt&#39;, &#39;r&#39;); // &#39;r&#39; for &#39;read&#39;
 echo fread($file, 10); // read first 10 characters
 echo fread($file, filesize(&#39;filename.txt&#39;)); // read entire file
-fclose($file);
-</code></pre>
+fclose($file);</code></pre>
 <h2>Writing</h2><pre><code class="language-php">$file = fopen(&#39;filename.txt&#39;, &#39;w&#39;); // &#39;w&#39; for &#39;write&#39;. Warning: entire file will be overwritten.
 fwrite($file, &#39;Write this text to the file&#39;);
-fclose($file);
-</code></pre>
+fclose($file);</code></pre>
 <p>See the &quot;mode&quot; flags in the <a href="http://php.net/manual/en/function.fopen.php"><code>fopen()</code> documentation</a>.</p>
-<h2>Erasing</h2><pre><code class="language-php">unlink(&quot;doomed-file.txt&quot;);
-</code></pre>
+<h2>Erasing</h2><pre><code class="language-php">unlink(&quot;doomed-file.txt&quot;);</code></pre>
 <h1>Secrets</h1><pre><code class="language-php">&lt;?php // includes/db.php
 
 $secretsFile = file_get_contents(&#39;../secrets.json&#39;);
@@ -105,11 +95,9 @@ $connection = mysqli_connect($dbSecrets[&#39;ip&#39;], $dbSecrets[&#39;username&
 
 if (!$connection) { die(&quot;Database connection failed&quot;); }
 
-?&gt;
-</code></pre>
+?&gt;</code></pre>
 <pre><code>// .gitignore
-secrets.json
-</code></pre>
+secrets.json</code></pre>
 </div>
 
 <script>

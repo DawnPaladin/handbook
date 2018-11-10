@@ -33,8 +33,7 @@
 <li>Basic README. Include &quot;Start server with `npm start`.&quot; </li>
 <li>Commit</li>
 </ul>
-<h2>Express</h2><pre><code>$ npm i -S express
-</code></pre><pre><code class="language-js">// index.js
+<h2>Express</h2><pre><code>$ npm i -S express</code></pre><pre><code class="language-js">// index.js
 const express = require(&#39;express&#39;);
 const app = express();
 
@@ -42,37 +41,28 @@ const app = express();
 
 app.listen(1000, function() {
     console.log(&quot;Listening on port 1000&quot;);
-});
-</code></pre>
-<h3>CSS file</h3><pre><code class="language-js">app.use(express.static(__dirname + &#39;/public&#39;));
-</code></pre>
-<pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;
-</code></pre>
+});</code></pre>
+<h3>CSS file</h3><pre><code class="language-js">app.use(express.static(__dirname + &#39;/public&#39;));</code></pre>
+<pre><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;</code></pre>
 <p>This will load a CSS file from <strong>/public/css/style.css</strong>.</p>
-<h3>Handlebars layout engine</h3><pre><code>$ npm i -S express-handlebars
-</code></pre><pre><code class="language-js">const hbs = require(&#39;express-handlebars&#39;);
+<h3>Handlebars layout engine</h3><pre><code>$ npm i -S express-handlebars</code></pre><pre><code class="language-js">const hbs = require(&#39;express-handlebars&#39;);
 app.engine(&#39;handlebars&#39;, hbs({ defaultLayout: &quot;main&quot; }));
 app.set(&quot;view engine&quot;, &quot;handlebars&quot;);
 
 app.get(&quot;/&quot;, (req, res) =&gt; {
     res.render(&quot;index&quot;, { myData });
-})
-</code></pre>
+})</code></pre>
 <p>Create file <strong>views/layouts/main.handlebars</strong>. Use Emmet&#39;s <code>!</code> shortcut to create an HTML template, then put <code>{{{body}}}</code> in the <code>&lt;body&gt;</code> tag.</p>
 <p>Also create <strong>views/index.handlebars</strong> containing your HTML content. <code>{ myData }</code> will be passed to it.</p>
-<h3>Handling forms</h3><pre><code>$ npm i -S body-parser
-</code></pre><pre><code class="language-js">const bodyParser = require(&#39;body-parser&#39;);
+<h3>Handling forms</h3><pre><code>$ npm i -S body-parser</code></pre><pre><code class="language-js">const bodyParser = require(&#39;body-parser&#39;);
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post(&#39;/&#39;, (req, res) =&gt; {
     const fieldValue = req.body.fieldName;
     res.redirect(&#39;back&#39;);
-});
-</code></pre>
-<h3>Cookies</h3><pre><code>$ npm i -S cookie-parser
-</code></pre><pre><code class="language-js">const cookieParser = require(&#39;cookie-parser&#39;);
-app.use(cookieParser());
-</code></pre>
+});</code></pre>
+<h3>Cookies</h3><pre><code>$ npm i -S cookie-parser</code></pre><pre><code class="language-js">const cookieParser = require(&#39;cookie-parser&#39;);
+app.use(cookieParser());</code></pre>
 <h1>Services</h1><p>Used for persisting and managing data throughout the app.</p>
 <pre><code class="language-js">// services/myService.js
 var privateData = &quot;foo&quot;;
@@ -83,11 +73,9 @@ function getData() {
 
 module.exports = {
     getData
-};
-</code></pre>
+};</code></pre>
 <pre><code class="language-js">const myService = require(&#39;./services/myService&#39;);
-myService.getData();
-</code></pre>
+myService.getData();</code></pre>
 <h1>Socket.io</h1><h2>Basic demo</h2><p>Raise or lower a value and watch it be instantly visible across multiple tabs/browsers - no refresh necessary and no AJAX.</p>
 <pre><code class="language-js">// index.js
 const express = require(&#39;express&#39;);
@@ -117,8 +105,7 @@ io.on(&quot;connection&quot;, client =&gt; {
 
 server.listen(3002, function() { // not &quot;app.listen&quot;
     console.log(&quot;Listening on port 3002&quot;);
-});
-</code></pre>
+});</code></pre>
 <pre><code class="language-html">&lt;!-- index.html --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
@@ -150,13 +137,11 @@ server.listen(3002, function() { // not &quot;app.listen&quot;
 &lt;/html&gt;
 </code></pre>
 <h2>URL parameters</h2><pre><code class="language-js">// client.js
-var socket = io.connect({query: &quot;foo=bar&quot;});
-</code></pre>
+var socket = io.connect({query: &quot;foo=bar&quot;});</code></pre>
 <pre><code class="language-js">// index.js
 io.on(&#39;connect&#39;, (socket) =&gt; {
     var query = socket.handshake.query;
-})
-</code></pre>
+})</code></pre>
 </div>
 
 <script>

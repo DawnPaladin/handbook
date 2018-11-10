@@ -30,8 +30,7 @@
 &lt;/head&gt;
 &lt;body ng-controller=&quot;MyCtrl&quot;&gt;
   {{ foo }}
-&lt;/body&gt;
-</code></pre>
+&lt;/body&gt;</code></pre>
 <h1>Controller</h1><pre><code class="language-js">// app.js
 var appName = angular.module(&#39;appName&#39;, []);
 
@@ -42,11 +41,9 @@ appName.controller(&#39;MyCtrl&#39;,
       $scope.myFunction = function() {};
     }
   ]
-);
-</code></pre>
+);</code></pre>
 <h1>Directive</h1><pre><code class="language-html">&lt;!--  public/directives/firstDirective.html --&gt;
-&lt;p&gt;My first directive&lt;/p&gt;
-</code></pre>
+&lt;p&gt;My first directive&lt;/p&gt;</code></pre>
 <pre><code class="language-js">// javascripts/directives/firstDirective.js
 appName.directive(&#39;firstDirective&#39;, function(){
   return {
@@ -57,8 +54,7 @@ appName.directive(&#39;firstDirective&#39;, function(){
       // optional callback fired immediately after element creation
     }
   };
-});
-</code></pre>
+});</code></pre>
 <p>If you set <code>restrict: &quot;E&quot;</code>, the directive will be an Element, like this: <code>&lt;first-directive&gt;&lt;/first-directive&gt;</code></p>
 <p>If you set <code>restrict: &quot;A&quot;</code>, the directive will be an Attribute, like this: <code>&lt;a first-directive&gt;</code>.</p>
 <h2>Scope variables</h2><p>The directive is created with an <strong>isolate scope</strong>--it does not inherit anything in the nearby controller&#39;s scope. If necessary you can override this by having <code>scope</code> return <code>true</code> instead of an object.</p>
@@ -66,13 +62,11 @@ appName.directive(&#39;firstDirective&#39;, function(){
   twoWayBoundVar: &#39;=&#39;,
   passedInOnceVar: &#39;@&#39;,
   oneWayBoundVar: &#39;&amp;&#39;, // commonly used for functions
-}
-</code></pre>
+}</code></pre>
 <pre><code class="language-html">&lt;first-directive two-way-bound-var=&quot;foo&quot;
                  passed-in-once-var=&quot;{{ bar }}&quot;
                  one-way-bound-var=&quot;someFunction()&quot;&gt;
-&lt;/first-directive&gt;
-</code></pre>
+&lt;/first-directive&gt;                 </code></pre>
 <ul>
 <li>Two-way-bound variables (=) are passed a reference and are watched in the digest loop.</li>
 <li>One-way-bound variables (&amp;, @) are passed a value and are not updated thereafter.</li>
@@ -86,13 +80,10 @@ pupShelter.directive(&#39;puppy&#39;, function() {
       puppy: &#39;=&#39;, // objects need two-way binding
     }
   };
-});
-</code></pre>
+});</code></pre>
 <pre><code class="language-html">&lt;!-- javascripts/directives/puppy.html --&gt;
-&lt;li&gt;{{ puppy.name }} ({{ puppy.breed.name }})&lt;/li&gt;
-</code></pre>
-<pre><code class="language-html">&lt;puppy ng-repeat=&quot;puppy in puppies&quot; puppy=&quot;puppy&quot;&gt;&lt;/puppy&gt;
-</code></pre>
+&lt;li&gt;{{ puppy.name }} ({{ puppy.breed.name }})&lt;/li&gt;</code></pre>
+<pre><code class="language-html">&lt;puppy ng-repeat=&quot;puppy in puppies&quot; puppy=&quot;puppy&quot;&gt;&lt;/puppy&gt;</code></pre>
 <h2>Passing values into functions in a directive</h2><pre><code class="language-js">// js/directives/myDirective.js
 appName.directive(&#39;myDirective&#39;, function() {
   return {
@@ -101,39 +92,32 @@ appName.directive(&#39;myDirective&#39;, function() {
       directiveFunction: &#39;&amp;&#39;
     }
   }
-})
-</code></pre>
+})</code></pre>
 <pre><code class="language-html">&lt;!-- js/directives/myDirective.html --&gt;
-&lt;p ng-click=&quot;directiveFunction({param: variable})&quot;&gt;&lt;/p&gt;
-</code></pre>
-<pre><code class="language-html">&lt;div my-directive directive-function=&quot;outsideFunction(param)&quot;&gt;&lt;/div&gt;
-</code></pre>
+&lt;p ng-click=&quot;directiveFunction({param: variable})&quot;&gt;&lt;/p&gt;</code></pre>
+<pre><code class="language-html">&lt;div my-directive directive-function=&quot;outsideFunction(param)&quot;&gt;&lt;/div&gt;</code></pre>
 <h2>Transclusion</h2><h3>Setup</h3><pre><code class="language-js">// directives/customDirective.js
 appName.directive(&#39;customTag&#39;, function() {
   return {
     ...
     transclude: true,
   }
-})
-</code></pre>
+})</code></pre>
 <pre><code class="language-html">&lt;!-- directives/customDirective.html --&gt;
 &lt;!-- $scope.headline = &quot;Post Headline&quot; --&gt;
 &lt;div class=&quot;post&quot;&gt;
   &lt;h1&gt;{{ headline }}&lt;/h1&gt;
   &lt;p&gt;&lt;ng-transclude&gt;&lt;/ng-transclude&gt;&lt;/p&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
 <h3>Usage</h3><p>Code:</p>
 <pre><code class="language-html">&lt;custom-tag&gt;
   Text in custom-tag
-&lt;/custom-tag&gt;
-</code></pre>
+&lt;/custom-tag&gt;</code></pre>
 <p>Output:</p>
 <pre><code class="language-html">&lt;div class=&quot;post&quot;&gt;
   &lt;h1&gt;Post Headline&lt;/h1&gt;
   &lt;p&gt;Text in custom-tag&lt;/p&gt;
-&lt;/div&gt;
-</code></pre>
+&lt;/div&gt;</code></pre>
 <h1>Filter</h1><pre><code class="language-js">appName.filter(&#39;filterName&#39;, function() {
   return function(collection, someParam) {
     var filteredCollection = [];
@@ -144,26 +128,21 @@ appName.directive(&#39;customTag&#39;, function() {
     })
     return filteredCollection;
   }
-});
-</code></pre>
-<pre><code class="language-html">{{ collection | filterName : someParam }}
-</code></pre>
+});</code></pre>
+<pre><code class="language-html">{{ collection | filterName : someParam }}</code></pre>
 <h1>Service</h1><p>Modular storage of data &amp; functions, accessible across multiple controllers</p>
 <pre><code class="language-js">appName.factory(&#39;serviceName&#39;, function() {
   var exports = {};
   var privateVar = &quot;foo&quot;;
   exports.publicVar = &quot;bar&quot;;
   return exports;
-})
-</code></pre>
+})</code></pre>
 <p>If the service has a dependency, you can inject it like so:</p>
 <pre><code class="language-js">appName.factory(&#39;serviceName&#39;, [&#39;dependency1&#39;, function(dependency1) {
   ...
-}]);
-</code></pre>
+}]);</code></pre>
 <h1>Routing</h1><pre><code class="language-html">&lt;!-- index.html --&gt;
-&lt;script src=&quot;https://unpkg.com/angular-ui-router@1.0.0/release/angular-ui-router.js&quot;&gt;&lt;/script&gt;
-</code></pre>
+&lt;script src=&quot;https://unpkg.com/angular-ui-router@1.0.0/release/angular-ui-router.js&quot;&gt;&lt;/script&gt;</code></pre>
 <p>Inject <code>ui.router</code> as a dependency in your app and set up routes:</p>
 <pre><code class="language-js">// app.js
 var appName = angular.module(&#39;appName&#39;, [&#39;ui.router&#39;]);
@@ -194,13 +173,11 @@ appName.config(function($stateProvider, $urlRouterProvider) {
 });
 appName.run(function($rootScope){
   $rootScope.$on(&quot;$stateChangeError&quot;, console.warn.bind(console));
-});
-</code></pre>
+});</code></pre>
 <h1>Rails</h1><pre><code class="language-html">&lt;!-- app/views/layouts/application.html.erb --&gt;
 &lt;html ng-app=&quot;appName&quot;&gt;
 
-&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js&quot;&gt;&lt;/script&gt;
-</code></pre>
+&lt;script src=&quot;https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js&quot;&gt;&lt;/script&gt;</code></pre>
 <p>The <code>&lt;script&gt;</code> tag must precede <code>javascript_include_tag</code>.</p>
 <pre><code class="language-js">// app/assets/javascripts/angular/app.js
 var appName = angular.module(&#39;appName&#39;, []);
@@ -214,20 +191,16 @@ appName.config(
       .defaults
       .headers
       .common[&#39;X-CSRF-Token&#39;] = token;
-  }]);
-</code></pre>
+  }]);</code></pre>
 <pre><code class="language-ruby"># routes.rb
 root &#39;angular#index&#39;
-get &#39;angular/index&#39;
-</code></pre>
+get &#39;angular/index&#39;</code></pre>
 <pre><code class="language-bash">$ bundle install
-$ rails g controller angular index
-</code></pre>
+$ rails g controller angular index</code></pre>
 <h1>Restangular</h1><p>Download <a href="https://raw.github.com/mgonto/restangular/master/dist/restangular.js">Restangular</a> and <a href="http://underscorejs.org/underscore.js">Underscore</a>; save them to vendor/assets/javascripts.</p>
 <p>Add to app/assets/javascripts/application.js, under Angular:</p>
 <pre><code>//= require underscore.js
-//= require restangular.js
-</code></pre><p>In your app.js file, add <code>&#39;restangular&#39;</code> to your dependencies on line 1.</p>
+//= require restangular.js</code></pre><p>In your app.js file, add <code>&#39;restangular&#39;</code> to your dependencies on line 1.</p>
 <p>Append this to app.js:</p>
 <pre><code class="language-js">appName.config( [&#39;RestangularProvider&#39;, function(RestangularProvider) {
 
@@ -236,21 +209,18 @@ $ rails g controller angular index
   RestangularProvider.setDefaultHttpFields({
       &quot;content-type&quot;: &quot;application/json&quot;
   });
-}]);
-</code></pre>
+}]);</code></pre>
 <p>If the API you&#39;re using requires grunt work, you can set up a responseExtractor to get straight to the data:</p>
 <pre><code class="language-js">RestangularProvider.setResponseExtractor( function( response, operation ) {
     // it would have defaulted to response.data but we wanted the first item.
     return response.data[0];
-});
-</code></pre>
+});</code></pre>
 <p>Now, to have Rails serve that data, in your routes.rb:</p>
 <pre><code class="language-ruby">scope :api do
   scope :v1 do
     resources :resourceName
   end
-end
-</code></pre>
+end</code></pre>
 <h1>Misc</h1><p>After clicking an element in the inspector, you can inspect its scope in the console with <code>angular.element($0).scope()</code>.</p>
 <p>Angular includes <strong>jqLite</strong>, a stripped-down version of jQuery.</p>
 <ul>

@@ -38,12 +38,10 @@
 <pre><code class="language-csharp">var a = [&quot;a&quot;, &quot;b&quot;];
 var b = a;
 a[0] = &quot;c&quot;;
-Console.WriteLine(b[0]); // &quot;c&quot;
-</code></pre>
+Console.WriteLine(b[0]); // &quot;c&quot;</code></pre>
 <p>To <strong>convert</strong> from one type to another:</p>
 <pre><code class="language-csharp">var a = 1; // declare an integer
-var b = (byte)a; // convert it to a byte
-</code></pre>
+var b = (byte)a; // convert it to a byte</code></pre>
 <p>For more advanced conversions, use the <code>Convert</code> class, which does things like <code>Convert.ToByte()</code> and <code>Convert.ToInt32</code>.</p>
 <h2>Strings</h2><p>Strings in C# are immutable.</p>
 <h3>Combining strings</h3><pre><code class="language-csharp">var firstName = &quot;James&quot;;
@@ -53,40 +51,32 @@ var concatFullName = firstName + &quot; &quot; + lastName;
 var interpolFullName = string.Format(&quot;{0} {1}&quot;, firstName, lastName);
 
 var nameArray = new string[2] {firstName, lastName};
-var joinedFullName = string.Join(&quot; &quot;, nameArray);
-</code></pre>
+var joinedFullName = string.Join(&quot; &quot;, nameArray);</code></pre>
 <h3>Verbatim strings</h3><p>Escape characters such as <code>\</code> do not apply within verbatim strings.</p>
 <pre><code class="language-csharp">var standardStringPath = &quot;System path: \n C:\\Windows\\System&quot;;
 var verbatimStringPath = @&quot;System path: 
-C:\Windows\System&quot;;
-</code></pre>
+C:\Windows\System&quot;;</code></pre>
 <h3>String interpolation</h3><pre><code class="language-csharp">var firstName = &quot;James&quot;;
 var lastName = &quot;Harris&quot;;
-var fullName = $&quot;{firstName} {lastName}&quot;;
-</code></pre>
+var fullName = $&quot;{firstName} {lastName}&quot;;</code></pre>
 <h2>Arrays</h2><p>Once declared, arrays in C# are of a fixed size and type. If you don&#39;t know how long the array should be, use a list.</p>
 <pre><code class="language-csharp">var emptyArray = new int[3];
-var prefilledArray = new[] { 1, 2, 3 };
-</code></pre>
+var prefilledArray = new[] { 1, 2, 3 };</code></pre>
 <p>To find an item in an array:</p>
-<pre><code class="language-csharp">var index = Array.IndexOf(arr, 3); // 2
-</code></pre>
+<pre><code class="language-csharp">var index = Array.IndexOf(arr, 3); // 2</code></pre>
 <p>To check if an array contains an item:</p>
 <pre><code class="language-csharp">using System.Linq;
 
-prefilledArray.Contains(3); // true
-</code></pre>
+prefilledArray.Contains(3); // true</code></pre>
 <h3>Multidimensional arrays</h3><h4>Rectangular arrays</h4><pre><code class="language-csharp">var matrix = new int[2, 5]
 {
     { 1, 2, 3, 4, 5 },
     { 6, 7, 8, 9, 10 }
-};
-</code></pre>
+};</code></pre>
 <h4>Jagged arrays</h4><pre><code class="language-csharp">var matrix = new int[3][];
 matrix[0] = new int[3] { 1, 2, 3 };
 matrix[1] = new int[2] { 1, 2 };
-matrix[2] = new int[4] { 1, 2, 3, 4 };
-</code></pre>
+matrix[2] = new int[4] { 1, 2, 3, 4 };</code></pre>
 <h2>Lists</h2><p>Lists are like variable-size arrays.</p>
 <pre><code class="language-csharp">using System.Collections.Generic;
 
@@ -94,21 +84,16 @@ var emptyList = new List&lt;int&gt;();
 var prefilledList = new List&lt;int&gt;() { 1, 2, 3 };
 
 emptyList.Add(1);
-emptyList.Add(someArray);
-</code></pre>
+emptyList.Add(someArray);</code></pre>
 <p>To find an item in a list:</p>
-<pre><code class="language-csharp">var index = prefilledList.IndexOf(3); // 2
-</code></pre>
+<pre><code class="language-csharp">var index = prefilledList.IndexOf(3); // 2</code></pre>
 <p>Instead of <code>.Length</code>, lists use <code>.Count</code>.</p>
-<pre><code class="language-csharp">prefilledList.Count // 3
-</code></pre>
+<pre><code class="language-csharp">prefilledList.Count // 3</code></pre>
 <h2>Methods for collections (lists and arrays)</h2><p>To convert everything in a collection to a different type, use <code>.Select()</code>:</p>
-<pre><code class="language-csharp">var intList = strList.Select(x =&gt; Convert.ToInt32(x)).ToList();
-</code></pre>
+<pre><code class="language-csharp">var intList = strList.Select(x =&gt; Convert.ToInt32(x)).ToList();</code></pre>
 <p>To list all items in a collection:</p>
 <pre><code class="language-csharp">foreach (var item in list) { Console.Write($&quot;{item} &quot;); }
-Console.WriteLine();
-</code></pre>
+Console.WriteLine();</code></pre>
 <h2>Enums</h2><p>Collections of constants. Defaults to the <code>int</code> type.</p>
 <pre><code class="language-csharp">namespace StarWars
 {
@@ -130,22 +115,18 @@ Console.WriteLine();
             var bestEpisode = (Episodes)6; // ReturnOfTheJedi
         }
     }
-}
-</code></pre>
-<h1>File operations</h1><pre><code class="language-csharp">using System.IO;
-</code></pre>
+}</code></pre>
+<h1>File operations</h1><pre><code class="language-csharp">using System.IO;</code></pre>
 <p><code>File</code> provides static methods. These can be used without setting up a FileInfo object.</p>
 <pre><code class="language-csharp">var path = @&quot;C:\somefile.txt&quot;;
 File.Exists(path);
 File.Copy(path, path2);
-var content = File.ReadAllText(path);
-</code></pre>
+var content = File.ReadAllText(path);</code></pre>
 <p><code>FileInfo</code> provides instance methods. You instantiate it with a path and call methods on the instance. This provides a performance benefit if you need to provide multiple operations on one file.</p>
 <pre><code class="language-csharp">var file = new FileInfo(path);
 if (file.Exists) {
     file.copyTo(path2);
-}
-</code></pre>
+}</code></pre>
 <p>Useful methods:</p>
 <ul>
 <li><code>Create()</code></li>
@@ -160,16 +141,13 @@ if (file.Exists) {
 <pre><code class="language-csharp">var files = Directory.GetFiles(@&quot;D:\Repositories\handbook&quot;, &quot;*.html&quot;, SearchOption.AllDirectories);
 foreach (var file in files) {
     Console.WriteLine(file);
-}
-</code></pre>
+}</code></pre>
 <p>We also have the <code>Path()</code> class, which provides tools for working with a string that represents a path.</p>
 <h1>Debugging</h1><p>Logging several values with labels:</p>
-<pre><code class="language-csharp">Console.WriteLine(string.Format(&quot;var1: {0}, var2: {1}&quot;, var1, var2));
-</code></pre>
+<pre><code class="language-csharp">Console.WriteLine(string.Format(&quot;var1: {0}, var2: {1}&quot;, var1, var2));</code></pre>
 <h1>Misc</h1><h2>Generating random numbers</h2><pre><code class="language-csharp">var random = new Random();
 var myRandomNumber = random.Next(); // outputs integer between 1 and INT_MAX
-var randomBetween1and10 = random.Next(1, 10);
-</code></pre>
+var randomBetween1and10 = random.Next(1, 10);</code></pre>
 </div>
 
 <script>
