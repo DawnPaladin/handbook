@@ -17,14 +17,22 @@ Custom components must have their names start with a capital letter.
 ## Stateless functional component
 
 ```jsx
-const MyComponent = function() { // Custom components get their names capitalized
+const MyComponent = function() {
 	return {
 		<div className='nameOfTheClass' />
 	}
 }
 ```
 
-## Full component
+Or, more simply:
+```jsx
+const MyComponent = props => (<div>Name: {props.name}</div>);
+
+<MyComponent name="Joe" />
+```
+
+
+## Stateless component
 
 ```jsx
 class Kitten extends React.Component {
@@ -34,7 +42,7 @@ class Kitten extends React.Component {
 
 	render() {
 		return (
-      	<h1>Hi</h1>
+			<h1>Hi</h1>
 		);
 	}
 }
@@ -49,4 +57,23 @@ Passing a prop (property) into a component:
 <Cat type="kitten" />
 
 const Cat = (props) => <div>This cat is a {props.type}</div>
+```
+
+### Default props
+
+```jsx
+Cat.defaultProps = { name: "DefaultCat" };
+```
+
+### Setting prop types
+
+```jsx
+Cat.propTypes = { name: PropTypes.string };
+```
+
+PropTypes are the same as JavaScript types, except for `func` and `bool`.
+
+To make the prop **required:**
+```jsx
+Cat.propTypes = { name: PropTypes.string.isRequired };
 ```
