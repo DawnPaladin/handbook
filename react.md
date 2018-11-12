@@ -77,3 +77,27 @@ To make the prop **required:**
 ```jsx
 Cat.propTypes = { name: PropTypes.string.isRequired };
 ```
+
+## State
+
+### Declaring state
+
+```jsx
+class Cat extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { name: "Fluffle" };
+  }
+  render() {
+    return (
+      <p>I am a cat named {this.state.name}</p>
+    )
+  }
+}
+```
+
+### Updating state
+
+```jsx
+this.setState({ name: "Grumpy Cat" });
+```
