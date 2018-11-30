@@ -84,15 +84,15 @@ Cat.propTypes = { name: PropTypes.string.isRequired };
 
 ```jsx
 class Cat extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { name: "Fluffle" };
-  }
-  render() {
-    return (
-      <p>I am a cat named {this.state.name}</p>
-    )
-  }
+	constructor(props) {
+		super(props);
+		this.state = { name: "Fluffle" };
+	}
+	render() {
+		return (
+	      <p>I am a cat named {this.state.name}</p>
+		)
+	}
 }
 ```
 
@@ -100,4 +100,102 @@ class Cat extends React.Component {
 
 ```jsx
 this.setState({ name: "Grumpy Cat" });
+```
+
+## Methods
+
+Methods typically need access to `this`, which is provided by `bind`ing it in the constructor.
+
+```jsx
+class Cat extends React.component {
+	constructor(props) {
+		super(props);
+		this.state = { foodLevel: 0 };
+		this.eat = this.eat.bind(this);
+	}
+	eat() {
+		this.setState({
+			foodLevel: this.state.foodLevel + 1;
+		});
+	}
+	render() {
+		return (
+			<div>
+				<button onClick={this.eat}>Eat</button>
+				<p>Food level: {this.state.foodLevel}</p>
+			</div>
+		);
+	}
+}
+```
+
+## Controlled Inputs
+
+You can set up components that have two-way data binding between the DOM state and the React component's state.
+
+```jsx
+class Cat extends React.component {
+	constructor(props) {
+		super(props);
+		this.state = { thoughts: '' };
+		this.handleChange = this.handleChange.bind(this);
+	}
+	handleChange(event) {
+		this.setState({ input: event.target.value });
+	}
+	render() {
+		return (
+			<div>
+				<label>Enter thoughts <input value={this.state.thoughts} onChange={this.handleChange} /> </label>
+				<p>Thoughts: {this.state.thoughts}</p>
+			</div>
+		);
+	}
+}
+```
+
+This can be done with whole `<form>` elements.
+
+```jsx
+<form onSubmit={this.handleSubmit}>
+	<button type='submit'>Submit</button>
+</form>
+```
+Don't forget to include an `event.preventDefault()` statement in the submit handler; actually submitting the form would cause a page refresh.
+
+# Styling
+
+```jsx
+<div style={{
+	color: 'red',
+	height: 100, // defaults to px
+	width: "50%" // but you can specify other units
+}}>
+```
+
+# Conditional rendering
+
+## && operator
+
+You can perform traditional JavaScript logic to determine what JSX a `render()` function should return. This can be made more concise using the `&&` logical operator:
+
+```jsx
+return (
+	<p>Always display</p>
+	{ this.state.displaySecondPara && <p>Sometimes display</p> }
+)
+```
+
+If the condition is false, the logic will short-circuit out the JSX.
+
+## Ternary operator
+
+```jsx
+render() {
+	const JSXifTrue = <div/>
+	const JSXifFalse = <p/>
+	return (
+		{ condition ? JSXifTrue : JSXifFalse }
+	);
+}
 ```
