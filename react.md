@@ -199,3 +199,33 @@ render() {
 	);
 }
 ```
+
+# Miscellaneous
+
+## List keys
+
+When rendering a list, React needs to give each item in the list a unique key so that when the list changes, it can keep track of which items have been added & removed. This key just needs to be unique within the list, not within the whole app.
+
+If you have a unique key for the item, use that. If you must, use the array index. If you don't assign a key, React will use the list index, and this may lead to problems. [More info about list keys](https://reactjs.org/docs/lists-and-keys.html)
+
+```jsx
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+	<li key={number.toString()}>
+		{number}
+	</li>
+);
+
+const todoItems = todos.map((todo) =>
+	<li key={todo.id}>
+		{todo.text}
+	</li>
+);
+
+const todoItems = todos.map((todo, index) =>
+	// Only do this if items have no stable IDs
+	<li key={index}>
+		{todo.text}
+	</li>
+);
+```

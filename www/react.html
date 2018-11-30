@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Handbook</title>
+  <title>React Handbook</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -134,6 +134,27 @@ const Cat = (props) =&gt; &lt;div&gt;This cat is a {props.type}&lt;/div&gt;</cod
         { condition ? JSXifTrue : JSXifFalse }
     );
 }</code></pre>
+<h1>Miscellaneous</h1><h2>List keys</h2><p>When rendering a list, React needs to give each item in the list a unique key so that when the list changes, it can keep track of which items have been added &amp; removed. This key just needs to be unique within the list, not within the whole app.</p>
+<p>If you have a unique key for the item, use that. If you must, use the array index. If you don&#39;t assign a key, React will use the list index, and this may lead to problems. <a href="https://reactjs.org/docs/lists-and-keys.html">More info about list keys</a></p>
+<pre><code class="language-jsx">const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =&gt;
+    &lt;li key={number.toString()}&gt;
+        {number}
+    &lt;/li&gt;
+);
+
+const todoItems = todos.map((todo) =&gt;
+    &lt;li key={todo.id}&gt;
+        {todo.text}
+    &lt;/li&gt;
+);
+
+const todoItems = todos.map((todo, index) =&gt;
+    // Only do this if items have no stable IDs
+    &lt;li key={index}&gt;
+        {todo.text}
+    &lt;/li&gt;
+);</code></pre>
 </div>
 
 <script>

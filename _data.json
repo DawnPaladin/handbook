@@ -22,5 +22,21 @@
   "angular": {
     "layout": "_layout",
     "title": "Angular Handbook"
+  },
+  "c-sharp": {
+    "layout": "_layout",
+    "title": "C# Handbook"
+  },
+  "node": {
+    "layout": "_layout",
+    "title": "NodeJS Handbook"
+  },
+  "PHP": {
+    "layout": "_layout",
+    "title": "PHP Handbook"
+  },
+  "react": {
+    "layout": "_layout",
+    "title": "React Handbook"
   }
 }
