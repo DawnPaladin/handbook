@@ -134,6 +134,50 @@ const Cat = (props) =&gt; &lt;div&gt;This cat is a {props.type}&lt;/div&gt;</cod
         { condition ? JSXifTrue : JSXifFalse }
     );
 }</code></pre>
+<h1>React with Rails</h1><p>Use this <a href="https://www.fullstackreact.com/articles/how-to-get-create-react-app-to-work-with-your-rails-api/">tutorial</a> to set up a Rails and a React server that will work together.</p>
+<p>Then, if your <code>config/routes.rb</code> says <code>resources :cats</code>, and you want the list of cats:</p>
+<pre><code class="language-js">// client/src/Client.js
+function index(callback) {
+    return fetch(&#39;cats&#39;, { // this string expands to &quot;localhost:3001/cats&quot;
+        accept: &quot;application/json&quot;
+    })
+    .then(checkStatus)
+    .then(parseJSON)
+    .then(callback);
+}
+
+function checkStatus(response) {
+    if (response.status &gt;= 200 &amp;&amp; response.status &lt; 300) {
+        return response;
+    }
+    const error = new Error(`HTTP Error ${response.statusText}`);
+    error.status = response.statusText;
+    error.response = response;
+    console.log(error); // eslint-disable-line no-console
+    throw error;
+}
+
+function parseJSON(response) {
+    return response.json();
+}
+
+const Client = { index };
+export default Client;</code></pre>
+<pre><code class="language-jsx">// client/src/App.js
+import Client from &quot;./Client&quot;;
+
+class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            cats: []
+        };
+        Client.index(cats =&gt; this.setState({ cats: cats }))
+    }
+    ...
+}
+
+export default App;</code></pre>
 <h1>Miscellaneous</h1><h2>List keys</h2><p>When rendering a list, React needs to give each item in the list a unique key so that when the list changes, it can keep track of which items have been added &amp; removed. This key just needs to be unique within the list, not within the whole app.</p>
 <p>If you have a unique key for the item, use that. If you must, use the array index. If you don&#39;t assign a key, React will use the list index, and this may lead to problems. <a href="https://reactjs.org/docs/lists-and-keys.html">More info about list keys</a></p>
 <pre><code class="language-jsx">const numbers = [1, 2, 3, 4, 5];

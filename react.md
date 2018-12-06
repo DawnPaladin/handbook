@@ -200,6 +200,60 @@ render() {
 }
 ```
 
+# React with Rails
+
+Use this [tutorial](https://www.fullstackreact.com/articles/how-to-get-create-react-app-to-work-with-your-rails-api/) to set up a Rails and a React server that will work together.
+
+Then, if your `config/routes.rb` says `resources :cats`, and you want the list of cats:
+
+```js
+// client/src/Client.js
+function index(callback) {
+	return fetch('cats', { // this string expands to "localhost:3001/cats"
+		accept: "application/json"
+	})
+	.then(checkStatus)
+	.then(parseJSON)
+	.then(callback);
+}
+
+function checkStatus(response) {
+	if (response.status >= 200 && response.status < 300) {
+		return response;
+	}
+	const error = new Error(`HTTP Error ${response.statusText}`);
+	error.status = response.statusText;
+	error.response = response;
+	console.log(error); // eslint-disable-line no-console
+	throw error;
+}
+
+function parseJSON(response) {
+	return response.json();
+}
+
+const Client = { index };
+export default Client;
+```
+
+```jsx
+// client/src/App.js
+import Client from "./Client";
+
+class App extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			cats: []
+		};
+		Client.index(cats => this.setState({ cats: cats }))
+	}
+	...
+}
+
+export default App;
+```
+
 # Miscellaneous
 
 ## List keys
