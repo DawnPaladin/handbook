@@ -68,6 +68,8 @@ Cat.defaultProps = { name: "DefaultCat" };
 ### Setting prop types
 
 ```jsx
+import PropTypes from 'prop-types';
+
 Cat.propTypes = { name: PropTypes.string };
 ```
 
