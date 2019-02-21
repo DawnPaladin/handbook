@@ -163,6 +163,21 @@ This can be done with whole `<form>` elements.
 ```
 Don't forget to include an `event.preventDefault()` statement in the submit handler; actually submitting the form would cause a page refresh.
 
+## Splitting between files
+
+```js
+// MyComponent.jsx
+import React from 'react';
+
+export default class MyComponent extends React.Component {
+	// ...
+}
+```
+```js
+// App.jsx
+import MyComponent from './MyComponent';
+```
+
 # Styling
 
 ```jsx

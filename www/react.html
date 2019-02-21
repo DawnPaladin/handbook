@@ -116,6 +116,14 @@ const Cat = (props) =&gt; &lt;div&gt;This cat is a {props.type}&lt;/div&gt;</cod
     &lt;button type=&#39;submit&#39;&gt;Submit&lt;/button&gt;
 &lt;/form&gt;</code></pre>
 <p>Don&#39;t forget to include an <code>event.preventDefault()</code> statement in the submit handler; actually submitting the form would cause a page refresh.</p>
+<h2>Splitting between files</h2><pre><code class="language-js">// MyComponent.jsx
+import React from &#39;react&#39;;
+
+export default class MyComponent extends React.Component {
+    // ...
+}</code></pre>
+<pre><code class="language-js">// App.jsx
+import MyComponent from &#39;./MyComponent&#39;;</code></pre>
 <h1>Styling</h1><pre><code class="language-jsx">&lt;div style={{
     color: &#39;red&#39;,
     height: 100, // defaults to px
