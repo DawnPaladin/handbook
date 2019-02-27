@@ -85,7 +85,11 @@ Cat.defaultProps = { name: "DefaultCat" };
 ```jsx
 import PropTypes from 'prop-types';
 
-Cat.propTypes = { name: PropTypes.string };
+class Cat extends React.Component {
+	static propTypes = {
+		{ name: PropTypes.string };
+	}
+}
 ```
 
 PropTypes are the same as JavaScript types, except for `func` and `bool`.

@@ -65,7 +65,11 @@ const Cat = (props) =&gt; &lt;div&gt;This cat is a {props.type}&lt;/div&gt;</cod
 <h3>Default props</h3><pre><code class="language-jsx">Cat.defaultProps = { name: &quot;DefaultCat&quot; };</code></pre>
 <h3>Setting prop types</h3><pre><code class="language-jsx">import PropTypes from &#39;prop-types&#39;;
 
-Cat.propTypes = { name: PropTypes.string };</code></pre>
+class Cat extends React.Component {
+    static propTypes = {
+        { name: PropTypes.string };
+    }
+}</code></pre>
 <p>PropTypes are the same as JavaScript types, except for <code>func</code> and <code>bool</code>.</p>
 <p>To make the prop <strong>required:</strong></p>
 <pre><code class="language-jsx">Cat.propTypes = { name: PropTypes.string.isRequired };</code></pre>
