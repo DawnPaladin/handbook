@@ -87,7 +87,7 @@ import PropTypes from 'prop-types';
 
 class Cat extends React.Component {
 	static propTypes = {
-		{ name: PropTypes.string };
+		name: PropTypes.string;
 	}
 }
 ```
@@ -97,6 +97,14 @@ PropTypes are the same as JavaScript types, except for `func` and `bool`.
 To make the prop **required:**
 ```jsx
 Cat.propTypes = { name: PropTypes.string.isRequired };
+```
+
+To require an object with specific properties:
+```jsx
+Cat.propTypes = { options: PropTypes.shape({
+	lolCat: PropTypes.bool,
+	caption: PropTypes.string,
+})}
 ```
 
 ## State
