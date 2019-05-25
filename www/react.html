@@ -23,9 +23,6 @@
 
 <div class="main-column">
   <p><strong>React</strong></p>
-<h1>Basics</h1><pre><code class="language-jsx">const jsx = &lt;h1&gt;Hello, world!&lt;/h1&gt;
-ReactDOM.render(jsx, document.getElementById(&#39;root&#39;));
-{/* this is what comments look like */}</code></pre>
 <h1>Components</h1><p>Custom components must have their names start with a capital letter.</p>
 <p><code>class</code> is a reserved word in JavaScript, so JSX uses <code>className</code>.</p>
 <h2>Stateless functional component</h2><pre><code class="language-jsx">const MyComponent = function() {
@@ -90,7 +87,7 @@ class Cat extends React.Component {
     }
 }</code></pre>
 <h3>Updating state</h3><pre><code class="language-jsx">this.setState({ name: &quot;Grumpy Cat&quot; });</code></pre>
-<h2>Methods</h2><p>Methods typically need access to <code>this</code>, which is provided by <code>bind</code>ing it in the constructor.</p>
+<h2>Methods</h2><p>Methods often need access to <code>this</code>, which can be provided by <code>bind</code>ing it in the constructor.</p>
 <pre><code class="language-jsx">class Cat extends React.component {
     constructor(props) {
         super(props);
@@ -111,6 +108,13 @@ class Cat extends React.Component {
         );
     }
 }</code></pre>
+<p>The experimental public class fields syntax provides access to <code>this</code> without a <code>bind</code> statement:</p>
+<pre><code class="language-jsx">    eat = () =&gt; {
+        this.setState({
+            foodLevel: this.state.foodLevel + 1;
+        });
+    }</code></pre>
+<p>See the <a href="https://reactjs.org/docs/handling-events.html">documentation</a> for more information.</p>
 <h2>Controlled Inputs</h2><p>You can set up components that have two-way data binding between the DOM state and the React component&#39;s state.</p>
 <pre><code class="language-jsx">class Cat extends React.component {
     constructor(props) {

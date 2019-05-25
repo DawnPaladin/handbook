@@ -1,13 +1,5 @@
 **React**
 
-# Basics
-
-```jsx
-const jsx = <h1>Hello, world!</h1>
-ReactDOM.render(jsx, document.getElementById('root'));
-{/* this is what comments look like */}
-```
-
 # Components
 
 Custom components must have their names start with a capital letter.
@@ -133,7 +125,7 @@ this.setState({ name: "Grumpy Cat" });
 
 ## Methods
 
-Methods typically need access to `this`, which is provided by `bind`ing it in the constructor.
+Methods often need access to `this`, which can be provided by `bind`ing it in the constructor.
 
 ```jsx
 class Cat extends React.component {
@@ -157,6 +149,18 @@ class Cat extends React.component {
 	}
 }
 ```
+
+The experimental public class fields syntax provides access to `this` without a `bind` statement:
+
+```jsx
+	eat = () => {
+		this.setState({
+			foodLevel: this.state.foodLevel + 1;
+		});
+	}
+```
+
+See the [documentation](https://reactjs.org/docs/handling-events.html) for more information.
 
 ## Controlled Inputs
 
