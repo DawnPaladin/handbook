@@ -137,10 +137,8 @@ module ApplicationHelper
     messages
   end
 end</code></pre>
-<h2>Create Postgres database</h2><p>Add &quot;pg&quot; to your Gemfile.</p>
-<p>In config/database.yml, under &quot;default&quot;, change &quot;adapter&quot; to &quot;postgresql&quot;. Under &quot;development&quot;, change &quot;database&quot; to &quot;devise_development&quot;, under &quot;test&quot; change it to &quot;devise_test&quot;, and under &quot;production&quot; change it to &quot;devise_production&quot;.</p>
-<p>Then run <code>rails db:create</code>.</p>
-<h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
+<h2>Create Postgres database</h2><pre><code>sudo -i -u postgres
+createdb &lt;databasename&gt;</code></pre><h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
 <pre><code>{
     &quot;Version&quot;: &quot;2008-10-17&quot;,
     &quot;Statement&quot;: [

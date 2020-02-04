@@ -183,11 +183,10 @@ end
 
 ## Create Postgres database
 
-Add "pg" to your Gemfile.
-
-In config/database.yml, under "default", change "adapter" to "postgresql". Under "development", change "database" to "devise_development", under "test" change it to "devise_test", and under "production" change it to "devise_production".
-
-Then run `rails db:create`.
+```
+sudo -i -u postgres
+createdb <databasename>
+```
 
 ## Uploading photos to AWS with Paperclip
 

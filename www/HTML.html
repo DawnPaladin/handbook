@@ -166,9 +166,12 @@ Buttons are typically used with an "onclick" event:
 ```
 Reset form controls to their default values.
 
-<h2>Hidden</h2><p><input type="hidden" name="inputName" value="inputValue">  </p>
-<pre><code class="language-html">&lt;input type=&quot;hidden&quot; name=&quot;inputName&quot; value=&quot;inputValue&quot;&gt;  </code></pre>
-<p>A hidden input won&#39;t be visible to the user, but its value will be sent to the server when the form is submitted nonetheless.</p>
+<h2>Hidden</h2><input type="hidden" name="inputName" value="inputValue">  
+```html
+<input type="hidden" name="inputName" value="inputValue">  
+```
+A hidden input won't be visible to the user, but its value will be sent to the server when the form is submitted nonetheless.
+
 <p>Don&#39;t rely on this for security-sensitive information such as user IDs; it&#39;s possible for users to alter their data befor it&#39;s sent.</p>
 <h2>Tel</h2><input type="tel" value="+8400000000">
 ```html
