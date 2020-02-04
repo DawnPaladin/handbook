@@ -138,7 +138,7 @@ module ApplicationHelper
   end
 end</code></pre>
 <h2>Create Postgres database</h2><pre><code>sudo -i -u postgres
-createdb &lt;databasename&gt;</code></pre><h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
+createdb &lt;databasename&gt;</code></pre><h2>Start Postgres server</h2><pre><code>sudo /etc/init.d/postgresql start</code></pre><h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
 <pre><code>{
     &quot;Version&quot;: &quot;2008-10-17&quot;,
     &quot;Statement&quot;: [

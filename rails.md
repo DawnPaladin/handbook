@@ -188,6 +188,12 @@ sudo -i -u postgres
 createdb <databasename>
 ```
 
+## Start Postgres server
+
+```
+sudo /etc/init.d/postgresql start
+```
+
 ## Uploading photos to AWS with Paperclip
 
 Set up your AWS bucket and user. You can learn your region by going [here](https://console.aws.amazon.com/s3/home) and looking at the `region` parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the "Resource" line:
