@@ -387,6 +387,36 @@ function multiplyString(string, times) {
 }
 ```
 
+Putting a parameter name in brackets means it's optional.
+
+```js
+/**
+ * @param {Object} [options] - Options object (optional).
+ */
+```
+
+[More details about the @param tag](https://devdocs.io/jsdoc/tags-param)
+
+### Describing objects
+
+```js
+/**
+ * @param {Object} options - Options object
+ * @param {string} options.name
+ * @param {function} options.initializer
+ */
+```
+
+### Commonly-used parameter types
+
+- `Object`
+- `function`
+- `string`
+- `number`
+- `boolean`
+
+[More details](https://devdocs.io/jsdoc/tags-type)
+
 # AJAX
 
 Basic XMLHttpRequest:
