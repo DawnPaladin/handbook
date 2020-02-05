@@ -414,6 +414,7 @@ Putting a parameter name in brackets means it's optional.
 - `string`
 - `number`
 - `boolean`
+- `Array.<classname>` - An array of something. `Array.number` means an array of numbers, which you can also write `number[]`.
 
 [More details](https://devdocs.io/jsdoc/tags-type)
 
