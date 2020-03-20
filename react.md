@@ -13,6 +13,10 @@ import React, { useState, useEffect } from 'react';
 export default function Cat(props) {
 	const [name, setName] = useState(props.name);
 	
+	const formatName = inputName => {
+		return inputName + "-kins";
+	}
+	
 	useEffect(() => {
 		// side effect that happens on mount
 	});
