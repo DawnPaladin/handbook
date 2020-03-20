@@ -1,126 +1,68 @@
 **React**
 
-# Components
-
 Custom components must have their names start with a capital letter.
 
 `class` is a reserved word in JavaScript, so JSX uses `className`.
 
-## Stateless functional component
+# Functional components
 
 ```jsx
-const MyComponent = function() {
-	return {
-		<div className='nameOfTheClass' />
-	}
+// Cat.jsx
+import React, { useState, useEffect } from 'react';
+
+export default function Cat(props) {
+	const [name, setName] = useState(props.name);
+	
+	useEffect(() => {
+		// side effect that happens on mount
+	});
+	
+	return <div className="cat">
+		I'm a cat named {name}.
+	</div>
+}
+
+Cat.propTypes = {
+	name: PropTypes.string.isRequired;
 }
 ```
 
-Or, more simply:
 ```jsx
-const MyComponent = props => (<div>Name: {props.name}</div>);
-
-<MyComponent name="Joe" />
-```
-
-
-## Stateless component
-
-```jsx
-class Kitten extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-
-	render() {
-		return (
-			<h1>Hi</h1>
-		);
-	}
-}
-
-<Kitten />
-```
-
-## Splitting between files
-
-```js
-// MyComponent.jsx
-import React from 'react';
-
-export default class MyComponent extends React.Component {
-	// ...
-}
-```
-```js
 // App.jsx
-import MyComponent from './MyComponent';
+import Cat from './Cat';
+
+<Cat name="Fluffle">
 ```
 
-## Props
-
-Passing a prop (property) into a component:
-```jsx
-<Cat type="kitten" />
-
-const Cat = (props) => <div>This cat is a {props.type}</div>
-```
-
-### Default props
+# Class components
 
 ```jsx
-Cat.defaultProps = { name: "DefaultCat" };
-```
-
-### Setting prop types
-
-```jsx
-import PropTypes from 'prop-types';
+// Cat.jsx
+import React from 'react';
 
 class Cat extends React.Component {
 	static propTypes = {
-		name: PropTypes.string;
+		name: PropTypes.string.isRequired;
 	}
-}
-```
-
-PropTypes are the same as JavaScript types, except for `func` and `bool`.
-
-To make the prop **required:**
-```jsx
-Cat.propTypes = { name: PropTypes.string.isRequired };
-```
-
-To require an object with specific properties:
-```jsx
-Cat.propTypes = { options: PropTypes.shape({
-	lolCat: PropTypes.bool,
-	caption: PropTypes.string,
-})}
-```
-
-## State
-
-### Declaring state
-
-```jsx
-class Cat extends React.Component {
+	
 	constructor(props) {
 		super(props);
-		this.state = { name: "Fluffle" };
+		this.state = { name: this.props.name };
 	}
+
 	render() {
-		return (
-	      <p>I am a cat named {this.state.name}</p>
-		)
+		return <div className="cat">
+			I'm a cat named {name}.
+		</div>
 	}
 }
 ```
 
-### Updating state
-
 ```jsx
-this.setState({ name: "Grumpy Cat" });
+// App.jsx
+import Cat from './Cat';
+
+<Cat name="Fluffle" />
 ```
 
 ## Methods
@@ -161,6 +103,26 @@ The experimental public class fields syntax provides access to `this` without a 
 ```
 
 See the [documentation](https://reactjs.org/docs/handling-events.html) for more information.
+
+# Props and propTypes
+
+## Default props
+
+```jsx
+Cat.defaultProps = { name: "DefaultCat" };
+```
+
+### Setting prop types
+
+PropTypes are the same as JavaScript types, except for `func` and `bool`.
+
+To require an object with specific properties:
+```jsx
+Cat.propTypes = { options: PropTypes.shape({
+	lolCat: PropTypes.bool,
+	caption: PropTypes.string,
+})}
+```
 
 ## Controlled Inputs
 

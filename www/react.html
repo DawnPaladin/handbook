@@ -23,70 +23,53 @@
 
 <div class="main-column">
   <p><strong>React</strong></p>
-<h1>Components</h1><p>Custom components must have their names start with a capital letter.</p>
+<p>Custom components must have their names start with a capital letter.</p>
 <p><code>class</code> is a reserved word in JavaScript, so JSX uses <code>className</code>.</p>
-<h2>Stateless functional component</h2><pre><code class="language-jsx">const MyComponent = function() {
-    return {
-        &lt;div className=&#39;nameOfTheClass&#39; /&gt;
-    }
-}</code></pre>
-<p>Or, more simply:</p>
-<pre><code class="language-jsx">const MyComponent = props =&gt; (&lt;div&gt;Name: {props.name}&lt;/div&gt;);
+<h1>Functional components</h1><pre><code class="language-jsx">// Cat.jsx
+import React, { useState, useEffect } from &#39;react&#39;;
 
-&lt;MyComponent name=&quot;Joe&quot; /&gt;</code></pre>
-<h2>Stateless component</h2><pre><code class="language-jsx">class Kitten extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+export default function Cat(props) {
+    const [name, setName] = useState(props.name);
 
-    render() {
-        return (
-            &lt;h1&gt;Hi&lt;/h1&gt;
-        );
-    }
+    useEffect(() =&gt; {
+        // side effect that happens on mount
+    });
+
+    return &lt;div className=&quot;cat&quot;&gt;
+        I&#39;m a cat named {name}.
+    &lt;/div&gt;
 }
 
-&lt;Kitten /&gt;</code></pre>
-<h2>Splitting between files</h2><pre><code class="language-js">// MyComponent.jsx
-import React from &#39;react&#39;;
-
-export default class MyComponent extends React.Component {
-    // ...
+Cat.propTypes = {
+    name: PropTypes.string.isRequired;
 }</code></pre>
-<pre><code class="language-js">// App.jsx
-import MyComponent from &#39;./MyComponent&#39;;</code></pre>
-<h2>Props</h2><p>Passing a prop (property) into a component:</p>
-<pre><code class="language-jsx">&lt;Cat type=&quot;kitten&quot; /&gt;
+<pre><code class="language-jsx">// App.jsx
+import Cat from &#39;./Cat&#39;;
 
-const Cat = (props) =&gt; &lt;div&gt;This cat is a {props.type}&lt;/div&gt;</code></pre>
-<h3>Default props</h3><pre><code class="language-jsx">Cat.defaultProps = { name: &quot;DefaultCat&quot; };</code></pre>
-<h3>Setting prop types</h3><pre><code class="language-jsx">import PropTypes from &#39;prop-types&#39;;
+&lt;Cat name=&quot;Fluffle&quot;&gt;</code></pre>
+<h1>Class components</h1><pre><code class="language-jsx">// Cat.jsx
+import React from &#39;react&#39;;
 
 class Cat extends React.Component {
     static propTypes = {
-        name: PropTypes.string;
+        name: PropTypes.string.isRequired;
     }
-}</code></pre>
-<p>PropTypes are the same as JavaScript types, except for <code>func</code> and <code>bool</code>.</p>
-<p>To make the prop <strong>required:</strong></p>
-<pre><code class="language-jsx">Cat.propTypes = { name: PropTypes.string.isRequired };</code></pre>
-<p>To require an object with specific properties:</p>
-<pre><code class="language-jsx">Cat.propTypes = { options: PropTypes.shape({
-    lolCat: PropTypes.bool,
-    caption: PropTypes.string,
-})}</code></pre>
-<h2>State</h2><h3>Declaring state</h3><pre><code class="language-jsx">class Cat extends React.Component {
+
     constructor(props) {
         super(props);
-        this.state = { name: &quot;Fluffle&quot; };
+        this.state = { name: this.props.name };
     }
+
     render() {
-        return (
-          &lt;p&gt;I am a cat named {this.state.name}&lt;/p&gt;
-        )
+        return &lt;div className=&quot;cat&quot;&gt;
+            I&#39;m a cat named {name}.
+        &lt;/div&gt;
     }
 }</code></pre>
-<h3>Updating state</h3><pre><code class="language-jsx">this.setState({ name: &quot;Grumpy Cat&quot; });</code></pre>
+<pre><code class="language-jsx">// App.jsx
+import Cat from &#39;./Cat&#39;;
+
+&lt;Cat name=&quot;Fluffle&quot; /&gt;</code></pre>
 <h2>Methods</h2><p>Methods often need access to <code>this</code>, which can be provided by <code>bind</code>ing it in the constructor.</p>
 <pre><code class="language-jsx">class Cat extends React.component {
     constructor(props) {
@@ -115,6 +98,13 @@ class Cat extends React.Component {
         });
     }</code></pre>
 <p>See the <a href="https://reactjs.org/docs/handling-events.html">documentation</a> for more information.</p>
+<h1>Props and propTypes</h1><h2>Default props</h2><pre><code class="language-jsx">Cat.defaultProps = { name: &quot;DefaultCat&quot; };</code></pre>
+<h3>Setting prop types</h3><p>PropTypes are the same as JavaScript types, except for <code>func</code> and <code>bool</code>.</p>
+<p>To require an object with specific properties:</p>
+<pre><code class="language-jsx">Cat.propTypes = { options: PropTypes.shape({
+    lolCat: PropTypes.bool,
+    caption: PropTypes.string,
+})}</code></pre>
 <h2>Controlled Inputs</h2><p>You can set up components that have two-way data binding between the DOM state and the React component&#39;s state.</p>
 <pre><code class="language-jsx">class Cat extends React.component {
     constructor(props) {
