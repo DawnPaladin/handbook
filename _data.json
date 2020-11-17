@@ -38,5 +38,9 @@
   "react": {
     "layout": "_layout",
     "title": "React Handbook"
+  },
+  "mediawiki": {
+    "layout": "_layout",
+    "title": "MediaWiki Handbook"
   }
 }
