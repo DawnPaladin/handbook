@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Handbook</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="lib/jquery-ui.min.js"></script>
+  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+  <script src="lib/jquery.tocify.js"></script>
+  <script src="lib/prism.js"></script>
+  <link rel="stylesheet" href="lib/prism.css"/>
+  <link href="handbook.css" rel="stylesheet"></link>
+  <link href="blueprint.css" rel="stylesheet"></link>
+
+</head>
+<body>
+
+<div id="toc">
+  <a href="index.html" class="index-link">Index</a>
+</div>
+
+<div class="main-column">
+  <p><strong>MediaWiki</strong></p>
+<h1>Syntax</h1><p>Define variable: <code>{{#vardefine: variable-name | variable-value }}</code></p>
+<p>Use variable: <code>{{#var: variable-name }}</code></p>
+<p>Use variable, providing a default: <code>{{#var: variable-name | default }}</code></p>
+<p>String manipulation: <code>{{#replace: input | search | replace}}</code></p>
+<p>Loop through an array: <code>{{#arraymap: input | delimiter | variable name | code | output delimiter }}</code></p>
+<p>Comments: <code>&lt;!-- Comment --&gt;</code></p>
+<p>Transclude another page: <code>{{ Page name | optional parameter }}</code></p>
+<p>MediaWiki supports a number of <a href="https://www.mediawiki.org/wiki/Help:Magic_words">magic words</a>, including: </p>
+<ul>
+<li><code>{{PAGENAME}}</code></li>
+<li><code>{{FULLPAGENAME}}</code> (includes the namespace)</li>
+<li><code>{{PAGENAMEE}}</code> (URL-encoded page name)</li>
+<li><code>{{__NOTOC__}}</code> (hides the Table of Contents)</li>
+<li><code>{{!}}</code> (escaped pipe character)</li>
+<li>various date/time functions</li>
+</ul>
+<p>Escape wiki markup: <code>&lt;nowiki&gt; **this** _formatting_ [[won&#39;t be processed]]&lt;/nowiki&gt;</code> (<a href="https://www.mediawiki.org/wiki/Help:Formatting">further formatting help</a>)</p>
+<h2>Types of braces</h2><p>{{Double curly braces}} are a <a href="https://www.mediawiki.org/wiki/Help:Magic_words">magic word</a>, a <a href="https://www.mediawiki.org/wiki/Help:Magic_words#Parser_functions">parser function</a>, or a <a href="https://www.mediawiki.org/wiki/Help:Templates">template</a>.</p>
+<p>[[Double square brackets]] are a link to an internal page. To change the link text, write <code>[[page name|link text]]</code>.</p>
+<p>[Single square brackets] are a link to an external page.</p>
+<h2>Tables</h2><p><a href="https://www.mediawiki.org/wiki/Help:Tables">Detailed reference, with examples</a></p>
+<p><code>{|</code> Table start</p>
+<p><code>|+</code> Table caption (optional, only before first row)</p>
+<p><code>|-</code> Row (the first one is optional)</p>
+<p><code>!</code> Header cell. Optional. Consecutive table header cells may be added on same line separated by double marks (<code>!!</code>) or start on new lines, each with its own single mark (<code>!</code>).</p>
+<p><code>|</code> Cell. Consecutive table data cells may be added on same line separated by double marks (<code>||</code>) or start on new lines, each with its own single mark (<code>|</code>).</p>
+<p><code>|}</code> Table end</p>
+<h1>Semantic MediaWiki queries</h1><p><a href="https://www.semantic-mediawiki.org/wiki/Help:Inline_queries#Parser_function_.23ask"><strong>Ask</strong></a> queries the wiki database and returns a table:</p>
+<pre><code>{{#ask:
+ [[Category:City]]
+ [[Located in::Germany]] 
+ |?Population 
+ |?Area#km² = Size in km²
+ |limit=10
+}}</code></pre><p><a href="https://www.semantic-mediawiki.org/wiki/Help:Inline_queries#Parser_function_.23show"><strong>Show</strong></a> gets a single property value from a single page:</p>
+<pre><code>{{#show: Demo:Berlin |?Population |default=0}}</code></pre><p><a href="https://www.semantic-mediawiki.org/wiki/Help:Inline_queries#Standard_parameters_for_inline_queries">Other available parameters:</a> <a href="https://www.semantic-mediawiki.org/wiki/Help:Result_formats"><code>format</code></a>, <code>limit</code>, <code>offset</code>, <code>sort</code>, <code>order</code>, <code>headers</code>, <code>mainlabel</code>, <code>index</code>, <code>link</code>, <code>default</code>, <code>intro</code>, <code>outro</code>, <code>searchlabel</code>, format-specific parameters</p>
+<h1>Debugging</h1><p>Replace <code>{{#vardefine}}</code> with <code>{{#vardefineecho}}</code>, which prints the value in the place it&#39;s defined</p>
+</div>
+
+<script>
+jQuery(document).ready(function() {
+  if (jQuery(window).height() < jQuery(document).height()) {
+    $('#toc').tocify({
+      extendPage: false
+    });
+  }
+});
+</script>
+
+</body>
