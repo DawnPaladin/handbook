@@ -24,7 +24,6 @@
 <div class="main-column">
   <p><strong>MediaWiki</strong></p>
 <p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##expr">Evaluate math expression</a>: <code>{{#expr: expression }}</code></p>
-<p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##if">Conditional rendering</a>: <code>{{#if: test string | return if truthy | return if falsy }}</code>. Also available: <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifeq"><code>#ifeq</code></a> (if strings are equal), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##iferror"><code>#iferror</code></a>, <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexpr"><code>#ifexpr</code></a>, <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexist"><code>#ifexist</code></a> (if page exists), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##switch"><code>#switch</code></a></p>
 <p>Loop through an array: <code>{{#arraymap: input | delimiter | variable name | code | output delimiter }}</code></p>
 <p>Comments: <code>&lt;!-- Comment --&gt;</code></p>
 <p>Transclude another page: <code>{{ Page name | optional parameter }}</code></p>
@@ -55,6 +54,9 @@
 </ul>
 <h2>#titleparts</h2><p>Get pieces of a page title</p>
 <pre><code>{{#titleparts: pagename | number of segments to return | index of first segment to return }}</code></pre><p><code>{{#titleparts: Psalm 1/1/Arguments | 2 | 0 }}</code> -&gt; Psalm 1/1</p>
+<h1>Conditional rendering</h1><h2>#if</h2><p>Tests whether string is <strong>empty</strong>. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##if">Reference</a></p>
+<pre><code>{{#if: test string | return if not empty | return if empty }}</code></pre><h2>#ifexpr</h2><p>Tests whether an expression is truthy or falsy. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexpr">Reference</a></p>
+<pre><code>{{#ifexpr: expression | return if truthy | return if falsy }}</code></pre><p>Also available: <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifeq"><code>#ifeq</code></a> (if strings are equal), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##iferror"><code>#iferror</code></a>, <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexist"><code>#ifexist</code></a> (if page exists), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##switch"><code>#switch</code></a></p>
 <h1>Types of braces</h1><p>{{Double curly braces}} are a <a href="https://www.mediawiki.org/wiki/Help:Magic_words">magic word</a>, a <a href="https://www.mediawiki.org/wiki/Help:Magic_words#Parser_functions">parser function</a>, or a <a href="https://www.mediawiki.org/wiki/Help:Templates">template</a>.</p>
 <p>[[Double square brackets]] are a link to an internal page. To change the link text, write <code>[[page name|link text]]</code>.</p>
 <p>[Single square brackets] are a link to an external page.</p>

@@ -2,8 +2,6 @@
 
 [Evaluate math expression](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##expr): `{{#expr: expression }}`
 
-[Conditional rendering](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##if): `{{#if: test string | return if truthy | return if falsy }}`. Also available: [`#ifeq`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifeq) (if strings are equal), [`#iferror`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##iferror), [`#ifexpr`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexpr), [`#ifexist`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexist) (if page exists), [`#switch`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##switch)
-
 Loop through an array: `{{#arraymap: input | delimiter | variable name | code | output delimiter }}`
 
 Comments: `<!-- Comment -->`
@@ -83,6 +81,26 @@ Get pieces of a page title
 {{#titleparts: pagename | number of segments to return | index of first segment to return }}
 ```
 `{{#titleparts: Psalm 1/1/Arguments | 2 | 0 }}` -> Psalm 1/1
+
+# Conditional rendering
+
+## #if
+
+Tests whether string is **empty**. [Reference](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##if)
+
+```
+{{#if: test string | return if not empty | return if empty }}
+```
+
+## #ifexpr
+
+Tests whether an expression is truthy or falsy. [Reference](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexpr)
+
+```
+{{#ifexpr: expression | return if truthy | return if falsy }}
+```
+
+Also available: [`#ifeq`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifeq) (if strings are equal), [`#iferror`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##iferror), [`#ifexist`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexist) (if page exists), [`#switch`](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##switch)
 
 # Types of braces
 
