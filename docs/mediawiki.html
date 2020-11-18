@@ -23,10 +23,8 @@
 
 <div class="main-column">
   <p><strong>MediaWiki</strong></p>
-<h1>Syntax</h1><p>Define variable: <code>{{#vardefine: variable-name | variable-value }}</code></p>
-<p>Use variable: <code>{{#var: variable-name }}</code></p>
-<p>Use variable, providing a default: <code>{{#var: variable-name | default }}</code></p>
-<p>String manipulation: <code>{{#replace: input | search | replace}}</code></p>
+<p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##expr">Evaluate math expression</a>: <code>{{#expr: expression }}</code></p>
+<p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##if">Conditional rendering</a>: <code>{{#if: test string | return if truthy | return if falsy }}</code>. Also available: <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifeq"><code>#ifeq</code></a> (if strings are equal), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##iferror"><code>#iferror</code></a>, <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexpr"><code>#ifexpr</code></a>, <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexist"><code>#ifexist</code></a> (if page exists), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##switch"><code>#switch</code></a></p>
 <p>Loop through an array: <code>{{#arraymap: input | delimiter | variable name | code | output delimiter }}</code></p>
 <p>Comments: <code>&lt;!-- Comment --&gt;</code></p>
 <p>Transclude another page: <code>{{ Page name | optional parameter }}</code></p>
@@ -40,10 +38,27 @@
 <li>various date/time functions</li>
 </ul>
 <p>Escape wiki markup: <code>&lt;nowiki&gt; **this** _formatting_ [[won&#39;t be processed]]&lt;/nowiki&gt;</code> (<a href="https://www.mediawiki.org/wiki/Help:Formatting">further formatting help</a>)</p>
-<h2>Types of braces</h2><p>{{Double curly braces}} are a <a href="https://www.mediawiki.org/wiki/Help:Magic_words">magic word</a>, a <a href="https://www.mediawiki.org/wiki/Help:Magic_words#Parser_functions">parser function</a>, or a <a href="https://www.mediawiki.org/wiki/Help:Templates">template</a>.</p>
+<h1>Variables</h1><h2>#vardefine</h2><p>Define a variable</p>
+<pre><code>{{#vardefine: variable-name | variable-value }}</code></pre><h2>#var</h2><p>Use a variable</p>
+<pre><code>{{#var: variable-name }}</code></pre><p>Use a variable, providing a default</p>
+<pre><code>{{#var: variable-name | default }}</code></pre><h1>String manipulation</h1><p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions"><strong>Reference guide</strong></a></p>
+<p>Whitespace, including newlines, tabs, and spaces, is stripped from the beginning and end of all the parameters of these parser functions. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions#Stripping_whitespace">Workarounds available.</a></p>
+<p>For most of these, negative parameter values count from the right end.</p>
+<p>Other available functions: <code>len</code>, <code>pos</code>, <code>rpos</code>, <code>sub</code></p>
+<h2>#replace</h2><p>Replace within a string</p>
+<pre><code>{{#replace: input | search | replace}}</code></pre><h2>#explode</h2><p>Split a string into pieces and return one or more of them.</p>
+<pre><code>{{#explode:string|delimiter|starting index|quantity of pieces}}</code></pre><ul>
+<li><code><nowiki>{{#explode:And if you tolerate this| |2}}</nowiki></code> <translate><!--T:2629--> returns</translate> <code>you</code></li>
+<li><code><nowiki>{{#explode:String/Functions/Code|/|-1}}</nowiki></code> <translate><!--T:2630--> returns</translate> <code>Code</code></li>
+<li><code><nowiki>{{#explode:Split%By%Percentage%Signs|%|2}}</nowiki></code> <translate><!--T:2631--> returns</translate> <code>Percentage</code></li>
+<li><code><nowiki>{{#explode:And if you tolerate this| |2|3}}</nowiki></code> <translate><!--T:2632--> returns</translate> <code>you tolerate this</code></li>
+</ul>
+<h2>#titleparts</h2><p>Get pieces of a page title</p>
+<pre><code>{{#titleparts: pagename | number of segments to return | index of first segment to return }}</code></pre><p><code>{{#titleparts: Psalm 1/1/Arguments | 2 | 0 }}</code> -&gt; Psalm 1/1</p>
+<h1>Types of braces</h1><p>{{Double curly braces}} are a <a href="https://www.mediawiki.org/wiki/Help:Magic_words">magic word</a>, a <a href="https://www.mediawiki.org/wiki/Help:Magic_words#Parser_functions">parser function</a>, or a <a href="https://www.mediawiki.org/wiki/Help:Templates">template</a>.</p>
 <p>[[Double square brackets]] are a link to an internal page. To change the link text, write <code>[[page name|link text]]</code>.</p>
 <p>[Single square brackets] are a link to an external page.</p>
-<h2>Tables</h2><p><a href="https://www.mediawiki.org/wiki/Help:Tables">Detailed reference, with examples</a></p>
+<h1>Tables</h1><p><a href="https://www.mediawiki.org/wiki/Help:Tables">Detailed reference, with examples</a></p>
 <p><code>{|</code> Table start</p>
 <p><code>|+</code> Table caption (optional, only before first row)</p>
 <p><code>|-</code> Row (the first one is optional)</p>
