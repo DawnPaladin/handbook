@@ -108,7 +108,7 @@ Also available: [`#ifeq`](https://www.mediawiki.org/wiki/Help:Extension:ParserFu
 
 [[Double square brackets]] are a link to an internal page. To change the link text, write `[[page name|link text]]`.
 
-[Single square brackets] are a link to an external page.
+[Single square brackets] are a link to an external page. To change the link text, write `[URL link text]`.
 
 # Tables
 
