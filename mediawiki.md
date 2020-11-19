@@ -43,7 +43,7 @@ Use a variable, providing a default
 # Looping over arrays
 
 ```
-`{{#arraymap: input | delimiter | variable name | code | output delimiter | ending conjunction }}`
+{{#arraymap: input | delimiter | variable name | code | output delimiter | ending conjunction }}
 ```
 
 To remove commas between items, use `\s` (space) as a delimiter.
