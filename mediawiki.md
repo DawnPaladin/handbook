@@ -2,8 +2,6 @@
 
 [Evaluate math expression](https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##expr): `{{#expr: expression }}`
 
-Loop through an array: `{{#arraymap: input | delimiter | variable name | code | output delimiter }}`
-
 Comments: `<!-- Comment -->`
 
 Transclude another page: `{{ Page name | optional parameter }}`
@@ -41,6 +39,16 @@ Use a variable, providing a default
 ```
 {{#var: variable-name | default }}
 ```
+
+# Looping over arrays
+
+```
+`{{#arraymap: input | delimiter | variable name | code | output delimiter | ending conjunction }}`
+```
+
+To remove commas between items, use `\s` (space) as a delimiter.
+
+You can process items via template using `{{#arraymaptemplate: input | template | delimiter | output delimiter }}`.
 
 # String manipulation
 

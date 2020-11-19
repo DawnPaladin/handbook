@@ -24,7 +24,6 @@
 <div class="main-column">
   <p><strong>MediaWiki</strong></p>
 <p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##expr">Evaluate math expression</a>: <code>{{#expr: expression }}</code></p>
-<p>Loop through an array: <code>{{#arraymap: input | delimiter | variable name | code | output delimiter }}</code></p>
 <p>Comments: <code>&lt;!-- Comment --&gt;</code></p>
 <p>Transclude another page: <code>{{ Page name | optional parameter }}</code></p>
 <p>MediaWiki supports a number of <a href="https://www.mediawiki.org/wiki/Help:Magic_words">magic words</a>, including: </p>
@@ -40,7 +39,9 @@
 <h1>Variables</h1><h2>#vardefine</h2><p>Define a variable</p>
 <pre><code>{{#vardefine: variable-name | variable-value }}</code></pre><h2>#var</h2><p>Use a variable</p>
 <pre><code>{{#var: variable-name }}</code></pre><p>Use a variable, providing a default</p>
-<pre><code>{{#var: variable-name | default }}</code></pre><h1>String manipulation</h1><p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions"><strong>Reference guide</strong></a></p>
+<pre><code>{{#var: variable-name | default }}</code></pre><h1>Looping over arrays</h1><pre><code>`{{#arraymap: input | delimiter | variable name | code | output delimiter | ending conjunction }}`</code></pre><p>To remove commas between items, use <code>\s</code> (space) as a delimiter.</p>
+<p>You can process items via template using <code>{{#arraymaptemplate: input | template | delimiter | output delimiter }}</code>.</p>
+<h1>String manipulation</h1><p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions"><strong>Reference guide</strong></a></p>
 <p>Whitespace, including newlines, tabs, and spaces, is stripped from the beginning and end of all the parameters of these parser functions. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions#Stripping_whitespace">Workarounds available.</a></p>
 <p>For most of these, negative parameter values count from the right end.</p>
 <p>Other available functions: <code>len</code>, <code>pos</code>, <code>rpos</code>, <code>sub</code></p>
