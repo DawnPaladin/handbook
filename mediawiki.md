@@ -112,6 +112,8 @@ Also available: [`#ifeq`](https://www.mediawiki.org/wiki/Help:Extension:ParserFu
 
 # Types of braces
 
+{{{Triple curly braces}}} are [template parameters](https://www.mediawiki.org/wiki/Help:Templates#Parameters) or [form definition tags](https://www.mediawiki.org/wiki/Extension:Page_Forms/Defining_forms).
+
 {{Double curly braces}} are a [magic word](https://www.mediawiki.org/wiki/Help:Magic_words), a [parser function](https://www.mediawiki.org/wiki/Help:Magic_words#Parser_functions), or a [template](https://www.mediawiki.org/wiki/Help:Templates).
 
 [[Double square brackets]] are a link to an internal page. To change the link text, write `[[page name|link text]]`.
