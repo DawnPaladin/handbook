@@ -366,6 +366,131 @@ APP_NAME.controller = (function(model) {
 
 ```
 
+# Module standards
+
+## ES6 Modules
+
+[MDN guide.](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) Also known as "ES modules" or "ECMAScript modules", this is the new official standard format for JavaScript modules. It's supported by Node.js and modern browsers.
+
+```js
+import myModule from './localModule';
+
+function myFunction() { ... }
+
+export myFunction
+```
+
+Here are two other equivalent ways of exporting myFunction:
+
+```js
+export function myFunction() { ... }
+export { myFunction }
+```
+
+If you're only exporting one thing, make it the default export.
+
+```js
+export default function() { ... }
+```
+```js
+import myFunction from './myModule';
+```
+
+This is just an export named "default"; it's not special, except that `import` knows to look for an export with that name.
+
+### Module namespace objects
+
+```js
+import * as cows from "cows";
+
+// if the "cows" module exports a "moo" function, we can do:
+cows.moo();
+```
+
+### Limitations
+
+For this to work you must mark your JavaScript files as modules; this can be done using `<script type="module">`, the .mjs file extension, or by adding `"type": "module"` to package.json.
+
+All `import` and `export` statements must be top-level - no conditionals. `import`s have no error recovery and don't support try/catch, [unless you use them as a function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#dynamic_module_loading).
+
+## CommonJS
+
+Node's original module format, and still the most popular one. Intended for server-side; not recommended for client-side, and `require()` is implemented by Node but not the browser.
+
+Declare your exports using `exports` or `module.exports`. Import modules using `require('module-name')`.
+
+```js
+var moduleInNode_modules = require('npmModule');
+var localModule = require('/path/to/module');
+
+function myFunction() { ... }
+
+exports.myFunction = myFunction;
+```
+
+`require()` also supports .json files.
+
+### Gotchas
+
+**TL;DR** You can replace `module.exports`, but not `exports`. You can assign properties to either one.
+
+Node [wraps your code](https://stackoverflow.com/a/16383925/1805453) in something like:
+
+```js
+var module = { exports: {} };
+var exports = module.exports;
+
+// your code
+
+return module.exports;
+```
+
+So you can assign properties to `exports`, like `exports.foo = bar`, but if you reassign `exports`, you should do something like this: `exports = module.exports = { a, b, c }`.
+
+## Less-used standards
+
+[Useful guide](https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/)
+
+### AMD
+
+Asynchronous Module Definition looks like this:
+
+```js
+define(['myModule', 'myOtherModule'], function(myModule, myOtherModule) {
+  console.log(myModule.hello());
+});
+```
+
+### UMD
+
+Universal Module Definition supports both AMD and CommonJS, so it works on the client and the server. It looks like this:
+
+```js
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+      // AMD
+    define(['myModule', 'myOtherModule'], factory);
+  } else if (typeof exports === 'object') {
+      // CommonJS
+    module.exports = factory(require('myModule'), require('myOtherModule'));
+  } else {
+    // Browser globals (Note: root is window)
+    root.returnExports = factory(root.myModule, root.myOtherModule);
+  }
+}(this, function (myModule, myOtherModule) {
+  // Methods
+  function notHelloOrGoodbye(){}; // A private method
+  function hello(){}; // A public method because it's returned (see below)
+  function goodbye(){}; // A public method because it's returned (see below)
+
+  // Exposed public methods
+  return {
+      hello: hello,
+      goodbye: goodbye
+  }
+}));
+```
+
 # Documentation
 
 ## DocBlocks
@@ -702,6 +827,10 @@ fetch(url)
 ```
 
 Note that [`.catch()` will only catch network errors on your device](https://www.tjvantoll.com/2015/09/13/fetch-and-errors/), not 404s or 401s or anything else. In production apps, you may want to use a library like [Request](https://github.com/request/request).
+
+## Modules
+
+See Module Standards section.
 
 # Debugging in the browser
 

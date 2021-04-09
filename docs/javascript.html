@@ -222,6 +222,72 @@ APP_NAME.controller = (function(model) {
 
 })(APP_NAME.model);
 </code></pre>
+<h1>Module standards</h1><h2>ES6 Modules</h2><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">MDN guide.</a> Also known as &quot;ES modules&quot; or &quot;ECMAScript modules&quot;, this is the new official standard format for JavaScript modules. It&#39;s supported by Node.js and modern browsers.</p>
+<pre><code class="language-js">import myModule from &#39;./localModule&#39;;
+
+function myFunction() { ... }
+
+export myFunction</code></pre>
+<p>Here are two other equivalent ways of exporting myFunction:</p>
+<pre><code class="language-js">export function myFunction() { ... }
+export { myFunction }</code></pre>
+<p>If you&#39;re only exporting one thing, make it the default export.</p>
+<pre><code class="language-js">export default function() { ... }</code></pre>
+<pre><code class="language-js">import myFunction from &#39;./myModule&#39;;</code></pre>
+<p>This is just an export named &quot;default&quot;; it&#39;s not special, except that <code>import</code> knows to look for an export with that name.</p>
+<h3>Module namespace objects</h3><pre><code class="language-js">import * as cows from &quot;cows&quot;;
+
+// if the &quot;cows&quot; module exports a &quot;moo&quot; function, we can do:
+cows.moo();</code></pre>
+<h3>Limitations</h3><p>For this to work you must mark your JavaScript files as modules; this can be done using <code>&lt;script type=&quot;module&quot;&gt;</code>, the .mjs file extension, or by adding <code>&quot;type&quot;: &quot;module&quot;</code> to package.json.</p>
+<p>All <code>import</code> and <code>export</code> statements must be top-level - no conditionals. <code>import</code>s have no error recovery and don&#39;t support try/catch, <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules#dynamic_module_loading">unless you use them as a function</a>.</p>
+<h2>CommonJS</h2><p>Node&#39;s original module format, and still the most popular one. Intended for server-side; not recommended for client-side, and <code>require()</code> is implemented by Node but not the browser.</p>
+<p>Declare your exports using <code>exports</code> or <code>module.exports</code>. Import modules using <code>require(&#39;module-name&#39;)</code>.</p>
+<pre><code class="language-js">var moduleInNode_modules = require(&#39;npmModule&#39;);
+var localModule = require(&#39;/path/to/module&#39;);
+
+function myFunction() { ... }
+
+exports.myFunction = myFunction;</code></pre>
+<p><code>require()</code> also supports .json files.</p>
+<h3>Gotchas</h3><p><strong>TL;DR</strong> You can replace <code>module.exports</code>, but not <code>exports</code>. You can assign properties to either one.</p>
+<p>Node <a href="https://stackoverflow.com/a/16383925/1805453">wraps your code</a> in something like:</p>
+<pre><code class="language-js">var module = { exports: {} };
+var exports = module.exports;
+
+// your code
+
+return module.exports;</code></pre>
+<p>So you can assign properties to <code>exports</code>, like <code>exports.foo = bar</code>, but if you reassign <code>exports</code>, you should do something like this: <code>exports = module.exports = { a, b, c }</code>.</p>
+<h2>Less-used standards</h2><p><a href="https://www.freecodecamp.org/news/javascript-modules-a-beginner-s-guide-783f7d7a5fcc/">Useful guide</a></p>
+<h3>AMD</h3><p>Asynchronous Module Definition looks like this:</p>
+<pre><code class="language-js">define([&#39;myModule&#39;, &#39;myOtherModule&#39;], function(myModule, myOtherModule) {
+  console.log(myModule.hello());
+});</code></pre>
+<h3>UMD</h3><p>Universal Module Definition supports both AMD and CommonJS, so it works on the client and the server. It looks like this:</p>
+<pre><code class="language-js">(function (root, factory) {
+  if (typeof define === &#39;function&#39; &amp;&amp; define.amd) {
+      // AMD
+    define([&#39;myModule&#39;, &#39;myOtherModule&#39;], factory);
+  } else if (typeof exports === &#39;object&#39;) {
+      // CommonJS
+    module.exports = factory(require(&#39;myModule&#39;), require(&#39;myOtherModule&#39;));
+  } else {
+    // Browser globals (Note: root is window)
+    root.returnExports = factory(root.myModule, root.myOtherModule);
+  }
+}(this, function (myModule, myOtherModule) {
+  // Methods
+  function notHelloOrGoodbye(){}; // A private method
+  function hello(){}; // A public method because it&#39;s returned (see below)
+  function goodbye(){}; // A public method because it&#39;s returned (see below)
+
+  // Exposed public methods
+  return {
+      hello: hello,
+      goodbye: goodbye
+  }
+}));</code></pre>
 <h1>Documentation</h1><h2>DocBlocks</h2><p>DocBlocks let you describe your code, including what type of parameters your functions expect; the results will appear in your editor&#39;s IntelliSense.</p>
 <pre><code class="language-js">/**
  * Multiplies a string. Example: multiplyString(&#39;!&#39;, 3) == &#39;!!!&#39;
@@ -401,6 +467,7 @@ fetch(url)
     .then(data =&gt; console.log(data))
 ;</code></pre>
 <p>Note that <a href="https://www.tjvantoll.com/2015/09/13/fetch-and-errors/"><code>.catch()</code> will only catch network errors on your device</a>, not 404s or 401s or anything else. In production apps, you may want to use a library like <a href="https://github.com/request/request">Request</a>.</p>
+<h2>Modules</h2><p>See Module Standards section.</p>
 <h1>Debugging in the browser</h1><p>If you&#39;re monitoring the value of an object property, try making it private and using getters and setters to change its values. Then you can <code>console.log()</code> in the setter to be notified every time it changes.</p>
 <h2>Interactive interpreter variables</h2><p><code>$_</code> gives you the value of whatever expression was evaluated last.  <code>$_</code> gives you the value of whatever expression was evaluated last.</p>
 <pre><code class="language-js">&quot;foo&quot;    // &quot;foo&quot;
