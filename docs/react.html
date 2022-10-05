@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>React Handbook</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="lib/jquery-ui.min.js"></script>
-  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
-  <script src="lib/jquery.tocify.js"></script>
-  <script src="lib/prism.js"></script>
-  <link rel="stylesheet" href="lib/prism.css"/>
-  <link href="handbook.css" rel="stylesheet"></link>
-  <link href="blueprint.css" rel="stylesheet"></link>
-
+<meta charset="utf-8">
+<title>React Handbook</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+<script src="lib/jquery.tocify.js"></script>
+<script src="lib/prism.js"></script>
+<link rel="stylesheet" href="lib/prism.css"/>
+<link href="handbook.css" rel="stylesheet"></link>
+<link href="blueprint.css" rel="stylesheet"></link>
 </head>
 <body>
-
 <div id="toc">
-  <a href="index.html" class="index-link">Index</a>
+<a href="index.html" class="index-link">Index</a>
 </div>
-
 <div class="main-column">
-  <p><strong>React</strong></p>
+<p><strong>React</strong></p>
 <p>Custom components must have their names start with a capital letter.</p>
 <p><code>class</code> is a reserved word in JavaScript, so JSX uses <code>className</code>.</p>
 <h1>Functional components</h1><pre><code class="language-jsx">// Cat.jsx
@@ -30,15 +27,15 @@ import React, { useState, useEffect } from &#39;react&#39;;
 
 export default function Cat(props) {
     const [name, setName] = useState(props.name);
-
+    
     const formatName = inputName =&gt; {
         return inputName + &quot;-kins&quot;;
     }
-
+    
     useEffect(() =&gt; {
         // side effect that happens on mount
     });
-
+    
     return &lt;div className=&quot;cat&quot;&gt;
         I&#39;m a cat named {name}.
     &lt;/div&gt;
@@ -46,11 +43,13 @@ export default function Cat(props) {
 
 Cat.propTypes = {
     name: PropTypes.string.isRequired;
-}</code></pre>
+}
+</code></pre>
 <pre><code class="language-jsx">// App.jsx
 import Cat from &#39;./Cat&#39;;
 
-&lt;Cat name=&quot;Fluffle&quot;&gt;</code></pre>
+&lt;Cat name=&quot;Fluffle&quot;&gt;
+</code></pre>
 <h1>Class components</h1><pre><code class="language-jsx">// Cat.jsx
 import React from &#39;react&#39;;
 
@@ -58,7 +57,7 @@ class Cat extends React.Component {
     static propTypes = {
         name: PropTypes.string.isRequired;
     }
-
+    
     constructor(props) {
         super(props);
         this.state = { name: this.props.name };
@@ -69,11 +68,13 @@ class Cat extends React.Component {
             I&#39;m a cat named {name}.
         &lt;/div&gt;
     }
-}</code></pre>
+}
+</code></pre>
 <pre><code class="language-jsx">// App.jsx
 import Cat from &#39;./Cat&#39;;
 
-&lt;Cat name=&quot;Fluffle&quot; /&gt;</code></pre>
+&lt;Cat name=&quot;Fluffle&quot; /&gt;
+</code></pre>
 <h2>Methods</h2><p>Methods often need access to <code>this</code>, which can be provided by <code>bind</code>ing it in the constructor.</p>
 <pre><code class="language-jsx">class Cat extends React.component {
     constructor(props) {
@@ -94,21 +95,25 @@ import Cat from &#39;./Cat&#39;;
             &lt;/div&gt;
         );
     }
-}</code></pre>
+}
+</code></pre>
 <p>The experimental public class fields syntax provides access to <code>this</code> without a <code>bind</code> statement:</p>
 <pre><code class="language-jsx">    eat = () =&gt; {
         this.setState({
             foodLevel: this.state.foodLevel + 1;
         });
-    }</code></pre>
+    }
+</code></pre>
 <p>See the <a href="https://reactjs.org/docs/handling-events.html">documentation</a> for more information.</p>
-<h1>Props and propTypes</h1><h2>Default props</h2><pre><code class="language-jsx">Cat.defaultProps = { name: &quot;DefaultCat&quot; };</code></pre>
+<h1>Props and propTypes</h1><h2>Default props</h2><pre><code class="language-jsx">Cat.defaultProps = { name: &quot;DefaultCat&quot; };
+</code></pre>
 <h3>Setting prop types</h3><p>PropTypes are the same as JavaScript types, except for <code>func</code> and <code>bool</code>.</p>
 <p>To require an object with specific properties:</p>
 <pre><code class="language-jsx">Cat.propTypes = { options: PropTypes.shape({
     lolCat: PropTypes.bool,
     caption: PropTypes.string,
-})}</code></pre>
+})}
+</code></pre>
 <h2>Controlled Inputs</h2><p>You can set up components that have two-way data binding between the DOM state and the React component&#39;s state.</p>
 <pre><code class="language-jsx">class Cat extends React.component {
     constructor(props) {
@@ -127,22 +132,26 @@ import Cat from &#39;./Cat&#39;;
             &lt;/div&gt;
         );
     }
-}</code></pre>
+}
+</code></pre>
 <p>This can be done with whole <code>&lt;form&gt;</code> elements.</p>
 <pre><code class="language-jsx">&lt;form onSubmit={this.handleSubmit}&gt;
     &lt;button type=&#39;submit&#39;&gt;Submit&lt;/button&gt;
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+</code></pre>
 <p>Don&#39;t forget to include an <code>event.preventDefault()</code> statement in the submit handler; actually submitting the form would cause a page refresh.</p>
 <h1>Styling</h1><pre><code class="language-jsx">&lt;div style={{
     color: &#39;red&#39;,
     height: 100, // defaults to px
     width: &quot;50%&quot; // but you can specify other units
-}}&gt;</code></pre>
+}}&gt;
+</code></pre>
 <h1>Conditional rendering</h1><h2>&amp;&amp; operator</h2><p>You can perform traditional JavaScript logic to determine what JSX a <code>render()</code> function should return. This can be made more concise using the <code>&amp;&amp;</code> logical operator:</p>
 <pre><code class="language-jsx">return (
     &lt;p&gt;Always display&lt;/p&gt;
     { this.state.displaySecondPara &amp;&amp; &lt;p&gt;Sometimes display&lt;/p&gt; }
-)</code></pre>
+)
+</code></pre>
 <p>If the condition is false, the logic will short-circuit out the JSX.</p>
 <h2>Ternary operator</h2><pre><code class="language-jsx">render() {
     const JSXifTrue = &lt;div/&gt;
@@ -150,7 +159,8 @@ import Cat from &#39;./Cat&#39;;
     return (
         { condition ? JSXifTrue : JSXifFalse }
     );
-}</code></pre>
+}
+</code></pre>
 <h1>React with Rails</h1><p>Use this <a href="https://www.fullstackreact.com/articles/how-to-get-create-react-app-to-work-with-your-rails-api/">tutorial</a> to set up a Rails and a React server that will work together.</p>
 <p>Then, if your <code>config/routes.rb</code> says <code>resources :cats</code>, and you want the list of cats:</p>
 <pre><code class="language-js">// client/src/Client.js
@@ -179,7 +189,8 @@ function parseJSON(response) {
 }
 
 const Client = { index };
-export default Client;</code></pre>
+export default Client;
+</code></pre>
 <pre><code class="language-jsx">// client/src/App.js
 import Client from &quot;./Client&quot;;
 
@@ -194,7 +205,8 @@ class App extends Component {
     ...
 }
 
-export default App;</code></pre>
+export default App;
+</code></pre>
 <h1>Miscellaneous</h1><h2>List keys</h2><p>When rendering a list, React needs to give each item in the list a unique key so that when the list changes, it can keep track of which items have been added &amp; removed. This key just needs to be unique within the list, not within the whole app.</p>
 <p>If you have a unique key for the item, use that. If you must, use the array index. If you don&#39;t assign a key, React will use the list index, and this may lead to problems. <a href="https://reactjs.org/docs/lists-and-keys.html">More info about list keys</a></p>
 <pre><code class="language-jsx">const numbers = [1, 2, 3, 4, 5];
@@ -215,17 +227,17 @@ const todoItems = todos.map((todo, index) =&gt;
     &lt;li key={index}&gt;
         {todo.text}
     &lt;/li&gt;
-);</code></pre>
-</div>
+);
+</code></pre>
 
+</div>
 <script>
 jQuery(document).ready(function() {
-  if (jQuery(window).height() < jQuery(document).height()) {
-    $('#toc').tocify({
-      extendPage: false
-    });
-  }
+if (jQuery(window).height() < jQuery(document).height()) {
+$('#toc').tocify({
+extendPage: false
+});
+}
 });
 </script>
-
 </body>

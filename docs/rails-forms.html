@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Rails Forms Handbook</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="lib/jquery-ui.min.js"></script>
-  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
-  <script src="lib/jquery.tocify.js"></script>
-  <script src="lib/prism.js"></script>
-  <link rel="stylesheet" href="lib/prism.css"/>
-  <link href="handbook.css" rel="stylesheet"></link>
-  <link href="blueprint.css" rel="stylesheet"></link>
-
+<meta charset="utf-8">
+<title>Rails Forms Handbook</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+<script src="lib/jquery.tocify.js"></script>
+<script src="lib/prism.js"></script>
+<link rel="stylesheet" href="lib/prism.css"/>
+<link href="handbook.css" rel="stylesheet"></link>
+<link href="blueprint.css" rel="stylesheet"></link>
 </head>
 <body>
-
 <div id="toc">
-  <a href="index.html" class="index-link">Index</a>
+<a href="index.html" class="index-link">Index</a>
 </div>
-
 <div class="main-column">
-  <p><strong>Rails forms</strong></p>
+<p><strong>Rails forms</strong></p>
 <h1>Building forms</h1><p>Including your own form authenticity token (if you&#39;re not using one of Rails&#39; forms)</p>
 <pre><code class="language-html">&lt;input  type=&quot;hidden&quot;
         name=&quot;authenticity_token&quot;
-        value=&quot;&lt;%= form_authenticity_token %&gt;&quot;&gt;</code></pre>
+        value=&quot;&lt;%= form_authenticity_token %&gt;&quot;&gt;
+</code></pre>
 <p>To nest data in params, use brackets [] in the <code>name</code> attribute</p>
 <pre><code class="language-html">&lt;input type=&quot;text&quot; name=&quot;post[title]&quot;&gt;
-&lt;input type=&quot;text&quot; name=&quot;post[body]&quot;&gt;</code></pre>
+&lt;input type=&quot;text&quot; name=&quot;post[body]&quot;&gt;
+</code></pre>
 <p>...which gives us params like this:</p>
 <pre><code class="language-ruby">Parameters: { &quot;utf8&quot;=&gt;&quot;✓&quot;,
               &quot;authenticity_token&quot;=&gt;&quot;wd4R0OmkSallVj+rey34+8TCKtExrs6WTEuexx12dh8=&quot;,
               &quot;post&quot;=&gt;{ &quot;title&quot;=&gt;&quot;Cool Title&quot;,
                         &quot;body&quot;=&gt;&quot;Cooler Body&quot; },
-              &quot;commit&quot;=&gt;&quot;Submit Post&quot;}</code></pre>
+              &quot;commit&quot;=&gt;&quot;Submit Post&quot;}
+</code></pre>
 <p><code>form_for</code> is the fastest way to build forms.</p>
 <pre><code>&lt;%= form_for @post, :html =&gt; {:class =&gt; &quot;nifty_form&quot;} do |f| %&gt;
   &lt;%= f.text_field :title %&gt;
   &lt;%= f.text_area :body, size: &quot;60x12&quot; %&gt;
   &lt;%= f.submit &quot;Create&quot; %&gt;
-&lt;% end %&gt;</code></pre><pre><code>&lt;form accept-charset=&quot;UTF-8&quot; action=&quot;/articles/create&quot; method=&quot;post&quot;&gt;
+&lt;% end %&gt;
+</code></pre>
+<pre><code>&lt;form accept-charset=&quot;UTF-8&quot; action=&quot;/articles/create&quot; method=&quot;post&quot;&gt;
   &lt;input id=&quot;article_title&quot; name=&quot;article[title]&quot; type=&quot;text&quot; /&gt;
   &lt;textarea id=&quot;article_body&quot; name=&quot;article[body]&quot; cols=&quot;60&quot; rows=&quot;12&quot;&gt;&lt;/textarea&gt;
   &lt;input name=&quot;commit&quot; type=&quot;submit&quot; value=&quot;Create&quot; /&gt;
-&lt;/form&gt;</code></pre><h1>Validation</h1><pre><code class="language-ruby">@user.persisted?
+&lt;/form&gt;
+</code></pre>
+<h1>Validation</h1><pre><code class="language-ruby">@user.persisted?
 @user.new_record?
 @user.valid?
 
@@ -73,7 +77,8 @@ validates :title, :body, :subheading
 # Accessing errors
 @user.errors                # ActiveModel::Errors object
 @user.errors[:name]         # Array (just one string)
-@user.errors.full_messages  # Array (potentially many strings)</code></pre>
+@user.errors.full_messages  # Array (potentially many strings)
+</code></pre>
 <h1>Check boxes</h1><pre><code class="language-ruby"># basic check box tag
 # signature: check_box_tag(name, value = &quot;1&quot;, checked = false, options = {})
 check_box_tag(:tag, 1234)
@@ -82,7 +87,8 @@ check_box_tag(:tag, 1234)
 # signature: check_box(object_name, method, options = {}, checked_value = &quot;1&quot;, unchecked_value = &quot;0&quot;)
 check_box(:tag, :id)
 f.check_box(:id)
-f.check_box(:id, true, false) # Specifying &quot;checked&quot; &amp; &quot;unchecked&quot; values</code></pre>
+f.check_box(:id, true, false) # Specifying &quot;checked&quot; &amp; &quot;unchecked&quot; values
+</code></pre>
 <h2>Collection check boxes</h2><p>Signature:</p>
 <pre><code class="language-ruby">collection_check_boxes( object,
                         method,
@@ -91,7 +97,8 @@ f.check_box(:id, true, false) # Specifying &quot;checked&quot; &amp; &quot;unche
                         text_method,
                         options = {},
                         html_options = {},
-                        &amp;block )</code></pre>
+                        &amp;block )
+</code></pre>
 <ul>
 <li><code>object</code> is a strange one. It takes a symbol containing the name of the instance variable containing an instance of the class of your parent object. So if you render your form and the parent object is contained in an instance variable named <code>@post</code>, <code>object</code> would be  <code>:post</code>. If you had named your instance variable <code>@posterino</code>, this would need to be <code>:posterino</code>.</li>
 <li><code>method</code> is the method to call on your parent instance in order to retrieve the IDs of the objects which are currently associated with it. For example, <code>:tag_ids</code> in this case. This is used when rendering the form to figure out which checkboxes should be checked and it is also used to properly name each checkbox.</li>
@@ -111,7 +118,8 @@ collection_check_boxes(
 
 # On a FormBuilder object (from `form_for`)
 f.collection_check_boxes(:tag_ids, Tag.all, :id, :name)
-# same as previous, except you&#39;re calling it on :post instead of passing :post in as a param</code></pre>
+# same as previous, except you&#39;re calling it on :post instead of passing :post in as a param
+</code></pre>
 <h1>Radio buttons</h1><pre><code class="language-ruby"># basic radio button tag helper (`form_tag`)
 # signature: radio_button_tag(name, value, checked = false, options = {})
 radio_button_tag(:age, &quot;child&quot;)
@@ -122,7 +130,8 @@ radio_button_tag(:age, &quot;adult&quot;)
 radio_button(&quot;user&quot;, &quot;receive_newsletter&quot;, &quot;yes&quot;)
 radio_button(&quot;user&quot;, &quot;receive_newsletter&quot;, &quot;no&quot;)
 f.radio_button(&quot;receive_newsletter&quot;, &quot;yes&quot;)
-f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)</code></pre>
+f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)
+</code></pre>
 <h2>Collection radio buttons</h2><p>Signature:</p>
 <pre><code class="language-ruby">collection_radio_buttons(  object,
                                 method,
@@ -131,7 +140,8 @@ f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)</code></pre>
                                 text_method,
                                 options = {}, # important!
                                 html_options = {},
-                                &amp;block)</code></pre>
+                                &amp;block)
+</code></pre>
 <p>The only difference with the <code>collection_check_boxes</code> is that, because radio buttons represent one-to-many collections where you are setting the &quot;one&quot; side, the <code>method</code> parameter is simply the foreign key (e.g.  <code>:author_id</code>) instead of the collection of IDs (e.g. <code>:tag_ids</code>).</p>
 <p>Examples:</p>
 <pre><code class="language-ruby"># First show how it would be done the `form_tag` way:
@@ -155,7 +165,8 @@ f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)</code></pre>
         :name )
   %&gt;
   ...
-&lt;% end %&gt;</code></pre>
+&lt;% end %&gt;
+</code></pre>
 <h1>Nested forms</h1><h2>Data handling</h2><p>Must accept data in the following format:</p>
 <pre><code class="language-ruby">{ :user =&gt; {
     :name =&gt; &quot;foo&quot;,
@@ -168,7 +179,8 @@ f.radio_button(&quot;receive_newsletter&quot;, &quot;no&quot;)</code></pre>
       &quot;2&quot; =&gt;  { :street_address =&gt; &quot;456 Fake st,
                 :city =&gt; &quot;Fake City&quot;,
                 :state =&gt; &quot;FK&quot;,
-                :zip =&gt; &quot;12345&quot; },... } } }</code></pre>
+                :zip =&gt; &quot;12345&quot; },... } } }
+</code></pre>
 <p>User model:</p>
 <pre><code class="language-ruby"># app/models/user.rb
 class User &lt; ActiveRecord::Base
@@ -181,7 +193,8 @@ class User &lt; ActiveRecord::Base
   # validations that break your nested CREATE action
   has_many :posts, inverse_of: :comments
   has_many :comments, inverse_of: :post
-end</code></pre>
+end
+</code></pre>
 <p>Sanitizing multiple layers of parameters in your controllers:</p>
 <pre><code class="language-ruby">def whitelisted_user_params
   params.
@@ -193,7 +206,8 @@ end</code></pre>
                 :city,
                 :state,
                 :zip ] } )
-end</code></pre>
+end
+</code></pre>
 <h2>Form generation</h2><pre><code class="language-ruby"># generic fields_for case
 fields_for(record_name, record_object = nil, options = {}, &amp;block)
 
@@ -220,7 +234,8 @@ fields_for(record_name, record_object = nil, options = {}, &amp;block)
 &lt;% if address_fields.object.persisted? %&gt;
   &lt;%= address_fields.label :_destroy, &quot;Delete Address?&quot; %&gt;
   &lt;%= address_fields.check_box :_destroy %&gt;
-&lt;% end %&gt;</code></pre>
+&lt;% end %&gt;
+</code></pre>
 <h2>Sample nested form</h2><h3>Model</h3><pre><code class="language-ruby"># app/models/product.rb
 class Product &lt; ActiveRecord::Base
   has_many :category_placements
@@ -236,7 +251,8 @@ end
 # app/models/review.rb
 class Review &lt; ActiveRecord::Base
   belongs_to :product
-end</code></pre>
+end
+</code></pre>
 <h3>View</h3><pre><code># app/views/products/new.html.erb
 &lt;h1&gt;New Product&lt;/h1&gt;
 &lt;%= render &quot;form&quot; %&gt;
@@ -297,7 +313,9 @@ end</code></pre>
       &lt;%= review_fields.check_box :_destroy %&gt;
   &lt;% end %&gt;
 
-&lt;% end %&gt;</code></pre><h3>Controller</h3><pre><code class="language-ruby"># app/controllers/products_controller.rb
+&lt;% end %&gt;
+</code></pre>
+<h3>Controller</h3><pre><code class="language-ruby"># app/controllers/products_controller.rb
 class ProductsController &lt; ApplicationController
   def index
     @products = Product.all
@@ -341,17 +359,17 @@ class ProductsController &lt; ApplicationController
                                     [:title, :body, :source, :id,
                                                         :_destroy ])
   end
-end</code></pre>
-</div>
+end
+</code></pre>
 
+</div>
 <script>
 jQuery(document).ready(function() {
-  if (jQuery(window).height() < jQuery(document).height()) {
-    $('#toc').tocify({
-      extendPage: false
-    });
-  }
+if (jQuery(window).height() < jQuery(document).height()) {
+$('#toc').tocify({
+extendPage: false
+});
+}
 });
 </script>
-
 </body>

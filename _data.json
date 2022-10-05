@@ -7,6 +7,10 @@
     "layout": "_layout",
     "title": "JavaScript Handbook"
   },
+  "typescript": {
+    "layout": "_layout",
+    "title": "TypeScript Handbook"
+  },
   "ruby": {
     "layout": "_layout",
     "title": "Ruby Handbook"

@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>MediaWiki Handbook</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="lib/jquery-ui.min.js"></script>
-  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
-  <script src="lib/jquery.tocify.js"></script>
-  <script src="lib/prism.js"></script>
-  <link rel="stylesheet" href="lib/prism.css"/>
-  <link href="handbook.css" rel="stylesheet"></link>
-  <link href="blueprint.css" rel="stylesheet"></link>
-
+<meta charset="utf-8">
+<title>MediaWiki Handbook</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+<script src="lib/jquery.tocify.js"></script>
+<script src="lib/prism.js"></script>
+<link rel="stylesheet" href="lib/prism.css"/>
+<link href="handbook.css" rel="stylesheet"></link>
+<link href="blueprint.css" rel="stylesheet"></link>
 </head>
 <body>
-
 <div id="toc">
-  <a href="index.html" class="index-link">Index</a>
+<a href="index.html" class="index-link">Index</a>
 </div>
-
 <div class="main-column">
-  <p><strong>MediaWiki</strong></p>
+<p><strong>MediaWiki</strong></p>
 <p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##expr">Evaluate math expression</a>: <code>{{#expr: expression }}</code></p>
 <p>Comments: <code>&lt;!-- Comment --&gt;</code></p>
 <p>Transclude another page: <code>{{ Page name | optional parameter }}</code></p>
@@ -37,27 +34,45 @@
 </ul>
 <p>Escape wiki markup: <code>&lt;nowiki&gt; **this** _formatting_ [[won&#39;t be processed]]&lt;/nowiki&gt;</code> (<a href="https://www.mediawiki.org/wiki/Help:Formatting">further formatting help</a>)</p>
 <h1>Variables</h1><h2>#vardefine</h2><p>Define a variable</p>
-<pre><code>{{#vardefine: variable-name | variable-value }}</code></pre><h2>#var</h2><p>Use a variable</p>
-<pre><code>{{#var: variable-name }}</code></pre><p>Use a variable, providing a default</p>
-<pre><code>{{#var: variable-name | default }}</code></pre><h1>Looping over arrays</h1><pre><code>{{#arraymap: input | delimiter | variable name | code | output delimiter | ending conjunction }}</code></pre><p>To remove commas between items, use <code>\s</code> (space) as a delimiter.</p>
+<pre><code>{{#vardefine: variable-name | variable-value }}
+</code></pre>
+<h2>#var</h2><p>Use a variable</p>
+<pre><code>{{#var: variable-name }}
+</code></pre>
+<p>Use a variable, providing a default</p>
+<pre><code>{{#var: variable-name | default }}
+</code></pre>
+<h1>Looping over arrays</h1><pre><code>{{#arraymap: input | delimiter | variable name | code | output delimiter | ending conjunction }}
+</code></pre>
+<p>To remove commas between items, use <code>\s</code> (space) as a delimiter.</p>
 <p>You can process items via template using <code>{{#arraymaptemplate: input | template | delimiter | output delimiter }}</code>.</p>
 <h1>String manipulation</h1><p><a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions"><strong>Reference guide</strong></a></p>
 <p>Whitespace, including newlines, tabs, and spaces, is stripped from the beginning and end of all the parameters of these parser functions. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions#Stripping_whitespace">Workarounds available.</a></p>
 <p>For most of these, negative parameter values count from the right end.</p>
 <p>Other available functions: <code>len</code>, <code>pos</code>, <code>rpos</code>, <code>sub</code></p>
 <h2>#replace</h2><p>Replace within a string</p>
-<pre><code>{{#replace: input | search | replace}}</code></pre><h2>#explode</h2><p>Split a string into pieces and return one or more of them.</p>
-<pre><code>{{#explode:string|delimiter|starting index|quantity of pieces}}</code></pre><ul>
+<pre><code>{{#replace: input | search | replace}}
+</code></pre>
+<h2>#explode</h2><p>Split a string into pieces and return one or more of them.</p>
+<pre><code>{{#explode:string|delimiter|starting index|quantity of pieces}}
+</code></pre>
+<ul>
 <li><code><nowiki>{{#explode:And if you tolerate this| |2}}</nowiki></code> <translate><!--T:2629--> returns</translate> <code>you</code></li>
 <li><code><nowiki>{{#explode:String/Functions/Code|/|-1}}</nowiki></code> <translate><!--T:2630--> returns</translate> <code>Code</code></li>
 <li><code><nowiki>{{#explode:Split%By%Percentage%Signs|%|2}}</nowiki></code> <translate><!--T:2631--> returns</translate> <code>Percentage</code></li>
 <li><code><nowiki>{{#explode:And if you tolerate this| |2|3}}</nowiki></code> <translate><!--T:2632--> returns</translate> <code>you tolerate this</code></li>
 </ul>
 <h2>#titleparts</h2><p>Get pieces of a page title</p>
-<pre><code>{{#titleparts: pagename | number of segments to return | index of first segment to return }}</code></pre><p><code>{{#titleparts: Psalm 1/1/Arguments | 2 | 0 }}</code> -&gt; Psalm 1/1</p>
+<pre><code>{{#titleparts: pagename | number of segments to return | index of first segment to return }}
+</code></pre>
+<p><code>{{#titleparts: Psalm 1/1/Arguments | 2 | 0 }}</code> -&gt; Psalm 1/1</p>
 <h1>Conditional rendering</h1><h2>#if</h2><p>Tests whether string is <strong>empty</strong>. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##if">Reference</a></p>
-<pre><code>{{#if: test string | return if not empty | return if empty }}</code></pre><h2>#ifexpr</h2><p>Tests whether an expression is truthy or falsy. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexpr">Reference</a></p>
-<pre><code>{{#ifexpr: expression | return if truthy | return if falsy }}</code></pre><p>Also available: <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifeq"><code>#ifeq</code></a> (if strings are equal), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##iferror"><code>#iferror</code></a>, <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexist"><code>#ifexist</code></a> (if page exists), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##switch"><code>#switch</code></a></p>
+<pre><code>{{#if: test string | return if not empty | return if empty }}
+</code></pre>
+<h2>#ifexpr</h2><p>Tests whether an expression is truthy or falsy. <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexpr">Reference</a></p>
+<pre><code>{{#ifexpr: expression | return if truthy | return if falsy }}
+</code></pre>
+<p>Also available: <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifeq"><code>#ifeq</code></a> (if strings are equal), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##iferror"><code>#iferror</code></a>, <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##ifexist"><code>#ifexist</code></a> (if page exists), <a href="https://www.mediawiki.org/wiki/Help:Extension:ParserFunctions##switch"><code>#switch</code></a></p>
 <h1>Types of braces</h1><p>{{{Triple curly braces}}} are <a href="https://www.mediawiki.org/wiki/Help:Templates#Parameters">template parameters</a> or <a href="https://www.mediawiki.org/wiki/Extension:Page_Forms/Defining_forms">form definition tags</a>.</p>
 <p>{{Double curly braces}} are a <a href="https://www.mediawiki.org/wiki/Help:Magic_words">magic word</a>, a <a href="https://www.mediawiki.org/wiki/Help:Magic_words#Parser_functions">parser function</a>, or a <a href="https://www.mediawiki.org/wiki/Help:Templates">template</a>.</p>
 <p>[[Double square brackets]] are a link to an internal page. To change the link text, write <code>[[page name|link text]]</code>.</p>
@@ -76,19 +91,22 @@
  |?Population 
  |?Area#km² = Size in km²
  |limit=10
-}}</code></pre><p><a href="https://www.semantic-mediawiki.org/wiki/Help:Inline_queries#Parser_function_.23show"><strong>Show</strong></a> gets a single property value from a single page:</p>
-<pre><code>{{#show: Demo:Berlin |?Population |default=0}}</code></pre><p><a href="https://www.semantic-mediawiki.org/wiki/Help:Inline_queries#Standard_parameters_for_inline_queries">Other available parameters:</a> <a href="https://www.semantic-mediawiki.org/wiki/Help:Result_formats"><code>format</code></a>, <code>limit</code>, <code>offset</code>, <code>sort</code>, <code>order</code>, <code>headers</code>, <code>mainlabel</code>, <code>index</code>, <code>link</code>, <code>default</code>, <code>intro</code>, <code>outro</code>, <code>searchlabel</code>, format-specific parameters</p>
+}}
+</code></pre>
+<p><a href="https://www.semantic-mediawiki.org/wiki/Help:Inline_queries#Parser_function_.23show"><strong>Show</strong></a> gets a single property value from a single page:</p>
+<pre><code>{{#show: Demo:Berlin |?Population |default=0}}
+</code></pre>
+<p><a href="https://www.semantic-mediawiki.org/wiki/Help:Inline_queries#Standard_parameters_for_inline_queries">Other available parameters:</a> <a href="https://www.semantic-mediawiki.org/wiki/Help:Result_formats"><code>format</code></a>, <code>limit</code>, <code>offset</code>, <code>sort</code>, <code>order</code>, <code>headers</code>, <code>mainlabel</code>, <code>index</code>, <code>link</code>, <code>default</code>, <code>intro</code>, <code>outro</code>, <code>searchlabel</code>, format-specific parameters</p>
 <h1>Debugging</h1><p>Replace <code>{{#vardefine}}</code> with <code>{{#vardefineecho}}</code>, which prints the value in the place it&#39;s defined</p>
-</div>
 
+</div>
 <script>
 jQuery(document).ready(function() {
-  if (jQuery(window).height() < jQuery(document).height()) {
-    $('#toc').tocify({
-      extendPage: false
-    });
-  }
+if (jQuery(window).height() < jQuery(document).height()) {
+$('#toc').tocify({
+extendPage: false
+});
+}
 });
 </script>
-
 </body>

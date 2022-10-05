@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TypeScript Handbook</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+<script src="lib/jquery.tocify.js"></script>
+<script src="lib/prism.js"></script>
+<link rel="stylesheet" href="lib/prism.css"/>
+<link href="handbook.css" rel="stylesheet"></link>
+<link href="blueprint.css" rel="stylesheet"></link>
+</head>
+<body>
+<div id="toc">
+<a href="index.html" class="index-link">Index</a>
+</div>
+<div class="main-column">
+<p><strong>TypeScript</strong></p>
+<h1>Built-in types</h1><h2>In functions</h2><pre><code class="language-ts">function returnsAString(): string {
+    return &#39;abc&#39;;
+}
+function returnsNothing(stringArg: string): void {
+    console.log(stringArg);
+}
+var arrowFunctionThatReturnsString = (stringArg: string, numberArg: number): string =&gt; {
+    return `${stringArg} ${numberArg}`;
+}
+function spreadParameter(...params: string[]) {...}
+</code></pre>
+<h2>In arrays</h2><pre><code class="language-ts">let names: string[] = [&quot;Dresden&quot;, &quot;Bob&quot;];
+let names: Array&lt;string&gt; = [&quot;Dresden&quot;, &quot;Bob&quot;];
+let teams: string[][] = [[&quot;Dresden&quot;, &quot;Bob&quot;], [&quot;Thomas&quot;, &quot;Justine&quot;]]; // multidimensional array
+let tuple: [string, number] = [&quot;Level&quot;, 7];
+</code></pre>
+<h1>Custom types</h1><h2>Enums</h2><p>Usesd when you want to <strong>enum</strong>erate all the possible values a variable could have. </p>
+<pre><code class="language-ts">enum Direction {
+    North,
+    East,
+    South,
+    West
+}
+let SantasDirection: Direction = Direction.North;
+</code></pre>
+<p>This is a <em>numeric enum</em>--by default, the values are internally stored as numbers, and that&#39;s how they&#39;ll appear in (for example) <code>console.log()</code>. You can manually set the numbers like so:</p>
+<pre><code class="language-ts">enum Direction {
+    North = 8,
+    East = 6,
+    South = 2,
+    West = 4
+}
+</code></pre>
+<p>Or you can set this up as a <em>string enum</em> so the values will be stored as strings:</p>
+<pre><code class="language-ts">enum Direction {
+    North = &#39;NORTH&#39;,
+    East = &#39;EAST&#39;,
+    South = &#39;SOUTH&#39;,
+    West = &#39;WEST&#39;
+}
+</code></pre>
+<h2>Type aliases</h2><pre><code class="language-ts">type Coord = [number, string, number, string];
+let Dallas: Coord = [32.7767, &#39;N&#39;, 96.7970, &#39;W&#39;];
+
+type StringsToNumberFunction = (str: string, num: number) =&gt; number;
+</code></pre>
+<h2>Generics</h2><pre><code class="language-ts">type Family&lt;T&gt; = { parents: [T, T], mate: T, children: T[] };
+let numberFamily: Family&lt;number&gt; = { parents: [3, 4], mate: 9, children: [5, 30, 121] };
+let stringFamily: Family&lt;string&gt; = { parents: [&#39;A&#39;, &#39;B&#39;], mate: &#39;C&#39;, children: [&#39;D&#39;, &#39;E&#39;, &#39;F&#39;] };
+
+type Human = { name: string };
+let humanFamily: Family&lt;Human&gt; = {
+    parents: [ { name: &quot;Malcolm Dresden&quot; }, { name: &quot;Margaret LeFay&quot; }],
+    mate: { name: &quot;Susan Rodriguez&quot; },
+    children: [{ name: &quot;Maggie Dresden&quot; }]
+}
+</code></pre>
+<h3>Generic functions</h3><p>Type placeholders look like <code>&lt;this&gt;</code> and let you pass input into your type definition.</p>
+<pre><code class="language-ts">// This use of &lt;T&gt; ensures that the output array is filled with the same type as the input parameter.
+function getFilledArray&lt;T&gt;(input: T, n: number): T[] {
+    return Array(n).fill(value);
+}
+getFilledArray&lt;string&gt;(&#39;cheese&#39;, 3); // [&#39;cheese&#39;, &#39;cheese&#39;, &#39;cheese&#39;]
+getFilledArray&lt;boolean&gt;(true, 2); // [true, true]
+getFilledArray&lt;{ tasty: boolean }&gt;({ tasty: true }, 2); // [{ tasty: true }, { tasty: true }]
+</code></pre>
+<h2>Objects and interfaces</h2><p><code>type</code> can be used for anything; <code>interface</code> is specifically for describing objects, which makes it a good fit for <code>class</code>es. <code>type</code> is declared with an <code>=</code>; <code>interface</code> is not.</p>
+<pre><code class="language-ts">interface Person {
+    name: string;
+    age: number;
+    introduce: function;
+}
+
+class Student implements Person {...} // Students must have at least a name, an age, and an introduction function
+</code></pre>
+<p>Definitions can be nested as deeply as you like:</p>
+<pre><code class="language-ts">interface Robot {
+  about: {
+    general: {
+      id: number;
+      name: string;
+    };
+  };
+  getRobotId: () =&gt; string;
+}
+</code></pre>
+<p>They can be composed to make them more readable:</p>
+<pre><code class="language-ts">interface About {
+  general: General;
+}
+ 
+interface General {
+  id: number;
+  name: string;
+  version: Version;
+}
+ 
+interface Version {
+  versionNumber: number;
+}
+</code></pre>
+<p>They can build on (&quot;extend&quot;) each other.</p>
+<pre><code class="language-ts">interface Shape {
+  color: string;
+}
+ 
+interface Square extends Shape {
+  sideLength: number;
+}
+ 
+const mySquare: Square = { sideLength: 10, color: &#39;blue&#39; };
+</code></pre>
+<h3>Index signatures</h3><p>Index signatures let you account for variable property names.</p>
+<pre><code class="language-ts">interface SolarEclipse {
+    [latitude: string]: boolean;
+}
+
+{
+  &#39;40.712776&#39;: true;
+  &#39;41.203323&#39;: true;
+  &#39;40.417286&#39;: false;
+}
+</code></pre>
+<h3>Optional type members</h3><pre><code class="language-ts">interface Shape {
+    x: number;
+    y: number;
+    color?: string; // color is optional
+}
+</code></pre>
+<h1>Unions</h1><p>Unions let you declare a variable or parameter to be one of a few different types.</p>
+<pre><code class="language-ts">let ID: string | number; // ID is either a string or a number
+function getMargin(margin: string | number) { ... } // function will accept a string or a number
+const times: (string | number)[]; // array of strings and/or numbers
+</code></pre>
+<h2>Type narrowing</h2><pre><code class="language-ts">function doSomething(input: string | boolean) {
+    input.toLowerCase(); // TypeScript error. If doSomething gets passed a boolean, the toLowerCase method won&#39;t work on it.
+}
+
+function doSomething(input: string | boolean) {
+    if (typeof input == &#39;string&#39;) { // Error fixed.
+        input.toLowerCase();
+    }
+}
+</code></pre>
+<p>The <code>in</code> operator checks if a property exists on an object itself or anywhere within its prototype chain.</p>
+<pre><code class="language-ts">type Tennis = {
+  serve: () =&gt; void;
+}
+ 
+type Soccer = {
+  kick: () =&gt; void;
+}
+ 
+function play(sport: Tennis | Soccer) {
+  if (&#39;serve&#39; in sport) {
+    return sport.serve();
+  }
+ 
+  if (&#39;kick&#39; in sport) {
+    return sport.kick();
+  }
+}
+</code></pre>
+
+</div>
+<script>
+jQuery(document).ready(function() {
+if (jQuery(window).height() < jQuery(document).height()) {
+$('#toc').tocify({
+extendPage: false
+});
+}
+});
+</script>
+</body>

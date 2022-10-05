@@ -1,48 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>HTML Handbook</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="lib/jquery-ui.min.js"></script>
-  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
-  <script src="lib/jquery.tocify.js"></script>
-  <script src="lib/prism.js"></script>
-  <link rel="stylesheet" href="lib/prism.css"/>
-  <link href="handbook.css" rel="stylesheet"></link>
-  <link href="blueprint.css" rel="stylesheet"></link>
-
+<meta charset="utf-8">
+<title>HTML Handbook</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+<script src="lib/jquery.tocify.js"></script>
+<script src="lib/prism.js"></script>
+<link rel="stylesheet" href="lib/prism.css"/>
+<link href="handbook.css" rel="stylesheet"></link>
+<link href="blueprint.css" rel="stylesheet"></link>
 </head>
 <body>
-
 <div id="toc">
-  <a href="index.html" class="index-link">Index</a>
+<a href="index.html" class="index-link">Index</a>
 </div>
-
 <div class="main-column">
-  <p><strong>HTML</strong></p>
+<p><strong>HTML</strong></p>
 <h1>Validation</h1><p>HTML input validation is done automatically by the browser based on special attributes on the input element. It could partially or completely replace JavaScript input validation. This kind of validation can be circumvented by the user via specially crafted HTTP requests, so it does not replace server-side input validation. The validation only occurs when attempting to submit the form, so all restricted inputs must be inside a form in order for validation to occur (unless you&#39;re using JavaScript). Keep in mind that inputs which are disabled or read-only will not trigger validation.</p>
 <p>Some newer input types (like <code>email</code>, <code>url</code>, <code>tel</code>, <code>date</code>, and many more ) are automatically validated and do not require your own validation constraints.</p>
 <h2>Required</h2><p>Use the <code>required</code> attribute to indicate that a field must be completed in order to pass validation.</p>
-<pre><code class="language-html">&lt;input required&gt;</code></pre>
+<pre><code class="language-html">&lt;input required&gt;
+</code></pre>
 <h2>Minimum / maximum length</h2><p>Use the <code>minlength</code> and <code>maxlength</code> attributes to indicate length requirements. Most browsers will prevent the user from typing more than <em>max</em> characters into the box, preventing them from making their entry invalid even before they attempt submission.</p>
 <pre><code class="language-html">&lt;input minlength=&quot;3&quot;&gt;
 &lt;input maxlength=&quot;15&quot;&gt;
-&lt;input minlength=&quot;3&quot; maxlength=&quot;15&quot;&gt;</code></pre>
+&lt;input minlength=&quot;3&quot; maxlength=&quot;15&quot;&gt;
+</code></pre>
 <h2>Specifying a range</h2><p>Use <code>min</code> and <code>max</code> attributes to restrict the range of numbers a user can input into an input of type <code>number</code> or <code>range</code>.</p>
 <pre><code class="language-html">Marks: &lt;input type=&quot;number&quot; size=&quot;6&quot; name=&quot;marks&quot; min=&quot;0&quot; max=&quot;100&quot; /&gt;
-Subject Feedback: &lt;input type=&quot;range&quot; size=&quot;2&quot; name=&quot;feedback&quot; min=&quot;1&quot; max=&quot;5&quot; /&gt;</code></pre>
+Subject Feedback: &lt;input type=&quot;range&quot; size=&quot;2&quot; name=&quot;feedback&quot; min=&quot;1&quot; max=&quot;5&quot; /&gt;
+</code></pre>
 <h2>Match a Pattern</h2><p>For more control, use the <code>pattern</code> attribute to specify any regular expression that must be matched in order to pass validation. You can also specify a <code>title</code>, which is included in the validation message if the field doesn&#39;t pass.</p>
-<pre><code class="language-html">&lt;input pattern=&quot;\d*&quot; title=&quot;Numbers only, please.&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;input pattern=&quot;\d*&quot; title=&quot;Numbers only, please.&quot;&gt;
+</code></pre>
 <p>Here&#39;s the message shown in Google Chrome version 51 when attempting to submit the form with an invalid value inside this field:</p>
 <p><img src="img/validation-error.png" alt="validation error"></p>
 <p>Not all browsers display a message for invalid patterns, although there is full support among most used modern browsers. Check the latest support on <a href="http://caniuse.com/#feat=input-pattern">CanIUse</a> and implement accordingly.</p>
 <h2>Accept file type</h2><p>For input fields of type <code>file</code>, it is possible to accept only certain types of files, such as videos, images, audios, specific file extensions, or certain <a href="http://www.iana.org/assignments/media-types/media-types.xhtml">media types</a>. For example:</p>
-<pre><code class="language-html">&lt;input type=&quot;file&quot; accept=&quot;image/*&quot; title=&quot;Only images are allowed&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;file&quot; accept=&quot;image/*&quot; title=&quot;Only images are allowed&quot;&gt;
+</code></pre>
 <p>Multiple values can be specified with a comma, e.g.:</p>
-<pre><code class="language-html">&lt;input type=&quot;file&quot; accept=&quot;image/*,.rar,application/zip&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;file&quot; accept=&quot;image/*,.rar,application/zip&quot;&gt;
+</code></pre>
 <h2>Preventing validation</h2><p>Adding <code>novalidate</code> attribute to the <code>form</code> element or <code>formnovalidate</code> attribute to the submit button, prevents validation on form elements. For example:</p>
 <pre><code class="language-html">&lt;form&gt;
     &lt;input type=&quot;text&quot; name=&quot;name&quot; required&gt;
@@ -51,7 +54,8 @@ Subject Feedback: &lt;input type=&quot;range&quot; size=&quot;2&quot; name=&quot
 
     &lt;input type=&quot;submit&quot; value=&quot;Publish&quot;&gt; &lt;!-- form will be validated --&gt;
     &lt;input type=&quot;submit&quot; value=&quot;Save&quot; formnovalidate&gt; &lt;!-- form will NOT be validated --&gt;
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+</code></pre>
 <p>The form has fields that are required for &quot;publishing&quot; the draft but aren’t required for &quot;saving&quot; the draft.</p>
 <h1>Inputs</h1><p>As with other HTML5 void elements, <code>&lt;input&gt;</code> is self-closing and may be written <code>&lt;input /&gt;</code>. HTML5 does not require this slash.</p>
 <h2>Text</h2><input>
@@ -62,7 +66,8 @@ Subject Feedback: &lt;input type=&quot;range&quot; size=&quot;2&quot; name=&quot
 
 <p>The most basic input type and the default input if no <code>type</code> is specified. This input type defines a single-line text field with line-breaks automatically removed from the input value. All other characters can be entered into this. <code>&lt;input&gt;</code> elements are used within a <code>&lt;form&gt;</code> element to declare input controls that allow users to input data.</p>
 <p>The default width of a text field input is 20 characters. This can be changed by specifying a value for the size attribute like this:</p>
-<pre><code class="language-html">&lt;input type=&quot;text&quot; size=&quot;50&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;text&quot; size=&quot;50&quot;&gt;
+</code></pre>
 <p>The size attribute is distinctly different than setting a width with CSS. Using a width defines a specific value (in number of pixel, percentage of the parent element, etc.) that the input must always be wide. Using the <code>size</code> calculates the amount of width to allocate based on the font being used and how wide the characters normally are.</p>
 <p><strong>Note:</strong> Using the <code>size</code> attribute does not actually limit the number of characters which can be entered into the box, only how wide the box is displayed. For limiting the length, see Input Validation, below.</p>
 <p>An <code>&lt;input&gt;</code> field only allows one line of text. If you need a multi-line text input for substantial amount of text, use a <code>&lt;textarea&gt;</code> element instead.</p>
@@ -75,19 +80,23 @@ Subject Feedback: &lt;input type=&quot;range&quot; size=&quot;2&quot; name=&quot
 <pre><code class="language-html">&lt;input checked&gt;
 &lt;input checked=&quot;&quot;&gt;
 &lt;input checked=&quot;checked&quot;&gt;
-&lt;input checked=&quot;ChEcKeD&quot;&gt;</code></pre>
+&lt;input checked=&quot;ChEcKeD&quot;&gt;
+</code></pre>
 <p>The absence of the <code>checked</code> attribute is the only valid syntax for an unchecked button:</p>
 <pre><code class="language-html">&lt;input type=&quot;radio&quot;&gt;
-&lt;input type=&quot;checkbox&quot;&gt;</code></pre>
+&lt;input type=&quot;checkbox&quot;&gt;
+</code></pre>
 <p>When resetting a <code>&lt;form&gt;</code>, checkboxes and radio buttons revert to the state of their <code>checked</code> attribute.</p>
 <h3>Accessibility</h3><h4>Labels</h4><p>To give context to the buttons and show users what each button is for, each of them should have a label. This can be done using a <code>&lt;label&gt;</code> element to wrap the button. Also, this makes the label clickable, so you select the corresponding button.</p>
 <pre><code class="language-html">&lt;label&gt;
   &lt;input type=&quot;radio&quot; name=&quot;color&quot; value=&quot;#F00&quot;&gt;
   Red
-&lt;/label&gt;</code></pre>
+&lt;/label&gt;
+</code></pre>
 <p>Instead of wrapping the <code>&lt;input&gt;</code> tag, you can also give the <code>&lt;label&gt;</code> a <code>for</code> attribute set to the <code>id</code> attribute of the button:</p>
 <pre><code class="language-html">&lt;input type=&quot;checkbox&quot; name=&quot;color&quot; value=&quot;#F00&quot; id=&quot;red&quot;&gt;
-&lt;label for=&quot;red&quot;&gt;Red&lt;/label&gt;</code></pre>
+&lt;label for=&quot;red&quot;&gt;Red&lt;/label&gt;
+</code></pre>
 <h4>Button groups</h4><p>Since each radio button affects the others in the group, it is common to provide a label or context for the entire group of radio buttons.</p>
 <p>To provide a label for the entire group, the radio buttons should be included in a <code>&lt;fieldset&gt;</code> element with a <code>&lt;legend&gt;</code> element within it.</p>
 <pre><code class="language-html">&lt;fieldset&gt;
@@ -104,7 +113,8 @@ Subject Feedback: &lt;input type=&quot;range&quot; size=&quot;2&quot; name=&quot
     &lt;input type=&quot;radio&quot; name=&quot;color&quot; id=&quot;blue&quot; value=&quot;#00F&quot;&gt;
     &lt;label for=&quot;blue&quot;&gt;Blue&lt;/label&gt;
   &lt;/p&gt;
-&lt;/fieldset&gt;</code></pre>
+&lt;/fieldset&gt;
+</code></pre>
 <p>Checkboxes can also be grouped in a similar fashion, with a fieldset and legend identifying the group of related checkboxes. You should also keep the legend short, since some combinations of browsers and screen readers read the legend before each input field in the fieldset.</p>
 <p>Checkboxes should not share the same name because they are not mutually exclusive. Doing this will result in the form submitting multiple values for the same key and not all server-side languages handle this in the same way (undefined behavior). Each checkbox should either have a unique name, or use a set of square brackets (<code>[]</code>) to indicate that the form should submit an array of values for that key. Which method you choose should depend on how you plan to handle the form data client-side or server-side.</p>
 <h2>Color</h2><input type="color" name="favcolor" value="#ff0000">
@@ -115,21 +125,26 @@ Subject Feedback: &lt;input type=&quot;range&quot; size=&quot;2&quot; name=&quot
 <p>In supporting browsers, the input element with a type attribute whose value is color creates a button-like control, with a color equal to the value of color attribute (defaults to black if value is not specified or is an invalid hexadecimal format). Clicking this button opens the operating system&#39;s color widget, which allows user to select a color. Fallback for browsers which do not support this input type is a regular <code>&lt;input type=text&gt;</code>.</p>
 <h2>Password</h2><input type="password" name="password">
 
-<pre><code class="language-html">&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;
+</code></pre>
 <h2>File</h2><input type="file" name="fileSubmission">
 
-<pre><code class="language-html">&lt;input type=&quot;file&quot; name=&quot;fileSubmission&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;file&quot; name=&quot;fileSubmission&quot;&gt;
+</code></pre>
 <p>File inputs allow users to select a file from their local filesystem for use with the current page. If used in conjunction with a <code>form</code> element, they can be used to allow users to upload files to a server.</p>
 <p>The following example allows users to use the file input to select a <code>file</code> from their filesystem and upload that file to a script on the server named <code>upload_file.php</code>.</p>
 <pre><code class="language-html">&lt;form action=&quot;upload_file.php&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot;&gt;
     Select file to upload:
     &lt;input type=&quot;file&quot; name=&quot;fileSubmission&quot; id=&quot;fileSubmission&quot;&gt;
     &lt;input type=&quot;submit&quot; value=&quot;Upload your file&quot; name=&quot;submit&quot;&gt;
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+</code></pre>
 <h3>Multiple files</h3><p>Adding the <code>multiple</code> attribute the user will be able to select more than one file:</p>
-<pre><code class="language-html">&lt;input type=&quot;file&quot; name=&quot;fileSubmission&quot; id=&quot;fileSubmission&quot; multiple&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;file&quot; name=&quot;fileSubmission&quot; id=&quot;fileSubmission&quot; multiple&gt;
+</code></pre>
 <h3>Filetypes</h3><p>Accept attribute specifies the types of files that user can select. E.g. .png, .gif, .jpeg.</p>
-<pre><code class="language-html">&lt;input type=&quot;file&quot; name=&quot;fileSubmission&quot; accept=&quot;image/x-png,image/gif,image/jpeg&quot; /&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;file&quot; name=&quot;fileSubmission&quot; accept=&quot;image/x-png,image/gif,image/jpeg&quot; /&gt;
+</code></pre>
 <h2>Button</h2><input type="button" value="Button Text">
 ```html
 <input type="button" value="Button Text">
@@ -144,7 +159,8 @@ Buttons are typically used with an "onclick" event:
 <button type="button" onclick="alert('hello world!')">Click Me</button>
 ```
 
-<h3>Types</h3><pre><code class="language-html">&lt;button type=&quot;&quot;&gt;</code></pre>
+<h3>Types</h3><pre><code class="language-html">&lt;button type=&quot;&quot;&gt;
+</code></pre>
 <ul>
 <li><code>submit</code>: (default) Submit the form data to the server</li>
 <li><code>reset</code>: Reset the form controls to their default values</li>
@@ -159,7 +175,8 @@ Buttons are typically used with an "onclick" event:
 <p>You can also use the <code>&lt;button&gt;</code> element if you require a submit button that can be more easily styled or contain other elements:</p>
 <pre><code class="language-html">&lt;button type=&quot;submit&quot;&gt;
   &lt;img src=&quot;submit-icon.jpg&quot; /&gt; Submit
-&lt;/button&gt;</code></pre>
+&lt;/button&gt;
+</code></pre>
 <h2>Reset</h2><input type="reset" value="Reset">
 ```html
 <input type="reset" value="Reset">
@@ -182,12 +199,13 @@ Represents a one-line plain-text edit control for entering a telephone number.
 <h2>Email</h2><form>
   <label>E-mail: <label>
   <input type="email" name="email">
-</label></label></form>
+</form>
 
 <pre><code class="language-html">&lt;form&gt;
   &lt;label&gt;E-mail: &lt;label&gt;
   &lt;input type=&quot;email&quot; name=&quot;email&quot;&gt;
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+</code></pre>
 <p>Used for input fields that should contain an e-mail address. E-mail address can be automatically validated when submitted depending on browser support.</p>
 <h2>Number</h2><input type="number" value="0" name="quantity">
 ```html
@@ -196,13 +214,14 @@ Represents a one-line plain-text edit control for entering a telephone number.
 
 <p>Provides a precise control for setting the element&#39;s value to a string representing a number.</p>
 <p>Please note that this field does not guarantee to have a correct number. It allows all the symbols which could be used in any real number, e.g. <code>e1e-,0</code>.</p>
-<h2>Range</h2><input type="range" min="" max="" step="">
+<h2>Range</h2><input type="range" min="" max="" step="" />
 ```html
-<input type="range" min="" max="" step="">
+<input type="range" min="" max="" step="" />
 ```
 
 <p>A control for entering a number whose exact value is not important.</p>
-<h2>Image</h2><pre><code class="language-html">&lt;input type=&quot;image&quot; src=&quot;img.png&quot; alt=&quot;image_name&quot; height=&quot;50px&quot; width=&quot;50px&quot;/&gt;</code></pre>
+<h2>Image</h2><pre><code class="language-html">&lt;input type=&quot;image&quot; src=&quot;img.png&quot; alt=&quot;image_name&quot; height=&quot;50px&quot; width=&quot;50px&quot;/&gt;
+</code></pre>
 <p>A form control that looks like an image. Used to create graphical &quot;submit&quot; buttons.</p>
 <h2>Search</h2><input type="search" name="googlesearch">
 ```html
@@ -210,30 +229,31 @@ Represents a one-line plain-text edit control for entering a telephone number.
 ```
 Input type search is used for textual search. It will add magnifier symbol next to space for text on most browsers.
 
-<h2>Week</h2><input type="week">
+<h2>Week</h2><input type="week" />
 ```html
-<input type="week">
+<input type="week" />
 ```
 Dependent on browser support, a control will show for entering a week-year number and a week number with no time zone.
 
-<h2>DateTime (Global)</h2><p><label>Meeting time: <input type="datetime" name="meeting.start"></label></p>
-<pre><code class="language-html">&lt;label&gt;Meeting time: &lt;input type=datetime name=&quot;meeting.start&quot;&gt;&lt;/label&gt;</code></pre>
+<h2>DateTime (Global)</h2><p><label>Meeting time: <input type=datetime name="meeting.start"></label></p>
+<pre><code class="language-html">&lt;label&gt;Meeting time: &lt;input type=datetime name=&quot;meeting.start&quot;&gt;&lt;/label&gt;
+</code></pre>
 <p>Can be set to a string representing a global date and time (with timezone information).</p>
-<h2>DateTime-Local</h2><input type="datetime-local">
+<h2>DateTime-Local</h2><input type="datetime-local" />
 ```html
-<input type="datetime-local">
+<input type="datetime-local" />
 ```
 Dependent on browser support, a date and time picker will pop up on screen for you to choose a date and time.
 
-<h2>Month</h2><input type="month">
+<h2>Month</h2><input type="month" />
 ```html
-<input type="month">
+<input type="month" />
 ```
 Dependent on browser support, a control will show to pick the month.
 
-<h2>Time</h2><input type="time">
+<h2>Time</h2><input type="time" />
 ```html
-<input type="time">
+<input type="time" />
 ```
 Accepts a string representing a time. The format is defined in [RFC 3339](https://tools.ietf.org/html/rfc3339) and should be a partial-time such as `19:04:39` or `08:20:39.04`.
 
@@ -246,30 +266,37 @@ This is used for input fields that should contain a URL address.
 
 <p>Depending on browser support, the <code>url</code> field can be automatically validated when submitted.</p>
 <p>Some smartphones recognize the <code>url</code> type, and adds &quot;.com&quot; to the keyboard to match URL input.</p>
-<h2>Date</h2><input type="date">
+<h2>Date</h2><input type="date" />
 ```html
-<input type="date">
+<input type="date" />
 ```
 A date picker will pop up on screen for you to choose a date. This is not supported in Firefox or Internet Explorer.
 
-<h1>Forms</h1><h2>Submitting</h2><h3>The Action attribute</h3><pre><code class="language-html">&lt;form action=&quot;action.php&quot;&gt;</code></pre>
+<h1>Forms</h1><h2>Submitting</h2><h3>The Action attribute</h3><pre><code class="language-html">&lt;form action=&quot;action.php&quot;&gt;
+</code></pre>
 <p>The action attribute defines the action to be performed when the form is submitted, which usually leads to a script that collects the information submitted and works with it. if you leave it blank, it will send it to the same file.</p>
 <h3>The Method attribute</h3><p>The method attribute is used to define the HTTP method of the form which is either GET or POST.</p>
 <pre><code class="language-html">&lt;form action=&quot;action.php&quot; method=&quot;get&quot;&gt;
-&lt;form action=&quot;action.php&quot; method=&quot;post&quot;&gt;</code></pre>
+&lt;form action=&quot;action.php&quot; method=&quot;post&quot;&gt;
+</code></pre>
 <p>The GET method is mostly used to <em>get</em> data, for example to receive a post by its ID or name, or to submit a search query. The GET method will append the form data to the URL specified in the action attribute.</p>
-<pre><code>www.example.com/action.php?firstname=Mickey&amp;lastname=Mouse</code></pre><p>The POST method is used when submitting data to a script. The POST method does not append the form data to the action URL but sends using the request body.</p>
+<pre><code>www.example.com/action.php?firstname=Mickey&amp;lastname=Mouse
+</code></pre>
+<p>The POST method is used when submitting data to a script. The POST method does not append the form data to the action URL but sends using the request body.</p>
 <p>To submit the data from the form correctly, a name attribute name must be specified. As an example let&#39;s send the value of the field and set its name to <code>lastname</code>:</p>
-<pre><code class="language-html">&lt;input type=&quot;text&quot; name=&quot;lastname&quot; value=&quot;Mouse&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;input type=&quot;text&quot; name=&quot;lastname&quot; value=&quot;Mouse&quot;&gt;
+</code></pre>
 <h3>More attributes</h3><pre><code class="language-html">&lt;form action=&quot;action.php&quot; method=&quot;post&quot; target=&quot;_blank&quot; accept-charset=&quot;UTF-8&quot;
 enctype=&quot;application/x-www-form-urlencoded&quot; autocomplete=&quot;off&quot; novalidate&gt;
 
 &lt;!-- form elements --&gt;
 
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+</code></pre>
 <h2>Target attribute in form tag</h2><p>The target attribute specifies a name or a keyword that indicates where to display the response that is received after submitting the form.</p>
 <p>The target attribute defines a name of, or keyword for, a browsing context (e.g. tab, window, or inline frame).</p>
-<pre><code class="language-html">&lt;form target=&quot;_blank&quot;&gt;</code></pre>
+<pre><code class="language-html">&lt;form target=&quot;_blank&quot;&gt;
+</code></pre>
 <h3>Attribute values</h3><ul>
 <li><code>_self</code> (default): The response is displayed in the same frame</li>
 <li><code>_blank</code>: The response is displayed in a new window or tab</li>
@@ -299,41 +326,51 @@ enctype=&quot;application/x-www-form-urlencoded&quot; autocomplete=&quot;off&quo
       &lt;/label&gt;
   &lt;/fieldset&gt;&lt;br&gt;
   &lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+</code></pre>
 <h2>Uploading files</h2><p>Images and files can be uploaded/submitted to server by setting the <code>enctype</code> attribute of the <code>&lt;form&gt;</code> tag to <code>multipart/form-data</code>. <code>enctype</code> specifies how form data will be encoded when it&#39;s submitted to the server.</p>
 <pre><code class="language-html">&lt;form method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; action=&quot;upload.php&quot;&gt;
     &lt;input type=&quot;file&quot; name=&quot;pic&quot; /&gt;
     &lt;input type=&quot;submit&quot; value=&quot;Upload&quot; /&gt;
-&lt;/form&gt;</code></pre>
+&lt;/form&gt;
+</code></pre>
 <h1>Link that runs JavaScript</h1><p>Simply use the <code>javascript:</code> protocol to run the text as JavaScript instead of opening it as a normal link:</p>
-<pre><code class="language-html">&lt;a href=&quot;javascript:myFunction();&quot;&gt;Run Code&lt;/a&gt;</code></pre>
+<pre><code class="language-html">&lt;a href=&quot;javascript:myFunction();&quot;&gt;Run Code&lt;/a&gt;
+</code></pre>
 <p>You can also achieve the same thing using the onclick attribute:</p>
-<pre><code class="language-html">&lt;a href=&quot;#&quot; onclick=&quot;myFunction(); return false;&quot;&gt;Run Code&lt;/a&gt;</code></pre>
+<pre><code class="language-html">&lt;a href=&quot;#&quot; onclick=&quot;myFunction(); return false;&quot;&gt;Run Code&lt;/a&gt;
+</code></pre>
 <p>The <code>return false;</code> is necessary to prevent your page from scrolling to the top when the link to <code>#</code> is clicked. Make sure to include all code you&#39;d like to run before it, as returning will stop execution of further code.</p>
 <p>Also noteworthy, you can include an exclamation mark <code>!</code> after the hashtag in order to prevent the page from scrolling to the top. This works because any invalid slug will cause the link to not scroll <em>anywhere</em> on the page, because it couldn&#39;t locate the element it references (an element with <code>id=&quot;!&quot;</code>). You could also just use any invalid slug (such as <code>#scrollsNowhere</code>) to achieve the same effect. In this case, <code>return false;</code> is not required:</p>
-<pre><code class="language-html">&lt;a href=&quot;#!&quot; onclick=&quot;myFunction();&quot;&gt;Run Code&lt;/a&gt;</code></pre>
+<pre><code class="language-html">&lt;a href=&quot;#!&quot; onclick=&quot;myFunction();&quot;&gt;Run Code&lt;/a&gt;
+</code></pre>
 <p>Running JavaScript inline with the element like this is fairly bad practice. Consider using pure JavaScript solutions that look for the element in the page and bind a function to it instead.</p>
 <p>Also consider whether this element is really a <em>button</em> instead of a <em>link</em>. If so, you should use <code>&lt;button&gt;</code>.</p>
 <h1>SVG</h1><h2>Using in HTML</h2><h3>Embedding</h3><pre><code class="language-html">&lt;svg&gt;
   &lt;rect class=&quot;reverse&quot; width=&quot;400&quot; height=&quot;400&quot;/&gt;
-&lt;/svg&gt;</code></pre>
+&lt;/svg&gt;
+</code></pre>
 <p><strong>Advantages:</strong> Can be accessed and modified via CSS and JavaScript</p>
 <p><strong>Disadvantages:</strong> Can&#39;t be cached. Might get in the way of editing other parts of the HTML.</p>
 <h3>Object</h3><pre><code class="language-html">&lt;object type=&quot;image/svg+xml&quot; data=&quot;mySVG.svg&quot;&gt;
   &lt;img src=&quot;fallback.png&quot; /&gt;
-&lt;/object&gt;</code></pre>
+&lt;/object&gt;
+</code></pre>
 <p><strong>Advantages:</strong> Can be accessed and modified via CSS and JavaScript. Can be cached.</p>
 <p><strong>Disadvantages:</strong> Fallback image will always be loaded, even if it&#39;s not needed.</p>
-<h3>img tag</h3><pre><code class="language-html">&lt;img src=&quot;myimage.svg&quot; alt=&quot;My File&quot; /&gt;</code></pre>
+<h3>img tag</h3><pre><code class="language-html">&lt;img src=&quot;myimage.svg&quot; alt=&quot;My File&quot; /&gt;
+</code></pre>
 <p><strong>Advantages:</strong> Simple and easy. Can be cached.</p>
 <p><strong>Disadvantages:</strong> Can&#39;t be manipulated with CSS or JavaScript.</p>
-<h3>background-image</h3><pre><code class="language-css">.logo { background: url(myimage.svg); }</code></pre>
+<h3>background-image</h3><pre><code class="language-css">.logo { background: url(myimage.svg); }
+</code></pre>
 <p><strong>Advantages:</strong> Can be cached.</p>
 <p><strong>Disadvantages:</strong> Can&#39;t be manipulated with CSS or JavaScript.</p>
 <h2>Elements</h2><h3>svg</h3><p>Root element defining the SVG canvas.</p>
 <pre><code class="language-html">&lt;svg width=&quot;400&quot; height=&quot;400&quot;&gt;
   ...
-&lt;/svg&gt;</code></pre>
+&lt;/svg&gt;
+</code></pre>
 <h4>Attributes</h4><ul>
 <li><code>width</code>, <code>height</code>: The width and height of the viewport for this SVG element.</li>
 <li><code>preserveAspectRatio</code>: forces the aspect ratio so your image isn’t stretched when using the viewBox element to define a new coordinate system.</li>
@@ -344,7 +381,8 @@ enctype=&quot;application/x-www-form-urlencoded&quot; autocomplete=&quot;off&quo
 <li><code>cx</code>, <code>cy</code>: X- and Y-coordinates of the circle&#39;s center.</li>
 <li><code>r</code>: Radius of the circle.</li>
 </ul>
-<h3>rect</h3><pre><code class="language-html">&lt;rect x=&quot;50&quot; y=&quot;50&quot; width=&quot;300&quot; height=&quot;300&quot; fill=&quot;#fff&quot; /&gt;</code></pre>
+<h3>rect</h3><pre><code class="language-html">&lt;rect x=&quot;50&quot; y=&quot;50&quot; width=&quot;300&quot; height=&quot;300&quot; fill=&quot;#fff&quot; /&gt;
+</code></pre>
 <h4>Elements</h4><ul>
 <li><code>height</code>, <code>width</code>: Height and width of the shape.</li>
 <li><code>x</code>, <code>y</code>: X- and Y-coordinates where the shape should start drawing.</li>
@@ -363,17 +401,16 @@ enctype=&quot;application/x-www-form-urlencoded&quot; autocomplete=&quot;off&quo
 <li><code>rotate</code>: A list of numbers that will determine the rotation of the text</li>
 <li><code>textLength</code>: An exact value of the length of the text. This used for very specific layouts.</li>
 </ul>
-<h3>textPath</h3><p>Type on a path.</p></button>
-</div>
+<h3>textPath</h3><p>Type on a path.</p>
 
+</div>
 <script>
 jQuery(document).ready(function() {
-  if (jQuery(window).height() < jQuery(document).height()) {
-    $('#toc').tocify({
-      extendPage: false
-    });
-  }
+if (jQuery(window).height() < jQuery(document).height()) {
+$('#toc').tocify({
+extendPage: false
+});
+}
 });
 </script>
-
 </body>

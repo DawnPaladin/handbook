@@ -1,97 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Ruby Handbook</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="lib/jquery-ui.min.js"></script>
-  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
-  <script src="lib/jquery.tocify.js"></script>
-  <script src="lib/prism.js"></script>
-  <link rel="stylesheet" href="lib/prism.css"/>
-  <link href="handbook.css" rel="stylesheet"></link>
-  <link href="blueprint.css" rel="stylesheet"></link>
-
+<meta charset="utf-8">
+<title>Ruby Handbook</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+<script src="lib/jquery.tocify.js"></script>
+<script src="lib/prism.js"></script>
+<link rel="stylesheet" href="lib/prism.css"/>
+<link href="handbook.css" rel="stylesheet"></link>
+<link href="blueprint.css" rel="stylesheet"></link>
 </head>
 <body>
-
 <div id="toc">
-  <a href="index.html" class="index-link">Index</a>
+<a href="index.html" class="index-link">Index</a>
 </div>
-
 <div class="main-column">
-  <p><strong>Ruby</strong></p>
+<p><strong>Ruby</strong></p>
 <h1>Loops</h1><pre><code class="language-ruby">counter = 1
 while counter &lt; 11
   puts counter
   counter += 1
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">counter = 1
 until counter &gt; 10
   puts counter
   counter += 1
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">for num in 1..10
   puts num
 end
 
 for num in 1...11
   puts num
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">i = 0
 loop do
   i += 1
   puts i
   break if i &gt; 10
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">for i in 1..5
   next if i % 2 == 0
   print i
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">range = 1..10
 range.each do |i|
   puts i
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">10.times { |i| puts i }
 1.upto(10) { |i| puts i }
-10.downto(1) { |i| puts i }</code></pre>
+10.downto(1) { |i| puts i }
+</code></pre>
 <pre><code class="language-ruby">[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;].each do |e|
   print &quot;#{e}! &quot;
 end
-# prints &quot;a! b! c!&quot;; returns the array</code></pre>
+# prints &quot;a! b! c!&quot;; returns the array
+</code></pre>
 <pre><code class="language-ruby">{&quot;Pinkie Pie&quot; =&gt; &quot;earth pony&quot;, &quot;Rainbow Dash&quot; =&gt; &quot;pegasus&quot;, &quot;Twilight Sparkle&quot; =&gt; &quot;unicorn&quot;}.each do |name, race|
   puts &quot;#{name} is a #{race}&quot;
 end
 
 [:hearts, :spades, :clubs, :diamonds].each_with_index do |suit, i|
   puts &quot;#{i}: #{suit}&quot;
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">next # jump to next iteration
 redo # restart loop; don&#39;t recheck the condition
 retry # restart loop, rechecking the condition
-break # exit loop</code></pre>
+break # exit loop
+</code></pre>
 <h1>Arrays</h1><h2>Create array of strings</h2><p>Arrays of strings can be created using ruby&#39;s <a href="http://ruby-doc.org/core/doc/syntax/literals_rdoc.html#label-Percent+Strings">percent string</a> syntax:</p>
-<pre><code class="language-rb">array = %w(one two three four)</code></pre>
+<pre><code class="language-rb">array = %w(one two three four)
+</code></pre>
 <p>This is functionally equivalent to defining the array as:</p>
-<pre><code class="language-rb">array = [&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;four&#39;]</code></pre>
+<pre><code class="language-rb">array = [&#39;one&#39;, &#39;two&#39;, &#39;three&#39;, &#39;four&#39;]
+</code></pre>
 <p>Instead of <code>%w()</code> you may use other matching pairs of delimiters: <code>%w{...}</code>, <code>%w[...]</code>, or <code>%w&lt;...&gt;</code>.</p>
 <p>It is also possible to use arbitrary non-alphanumeric delimiters, such as: <code>%w!...!</code>, <code>%w#...#</code>, or <code>%w@...@</code>.</p>
 <p><code>%W</code> can be used instead of <code>%w</code> to incorporate string interpolation. Consider the following:</p>
 <pre><code class="language-rb">var = &#39;hello&#39;
 
 %w(#{var}) # =&gt; [&quot;\#{var}&quot;]
-%W(#{var}) # =&gt; [&quot;hello&quot;]</code></pre>
+%W(#{var}) # =&gt; [&quot;hello&quot;]
+</code></pre>
 <p>Multiple words can be interpreted by escaping the space with a <code>\</code>.</p>
-<pre><code class="language-rb">%w(Colorado California New\ York) # =&gt; [&quot;Colorado&quot;, &quot;California&quot;, &quot;New York&quot;]</code></pre>
+<pre><code class="language-rb">%w(Colorado California New\ York) # =&gt; [&quot;Colorado&quot;, &quot;California&quot;, &quot;New York&quot;]
+</code></pre>
 <h2>Create array of symbols</h2><p><code>array = %i(one two three four)</code> creates the array <code>[:one, :two, :three, :four]</code>.</p>
 <p>You can use other delimiters (<code>[]</code>, <code>{}</code>, <code>!!</code>...) instead of <code>()</code>, as with strings.</p>
 <p>Additionally, if you want to use interpolation, you can do this with %I.</p>
 <pre><code class="language-rb">a = &#39;hello&#39;
 b = &#39;goodbye&#39;
 array_one = %I(#{a} #{b} world) # =&gt; [:hello, :goodbye, :world]
-array_two = %i(#{a} #{b} world) # =&gt; [:&quot;\#{a}&quot;, :&quot;\#{b}&quot;, :world]</code></pre>
+array_two = %i(#{a} #{b} world) # =&gt; [:&quot;\#{a}&quot;, :&quot;\#{b}&quot;, :world]
+</code></pre>
 <h2>Manipulating array elements</h2><p>Adding elements:</p>
 <pre><code class="language-rb">[1, 2, 3] &lt;&lt; 4
 # =&gt; [1, 2, 3, 4]
@@ -103,7 +115,8 @@ array_two = %i(#{a} #{b} world) # =&gt; [:&quot;\#{a}&quot;, :&quot;\#{b}&quot;,
 # =&gt; [4, 1, 2, 3]
 
 [1, 2, 3] &lt;&lt; [4, 5]
-# =&gt; [1, 2, 3, [4, 5]]</code></pre>
+# =&gt; [1, 2, 3, [4, 5]]
+</code></pre>
 <p>Removing elements:</p>
 <pre><code class="language-rb">array = [1, 2, 3, 4]
 array.pop
@@ -134,7 +147,8 @@ array = [1, 2, 2, 2, 3]
 array - [2]
 # =&gt; [1, 3]    # removed all the 2s
 array - [2, 3, 4]
-# =&gt; [1]       # the 4 did nothing</code></pre>
+# =&gt; [1]       # the 4 did nothing
+</code></pre>
 <p>Combining arrays:</p>
 <pre><code class="language-rb">[1, 2, 3] + [4, 5, 6]
 # =&gt; [1, 2, 3, 4, 5, 6]
@@ -149,40 +163,48 @@ array - [2, 3, 4]
 # =&gt; [1, 2, 3, 4]
 
 [1, 2, 3] &amp; [3, 4]
-# =&gt; [3]</code></pre>
+# =&gt; [3]
+</code></pre>
 <p>You can also multiply arrays:</p>
 <pre><code class="language-rb">[1, 2, 3] * 2
-# =&gt; [1, 2, 3, 1, 2, 3]</code></pre>
+# =&gt; [1, 2, 3, 1, 2, 3]
+</code></pre>
 <h1>Closures</h1><pre><code class="language-ruby"># One line block
-[1,2,3].each { |num| print &quot;#{num}! &quot; }</code></pre>
+[1,2,3].each { |num| print &quot;#{num}! &quot; }
+</code></pre>
 <pre><code class="language-ruby"># Multi-line block
 [1,2,3].each do |num|
   print &quot;#{num}! &quot;
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby"># Yielding to a block
 def method_taking_block
   yield(&quot;some argument for the block&quot;) if block_given?
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby"># Create and use a Proc
 my_proc = Proc.new { |arg1| print &quot;#{arg1}! &quot; }
-[1,2,3].each(my_proc)</code></pre>
+[1,2,3].each(my_proc)
+</code></pre>
 <pre><code class="language-ruby"># Call a Proc inside a method
 # Sort of like `yield`ing
-my_proc.call(&quot;Some Argument&quot;)</code></pre>
+my_proc.call(&quot;Some Argument&quot;)
+</code></pre>
 <pre><code class="language-ruby"># Make a new Lambda (just like Procs)
-my_lam = lambda { |word| puts word }</code></pre>
+my_lam = lambda { |word| puts word }
+</code></pre>
 <pre><code class="language-ruby"># Use a Method
-method(:print_stuff_method).call(&quot;something to print&quot;)</code></pre>
-</div>
+method(:print_stuff_method).call(&quot;something to print&quot;)
+</code></pre>
 
+</div>
 <script>
 jQuery(document).ready(function() {
-  if (jQuery(window).height() < jQuery(document).height()) {
-    $('#toc').tocify({
-      extendPage: false
-    });
-  }
+if (jQuery(window).height() < jQuery(document).height()) {
+$('#toc').tocify({
+extendPage: false
+});
+}
 });
 </script>
-
 </body>

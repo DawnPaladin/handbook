@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Rails Handbook</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <script src="lib/jquery-ui.min.js"></script>
-  <link href="lib/jquery.tocify.css" rel="stylesheet"></link>
-  <script src="lib/jquery.tocify.js"></script>
-  <script src="lib/prism.js"></script>
-  <link rel="stylesheet" href="lib/prism.css"/>
-  <link href="handbook.css" rel="stylesheet"></link>
-  <link href="blueprint.css" rel="stylesheet"></link>
-
+<meta charset="utf-8">
+<title>Rails Handbook</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
+<link href="lib/jquery.tocify.css" rel="stylesheet"></link>
+<script src="lib/jquery.tocify.js"></script>
+<script src="lib/prism.js"></script>
+<link rel="stylesheet" href="lib/prism.css"/>
+<link href="handbook.css" rel="stylesheet"></link>
+<link href="blueprint.css" rel="stylesheet"></link>
 </head>
 <body>
-
 <div id="toc">
-  <a href="index.html" class="index-link">Index</a>
+<a href="index.html" class="index-link">Index</a>
 </div>
-
 <div class="main-column">
-  <p><strong>Ruby on Rails</strong></p>
+<p><strong>Ruby on Rails</strong></p>
 <h1>Setup</h1><h2>Set up repo</h2><pre><code>rails new app_name
 cd app_name
 git init
@@ -30,7 +27,9 @@ git remote add origin &lt;SSH address&gt;
 git add -A
 git commit -m &quot;rails new&quot;
 git push -u origin master
-rails db:create</code></pre><p>Options for <code>rails new</code>:</p>
+rails db:create
+</code></pre>
+<p>Options for <code>rails new</code>:</p>
 <ul>
 <li><code>--database=postgresql</code></li>
 <li><code>--skip-turbolinks</code></li>
@@ -38,19 +37,25 @@ rails db:create</code></pre><p>Options for <code>rails new</code>:</p>
 </ul>
 <h2>Create a model</h2><pre><code>$ rails g model Post title:string body:string
 // Examine the new migration and make any required changes
-$ rails db:migrate</code></pre><h2>Create routes</h2><pre><code class="language-ruby"># config/routes.rb
+$ rails db:migrate
+</code></pre>
+<h2>Create routes</h2><pre><code class="language-ruby"># config/routes.rb
 Rails.application.routes.draw do
   root &quot;posts#index&quot;
   resources :posts
-end</code></pre>
+end
+</code></pre>
 <p>Check your routes with <code>rails routes</code>.</p>
 <p>Other things you can do in routes.rb:</p>
 <pre><code class="language-ruby">resources :posts, :only =&gt; [:index, :show]
 resources :posts, :except =&gt; [:index]
 
 get &#39;/presents/:id/deliver/:receiver&#39; =&gt; &#39;presents#deliver&#39;
-# in presents#deliver, look at params[:id] and params[:receiver]</code></pre>
-<h2>Create controller</h2><pre><code>rails g controller posts</code></pre><pre><code class="language-ruby"># app/controllers/posts_controller.rb
+# in presents#deliver, look at params[:id] and params[:receiver]
+</code></pre>
+<h2>Create controller</h2><pre><code>rails g controller posts
+</code></pre>
+<pre><code class="language-ruby"># app/controllers/posts_controller.rb
 class PostsController &lt; ApplicationController
 
   def index
@@ -99,7 +104,8 @@ class PostsController &lt; ApplicationController
     params.require(:post).permit(:title,:body,:author_id)
   end
 
-end</code></pre>
+end
+</code></pre>
 <h2>Create view</h2><pre><code># app/views/posts/index.html.erb
 &lt;h1&gt;
   Posts
@@ -111,34 +117,50 @@ end</code></pre>
   &lt;p&gt;
     &lt;%= post.body %&gt;
   &lt;/p&gt;
-&lt;% end %&gt;</code></pre><h2>Better Errors</h2><pre><code>// Gemfile
+&lt;% end %&gt;
+</code></pre>
+<h2>Better Errors</h2><pre><code>// Gemfile
 group :development do
   gem &quot;better_errors&quot;
   gem &quot;binding_of_caller&quot;
   gem &quot;jazz_fingers&quot;
-end</code></pre><h2>Remove Turbolinks</h2><ol>
+end
+</code></pre>
+<h2>Remove Turbolinks</h2><ol>
 <li>Remove <code>gem &#39;turbolinks&#39;</code> from <strong>Gemfile</strong></li>
 <li>Remove <code>//= require turbolinks</code> from <strong>app/assets/javascripts/application.js</strong></li>
 <li>Remove both <code>&quot;data-turbolinks-track&quot; =&gt; reload</code> key/value pairs from <strong>app/views/layouts/application.html.erb</strong></li>
 </ol>
 <h2>Add Bootstrap</h2><pre><code class="language-javascript">// app/assets/javascripts/application.js
 
-//= require bootstrap-sprockets</code></pre>
+//= require bootstrap-sprockets
+</code></pre>
 <pre><code>// Gemfile
-gem &#39;bootstrap-sass&#39;</code></pre><p>Delete app/assets/stylesheets/application.css. Create an application.scss file in the same folder and add:</p>
+gem &#39;bootstrap-sass&#39;
+</code></pre>
+<p>Delete app/assets/stylesheets/application.css. Create an application.scss file in the same folder and add:</p>
 <pre><code>@import &#39;bootstrap-sprockets&#39;;
-@import &#39;bootstrap&#39;;</code></pre><h3>Viewing Flash messages in Bootstrap</h3><pre><code># app/views/layouts/application.html.erb
+@import &#39;bootstrap&#39;;
+</code></pre>
+<h3>Viewing Flash messages in Bootstrap</h3><pre><code># app/views/layouts/application.html.erb
 &lt;% flash.each do |type, msg| %&gt;
   &lt;%= content_tag(:div, join_messages(msg), class: &quot;alert alert-#{type}&quot;) %&gt;
-&lt;% end %&gt;</code></pre><pre><code class="language-ruby"># app/helpers/application_helper.rb
+&lt;% end %&gt;
+</code></pre>
+<pre><code class="language-ruby"># app/helpers/application_helper.rb
 module ApplicationHelper
   def join_messages(messages)
     messages = messages.join(&#39;; &#39;) if messages.is_a? Array
     messages
   end
-end</code></pre>
+end
+</code></pre>
 <h2>Create Postgres database</h2><pre><code>sudo -i -u postgres
-createdb &lt;databasename&gt;</code></pre><h2>Start Postgres server</h2><pre><code>sudo /etc/init.d/postgresql start</code></pre><h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
+createdb &lt;databasename&gt;
+</code></pre>
+<h2>Start Postgres server</h2><pre><code>sudo /etc/init.d/postgresql start
+</code></pre>
+<h2>Uploading photos to AWS with Paperclip</h2><p>Set up your AWS bucket and user. You can learn your region by going <a href="https://console.aws.amazon.com/s3/home">here</a> and looking at the <code>region</code> parameter in the URL. For public read access, give your bucket a policy like this one, being sure to fill in your bucket name on the &quot;Resource&quot; line:</p>
 <pre><code>{
     &quot;Version&quot;: &quot;2008-10-17&quot;,
     &quot;Statement&quot;: [
@@ -152,26 +174,35 @@ createdb &lt;databasename&gt;</code></pre><h2>Start Postgres server</h2><pre><co
             &quot;Resource&quot;: &quot;arn:aws:s3:::BUCKET_NAME/*&quot;
         }
     ]
-}</code></pre><p>Configure your environment:</p>
+}
+</code></pre>
+<p>Configure your environment:</p>
 <pre><code class="language-ruby"># Gemfile
 gem &#39;paperclip&#39;
 gem &#39;figaro&#39;
-gem &#39;aws-sdk&#39;</code></pre>
+gem &#39;aws-sdk&#39;
+</code></pre>
 <p>Set up your secrets:</p>
 <pre><code># .gitignore
-/config/application.yml</code></pre><pre><code># config/application.yml
+/config/application.yml
+</code></pre>
+<pre><code># config/application.yml
 development:
   AWS_HOST_NAME: us-west-2.amazonaws.com
   AWS_REGION: us-west-2
   S3_BUCKET_NAME: jamesharris-danebook
   AWS_ACCESS_KEY_ID: [redacted]
-  AWS_SECRET_KEY_ID: [redacted]</code></pre><pre><code># config/secrets.yml
+  AWS_SECRET_KEY_ID: [redacted]
+</code></pre>
+<pre><code># config/secrets.yml
 development:
   secret_key_base: [redacted]
   s3_bucket_name: &lt;%= ENV[&quot;S3_BUCKET_NAME&quot;] %&gt;
   aws_access_key_id: &lt;%= ENV[&quot;AWS_ACCESS_KEY_ID&quot;] %&gt;
   aws_secret_access_key: &lt;%= ENV[&quot;AWS_SECRET_ACCESS_KEY&quot;] %&gt;
-  aws_region: &lt;%= ENV[&quot;AWS_REGION&quot;] %&gt;</code></pre><pre><code class="language-ruby"># config/environments/development.rb
+  aws_region: &lt;%= ENV[&quot;AWS_REGION&quot;] %&gt;
+</code></pre>
+<pre><code class="language-ruby"># config/environments/development.rb
 # This is your imagemagick directory, retrieved using `which convert`
 Paperclip.options[:command_path] = &quot;/usr/bin/convert&quot;
 
@@ -185,7 +216,8 @@ config.paperclip_defaults = {
     secret_access_key: ENV[&#39;AWS_SECRET_KEY_ID&#39;],
     s3_region: ENV[&#39;AWS_REGION&#39;]
   }
-}</code></pre>
+}
+</code></pre>
 <p>Repeat for the Production side as necessary.</p>
 <p>Create a table in your database:</p>
 <pre><code class="language-ruby">class CreatePhotos &lt; ActiveRecord::Migration[5.0]
@@ -196,14 +228,16 @@ config.paperclip_defaults = {
       t.timestamps
     end
   end
-end</code></pre>
+end
+</code></pre>
 <p>Create a model:</p>
 <pre><code class="language-ruby"># app/models/photo.rb
 class Photo &lt; ApplicationRecord
   belongs_to :user
   has_attached_file :image, styles: { medium: &quot;300x300&quot;, thumb: &quot;100x100&quot;}
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\Z/
-end</code></pre>
+end
+</code></pre>
 <p>Create a controller:</p>
 <pre><code class="language-ruby"># app/controllers/photos_controller.rb
 class PhotosController &lt; ApplicationController
@@ -239,23 +273,31 @@ class PhotosController &lt; ApplicationController
     p params
     params.require(:photo).permit(:image)
   end
-end</code></pre>
+end
+</code></pre>
 <p>Create a form in your view:</p>
 <pre><code>&lt;%= form_for @photo do |f| %&gt;
   &lt;%= f.file_field :photo_data %&gt;
   &lt;%= f.submit %&gt;
-&lt;% end %&gt;</code></pre><p>Show the uploaded image in your view:</p>
+&lt;% end %&gt;
+</code></pre>
+<p>Show the uploaded image in your view:</p>
 <pre><code>&lt;%= image_tag @photo.image.expiring_url %&gt;
 &lt;!-- Or with a style: --&gt;
-&lt;%= image_tag @photo.image.expiring_url(:thumb) %&gt;</code></pre><h2>Tests</h2><h3>Unit testing the model with Factory Girl and RSpec</h3><pre><code># Gemfile
+&lt;%= image_tag @photo.image.expiring_url(:thumb) %&gt;
+</code></pre>
+<h2>Tests</h2><h3>Unit testing the model with Factory Girl and RSpec</h3><pre><code># Gemfile
 group :development, :test do
   gem &#39;rspec-rails&#39;
   gem &#39;guard-rspec&#39;, require:false
   gem &#39;factory_girl_rails&#39;
-end</code></pre><pre><code class="language-bash">$ bundle install
+end
+</code></pre>
+<pre><code class="language-bash">$ bundle install
 $ rails g rspec:install # generates /spec dir
 $ rails g rspec:model User # set up a testing model for a User
-$ guard init rspec # create Guardfile</code></pre>
+$ guard init rspec # create Guardfile
+</code></pre>
 <p>Inside spec/rails_helper.rb, in the group of <code>require</code>s near the top, <code>require &#39;factory_girl_rails&#39;</code>. In the <code>Rspec.configure do |config|</code> block, add <code>config.include FactoryGirl::Syntax::Methods</code>.</p>
 <pre><code class="language-ruby"># spec/factories.rb or spec/factories/users.rb
 FactoryGirl.define do
@@ -275,7 +317,8 @@ FactoryGirl.define do
     body { &quot;You won&#39;t believe what #{author}&quot; }
   end
 
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby"># spec/models/user_spec.rb
 require &#39;rails_helper&#39;
 
@@ -291,7 +334,8 @@ RSpec.describe User, type: :model do
     expect(build(:user, password: &quot;1234567890&quot;)).to be_valid
   end
 
-end</code></pre>
+end
+</code></pre>
 <p><a href="https://github.com/rspec/rspec-expectations">Full list of RSpec Expectations</a></p>
 <h3>Integration tests with Capybara</h3><pre><code class="language-ruby"># Gemfile
 ...
@@ -299,7 +343,8 @@ group :test do
   gem &#39;capybara&#39;
   gem &#39;launchy&#39;
 end
-...</code></pre>
+...
+</code></pre>
 <p>Run <code>bundle install</code> then add the following line to your <code>spec/spec_helper.rb</code> or <code>spec/rails_helper.rb</code> file to include Capybara&#39;s functions in your tests:</p>
 <pre><code class="language-ruby"># spec/rails_helper.rb
 # This file is copied to spec/ when you run &#39;rails generate rspec:install&#39;
@@ -309,19 +354,24 @@ require File.expand_path(&quot;../../config/environment&quot;, __FILE__)
 require &#39;rspec/rails&#39;
 require &#39;factory_girl_rails&#39;
 require &#39;capybara/rails&#39;      # &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;
-...</code></pre>
+...
+</code></pre>
 <p>When you reload your test suite, things should work properly.</p>
 <p>Whenever you&#39;re ready to set up a new feature spec, as we saw above, simply create a new file in spec/features which includes <code>rails_helper</code> at the top as normal. Now it&#39;s part of your normal test suite.</p>
 <p>Note: Make sure you set up your SECRET_KEY_BASE properly in the Test Environment (under config/secrets.yml). It is necessary since Capybara basically uses your app like a normal visitor would and the app would fail to render without the SECRET_KEY_BASE properly set up.</p>
 <h2>Emails</h2><h3>Creation</h3><pre><code class="language-ruby"># Gemfile
 group :development do
   gem &#39;letter_opener&#39;
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby"># config/environments/development.rb
 config.action_mailer.delivery_method = :letter_opener
-config.action_mailer.default_url_options = { host: &#39;localhost&#39;, port: 3000 }</code></pre>
+config.action_mailer.default_url_options = { host: &#39;localhost&#39;, port: 3000 }
+</code></pre>
 <p>Create mailer:</p>
-<pre><code>$ rails generate mailer UserMailer</code></pre><pre><code class="language-ruby"># app/mailers/user_mailer.rb
+<pre><code>$ rails generate mailer UserMailer
+</code></pre>
+<pre><code class="language-ruby"># app/mailers/user_mailer.rb
 class UserMailer &lt; ApplicationMailer
   default from: &quot;welcomecommittee@crudcrud.com&quot;
 
@@ -329,7 +379,8 @@ class UserMailer &lt; ApplicationMailer
     @user = user
     mail(to: @user.email, subject: &#39;Welcome to CrudCrud!&#39;)
   end
-end</code></pre>
+end
+</code></pre>
 <p>Create emails:</p>
 <pre><code># app/views/user_mailer/welcome.html.erb
 &lt;h1&gt;Welcome!&lt;/h1&gt;
@@ -340,22 +391,30 @@ end</code></pre>
 
 &lt;p&gt;
   View your account at &lt;%= link_to &quot;#{user_url(@user.id)}&quot;, user_url(@user.id) %&gt;
-&lt;/p&gt;</code></pre><pre><code># app/views/user_mailer/welcome.text.erb
+&lt;/p&gt;
+</code></pre>
+<pre><code># app/views/user_mailer/welcome.text.erb
 Welcome!
 
 Hi &lt;%= @user.name %&gt;, welcome to CrudCrud!
 
-View your account at &lt;%= link_to &quot;#{user_url(@user.id)}&quot;, user_url(@user.id) %&gt;</code></pre><p>Send this from the Rails console with <code>UserMailer.welcome(User.last).deliver</code>. If you&#39;re on Development (and you set up LetterOpener), the email will open in your browser.</p>
+View your account at &lt;%= link_to &quot;#{user_url(@user.id)}&quot;, user_url(@user.id) %&gt;
+</code></pre>
+<p>Send this from the Rails console with <code>UserMailer.welcome(User.last).deliver</code>. If you&#39;re on Development (and you set up LetterOpener), the email will open in your browser.</p>
 <h3>Automatic sending</h3><pre><code># Gemfile
-gem &#39;delayed_job_active_record&#39;</code></pre><pre><code class="language-bash">$ rails g delayed_job:active_record
-$ rails db:migrate</code></pre>
+gem &#39;delayed_job_active_record&#39;
+</code></pre>
+<pre><code class="language-bash">$ rails g delayed_job:active_record
+$ rails db:migrate
+</code></pre>
 <pre><code class="language-ruby"># config/application.rb
 module NameOfApp
   class Application &lt; Rails::Application
     #...
     config.active_job.queue_adapter = :delayed_job
   end
-end</code></pre>
+end
+</code></pre>
 <p>Add methods to model:</p>
 <pre><code class="language-ruby"># app/models/user.rb
 class User &lt; ApplicationRecord
@@ -366,44 +425,56 @@ class User &lt; ApplicationRecord
     def queue_welcome_email
       UserMailer.welcome(self).deliver_later
     end
-end</code></pre>
+end
+</code></pre>
 <p>Start the task that will watch for delayed jobs:</p>
-<pre><code class="language-bash">$ rake jobs:work</code></pre>
+<pre><code class="language-bash">$ rake jobs:work
+</code></pre>
 <p>Work through all queued jobs and then exit:</p>
-<pre><code class="language-bash">$ rake jobs:workoff</code></pre>
+<pre><code class="language-bash">$ rake jobs:workoff
+</code></pre>
 <h1>Deployment</h1><h2>Uploading to Heroku</h2><p>Remove <code>coffee-rails</code> from your Gemfile, delete app/assets/javascripts/users.coffee, and run <code>bundle install</code>.</p>
 <pre><code class="language-bash">$ heroku create # Create a new app and return its name
 $ heroku git:remote -a name-of-app # Connect your Git repo to your new Heroku app
-$ git push heroku master # Deploy</code></pre>
+$ git push heroku master # Deploy
+</code></pre>
 <p>Run through &quot;Create Postgres database&quot; in the Setup section. Then run <code>heroku run rails db:migrate</code>.</p>
 <h2>Securely storing authentication keys</h2><pre><code class="language-ruby"># Gemfile
-gem &#39;figaro&#39;</code></pre>
+gem &#39;figaro&#39;
+</code></pre>
 <pre><code class="language-bash">$ bundle install
-$ bundle exec figaro install # create and .gitignore config/application.yml</code></pre>
+$ bundle exec figaro install # create and .gitignore config/application.yml
+</code></pre>
 <pre><code class="language-yml"># config/application.yml
-SECRET_NAME: secret_value</code></pre>
+SECRET_NAME: secret_value
+</code></pre>
 <pre><code class="language-yml"># config/secrets.yml
 development:
   secret_name: &lt;%= ENV[&quot;SECRET_NAME&quot;] %&gt;
 test:
   secret_name: &lt;%= ENV[&quot;SECRET_NAME&quot;] %&gt;
 production:
-  secret_name: &lt;%= ENV[&quot;SECRET_NAME&quot;] %&gt;</code></pre>
+  secret_name: &lt;%= ENV[&quot;SECRET_NAME&quot;] %&gt;
+</code></pre>
 <pre><code class="language-ruby"># config/environments/development.rb
 Rails.application.configure do
   config.some_component.configuration_hash = {
     :secret =&gt; Rails.application.secrets.secret_name
-  }</code></pre>
+  }
+</code></pre>
 <p>Make sure config/secrets.yml and the files in config/environments have values for all the environments you need. Copy everything you need from development to production.</p>
 <p>Upload values in config/environments/production.rb to Heroku:</p>
-<pre><code class="language-bash">$ figaro heroku:set -e production</code></pre>
+<pre><code class="language-bash">$ figaro heroku:set -e production
+</code></pre>
 <h1>Links</h1><pre><code>&lt;%= link_to &quot;See All Users&quot;, users_path %&gt; #=&gt; &lt;a href=&quot;/users&quot;&gt;See All Users&lt;/a&gt;
 
 &lt;%= link_to &quot;See user&quot;, user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
 
 &lt;%= button_to &quot;Edit user&quot;, edit_user_path(user.id) %&gt; #= &lt;a href=&quot;/user/1&quot;&gt;See user&lt;/a&gt;
 
-&lt;%= link_to &quot;Destroy user&quot;, user_path(user.id), method: :delete %&gt;</code></pre><p>Note that in <code>rails routes</code>, <code>edit_user</code> is listed in the Prefix column, so the link is <code>edit_user_path</code>. The DELETE verb doesn&#39;t have its own prefix; you just use the user&#39;s link with the <code>:delete</code> method.</p>
+&lt;%= link_to &quot;Destroy user&quot;, user_path(user.id), method: :delete %&gt;
+</code></pre>
+<p>Note that in <code>rails routes</code>, <code>edit_user</code> is listed in the Prefix column, so the link is <code>edit_user_path</code>. The DELETE verb doesn&#39;t have its own prefix; you just use the user&#39;s link with the <code>:delete</code> method.</p>
 <h1>Forms</h1><ul>
 <li><p><a href="rails-forms.html">More details</a></p>
 </li>
@@ -414,7 +485,9 @@ Rails.application.configure do
   &lt;%= label_tag(:query, &quot;Search for:&quot;) %&gt;
   &lt;%= text_field_tag(:query) %&gt;
   &lt;%= submit_tag(&quot;Search&quot;) %&gt;
-&lt;% end %&gt;</code></pre><h2>Automated</h2><pre><code># app/controllers/articles_controller.rb
+&lt;% end %&gt;
+</code></pre>
+<h2>Automated</h2><pre><code># app/controllers/articles_controller.rb
 def new
   @article = Article.new
 end
@@ -425,8 +498,12 @@ end
   &lt;%= form.text_field :title %&gt;
   &lt;%= form.text_area :body, size: &quot;60x12&quot; %&gt;
   &lt;%= form.submit &quot;Create&quot; %&gt;
-&lt;% end %&gt;</code></pre><p>Options go inside a hash. HTML options go inside their own sub-hash.</p>
-<pre><code>&lt;%= form_for @post, {:html =&gt; { :class =&gt; &quot;your_class&quot; } } do |f| %&gt;</code></pre><p>All forms created with Rails helpers will automatically include hidden <code>&lt;input&gt;</code>s for encoding and Rails&#39; required authenticity token.</p>
+&lt;% end %&gt;
+</code></pre>
+<p>Options go inside a hash. HTML options go inside their own sub-hash.</p>
+<pre><code>&lt;%= form_for @post, {:html =&gt; { :class =&gt; &quot;your_class&quot; } } do |f| %&gt;
+</code></pre>
+<p>All forms created with Rails helpers will automatically include hidden <code>&lt;input&gt;</code>s for encoding and Rails&#39; required authenticity token.</p>
 <h2>Nested</h2><p>Model:</p>
 <pre><code class="language-ruby"># app/models/product.rb
 class Product &lt; ActiveRecord::Base
@@ -443,7 +520,8 @@ end
 # app/models/review.rb
 class Review &lt; ActiveRecord::Base
   belongs_to :product
-end</code></pre>
+end
+</code></pre>
 <p>View:</p>
 <pre><code>&lt;%= form_for @product do |product_fields| %&gt;
 
@@ -463,7 +541,9 @@ end</code></pre>
 
   &lt;%= product_fields.submit &quot;Create&quot; %&gt;
 
-  &lt;% end %&gt;</code></pre><p>Controller:</p>
+  &lt;% end %&gt;
+</code></pre>
+<p>Controller:</p>
 <pre><code class="language-ruby">def edit
   @product = Product.find(params[:id])
   # build an extra empty review on the association
@@ -472,14 +552,17 @@ end
 
 def whitelisted_params
   params.require(:product).permit(:name, :reviews_attributes =&gt; [:title, :id, :_destroy ])
-end</code></pre>
+end
+</code></pre>
 <p><em><a href="https://www.vikingcodeschool.com/dashboard#/advanced-forms-and-active-record/a-simple-nested-form">Source</a></em></p>
 <h2>Asynchronous</h2><p>Add <code>remote: true</code> to a form helper (such as <code>form_tag</code>, <code>form_for</code>, <code>button_to</code>, <code>link_to</code>...). Example:</p>
-<pre><code class="language-ruby">&lt;%= form_for @task, :remote =&gt; true do |f| %&gt;</code></pre>
+<pre><code class="language-ruby">&lt;%= form_for @task, :remote =&gt; true do |f| %&gt;
+</code></pre>
 <p>Then set up the response in the controller method:</p>
 <pre><code class="language-ruby">respond_to do |format|
   format.js
-end</code></pre>
+end
+</code></pre>
 <p>If you only need one format, here&#39;s the one-line format: <code>respond_to :js</code></p>
 <p>You can optionally put a block on the end of the <code>format</code> line to do things like <code>redirect_to [path]</code> or <code>render :[template]</code>.</p>
 <p>Rails will look for a JS template to render. If we&#39;re in the #show action, it will look in the following places:</p>
@@ -494,13 +577,16 @@ end</code></pre>
   render json: {tag: @tag}, status: 200
 else
   render json: { errors: @tag.errors.full_messages }, status: :unprocessable_entity
-end</code></pre>
+end
+</code></pre>
 <p>Example of a js.erb file:</p>
 <pre><code class="language-js">$(&quot;&lt;%= j( render partial: &#39;show&#39;, locals: { post: @post }) %&gt;&quot;).hide().prependTo(&#39;#posts&#39;).slideDown();
-document.getElementById(&#39;new_post&#39;).reset();</code></pre>
+document.getElementById(&#39;new_post&#39;).reset();
+</code></pre>
 <h1>Validation</h1><pre><code class="language-ruby">@user.persisted?
 @user.new_record?
-@user.valid?</code></pre>
+@user.valid?
+</code></pre>
 <pre><code class="language-ruby"># app/models/post.rb
 class Post &lt; ActiveRecord::Base
   validates :title, :body, :subheading
@@ -519,14 +605,16 @@ class Post &lt; ActiveRecord::Base
               :message =&gt; &quot;didn&#39;t work!&quot;,
               :if =&gt; :some_method_returns_true,
               :unless =&gt; Proc.new{ self.registered }
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby">p = Post.new
 p.title = &quot;short title&quot;
 p.valid? #=&gt; true
 p.title = &quot;very super duper long title&quot;
 p.valid? #=&gt; false
 p.errors[:title] #=&gt; [&quot;is too long (maximum is 20 characters)&quot;]
-p.errors.full_messages #=&gt; [&quot;Title is too long (maximum is 20 characters)&quot;]</code></pre>
+p.errors.full_messages #=&gt; [&quot;Title is too long (maximum is 20 characters)&quot;]
+</code></pre>
 <h1>Relations</h1><p>ActiveRecord objects provide an object-oriented interface to the SQL database. When you use a command like <code>Post.where(:published =&gt; true)</code>, it returns a <strong>relation</strong>. Relations can be comboed together, somewhat like chaining in jQuery, but the SQL query doesn&#39;t get run until you use a combo breaker that actually returns a value, like <code>each</code>, <code>all</code>, <code>to_a</code>, <code>inspect</code>, etc.</p>
 <h1>Associations</h1><p>You can inform Rails about a relationship between models like so:</p>
 <pre><code class="language-ruby"># app/models/user.rb
@@ -537,7 +625,8 @@ end
 # app/models/post.rb
 class Post &lt; ActiveRecord:Base
   belongs_to :user
-end</code></pre>
+end
+</code></pre>
 <p>If you do that, Rails will write a lot of SQL for you, allowing you to do things like this:</p>
 <pre><code class="language-ruby"># Assume
 u = User.first
@@ -551,7 +640,8 @@ u.posts.build
 
 # Traverse the relationship the opposite way,
 # retrieving the Author of that post
-p.user</code></pre>
+p.user
+</code></pre>
 <p>Don&#39;t forget to specify the relationship from both directions.</p>
 <p>Renaming a relationship:</p>
 <pre><code class="language-ruby">class Post &lt; ApplicationRecord
@@ -567,12 +657,14 @@ class RenameUserIdToAuthorIdInComments &lt; ActiveRecord::Migration[5.0]
   def change
     rename_column :comments, :user_id, :author_id
   end
-end</code></pre>
+end
+</code></pre>
 <h2>Many-to-many relationship</h2><p>Generating the model:</p>
 <pre><code class="language-bash">rails g model Programmer name:string
 rails g model Client name:string
 rails g model Project programmer:references client:references
-rake db:migrate</code></pre>
+rake db:migrate
+</code></pre>
 <p>&quot;The <code>:references</code> syntax is a shortcut for creating an index on the preceding field name, programmer and client in this instance, as well as marking them as foreign key constraints for the programmers and clients database tables.&quot; <em><a href="http://joshfrankel.me/blog/2016/how-to/create-a-many-to-many-activerecord-association-in-ruby-on-rails/">source</a></em></p>
 <pre><code class="language-ruby">class User &lt; ApplicationRecord
   has_many :user_posts
@@ -587,7 +679,8 @@ end
 class UserPost &lt; ApplicationRecord
   belongs_to :post
   belongs_to :user
-end</code></pre>
+end
+</code></pre>
 <p>Making use of relationships:</p>
 <pre><code class="language-ruby">bob = User.create
 alpha = bob.posts.create
@@ -596,7 +689,8 @@ bob.posts #=&gt; alpha
 post1 = Post.create
 tag1 = Tag.create
 post_tag = PostTag.create(post: post1, tag: tag1)
-post1.tags #=&gt; tag1</code></pre>
+post1.tags #=&gt; tag1
+</code></pre>
 <h3>Rename a many-to-many relationship</h3><pre><code class="language-ruby">class User &lt; ApplicationRecord
   has_many :user_posts
   has_many :posts, through: :user_posts
@@ -610,18 +704,23 @@ end
 class UserPost &lt; ApplicationRecord
   belongs_to :post
   belongs_to :user
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-bash">rails db:migrate
-rails g migration AddAssociationColumnOrSomething</code></pre>
+rails g migration AddAssociationColumnOrSomething
+</code></pre>
 <pre><code class="language-ruby">class AddAssociationColumn &lt; ActiveRecord::Migration[5.0]
   def change
     add_column :user_posts, :user_id, :integer
     add_column :user_posts, :post_id, :integer
     add_index :user_posts, [:user_id, :post_id], unique: true
   end
-end</code></pre>
+end
+</code></pre>
 <h3>Self-referencing associations</h3><pre><code>rails g model StarFighter ship_class:string call_sign:string
-rails g model DogFights attacker_id:integer attacked_id:integer</code></pre><pre><code class="language-ruby"># app/models/star_fighter.rb
+rails g model DogFights attacker_id:integer attacked_id:integer
+</code></pre>
+<pre><code class="language-ruby"># app/models/star_fighter.rb
 class StarFighter &lt; ApplicationRecord
 
   has_many :outgoing_fire, foreign_key: :attacker_id, class_name: &quot;DogFight&quot;
@@ -639,15 +738,19 @@ class DogFight &lt; ApplicationRecord
   belongs_to :attacked, :foreign_key =&gt; :attacked_id, :class_name =&gt; &quot;StarFighter&quot;
   validates :attacked_id, :uniqueness =&gt; { :scope =&gt; :attacker_id }
 
-end</code></pre>
+end
+</code></pre>
 <h2>Renaming</h2><pre><code class="language-ruby">belongs_to :author, :class_name =&gt; &quot;User&quot; # Rename the model
 belongs_to :user, :foreign_key =&gt; :author_id # Rename the foreign key
 has_many :tagged_posts, :through =&gt; :post_taggings, :source =&gt; :post # Rename the relationship
 
-belongs_to :category, optional: true</code></pre>
-<h2>Other options</h2><pre><code class="language-ruby">belongs_to :category, optional: true</code></pre>
+belongs_to :category, optional: true
+</code></pre>
+<h2>Other options</h2><pre><code class="language-ruby">belongs_to :category, optional: true
+</code></pre>
 <h2>Orphans</h2><p>If a user has many posts, and you a <code>destroy</code> a user, all their posts are orphans. They point to a user that no longer exists, which is bad. If you <code>delete</code> a post, all IDs pointing to it are set to nil, which also isn&#39;t great. It&#39;s best to set up links to prevent this:</p>
-<pre><code class="language-ruby">has_many :posts, :dependent =&gt; :destroy # If I die, my children go with me!</code></pre>
+<pre><code class="language-ruby">has_many :posts, :dependent =&gt; :destroy # If I die, my children go with me!
+</code></pre>
 <h1>Authentication</h1><h2>Create users</h2><p>Uncomment <code>bcrypt</code> in the Gemfile.</p>
 <pre><code class="language-ruby"># config/routes.rb
 Rails.application.routes.draw do
@@ -659,15 +762,18 @@ Rails.application.routes.draw do
   resources :users, only: [:new, :create, :edit, :update]
   root &quot;sessions#new&quot;
 
-end</code></pre>
-<pre><code class="language-bash">$ rails g model User name:string email:string password_digest:string</code></pre>
+end
+</code></pre>
+<pre><code class="language-bash">$ rails g model User name:string email:string password_digest:string
+</code></pre>
 <pre><code class="language-ruby"># app/models/user.rb
 class User &lt; ActiveRecord::Base
   has_secure_password
   validates :name, presence: true
   validates :email, presence: true
   validates :password, length: { minimum: 8 }, allow_nil: true
-end</code></pre>
+end
+</code></pre>
 <pre><code># app/views/users/new.html.erb
 &lt;%= form_for @user do |form|%&gt;
 
@@ -687,11 +793,15 @@ end</code></pre>
   &lt;% end %&gt;
 
   &lt;%= submit_tag &quot;Sign up&quot; %&gt;
-&lt;% end %&gt;</code></pre><h2>Set up session-based authentication</h2><pre><code class="language-bash">$ rails g controller sessions</code></pre>
+&lt;% end %&gt;
+</code></pre>
+<h2>Set up session-based authentication</h2><pre><code class="language-bash">$ rails g controller sessions
+</code></pre>
 <pre><code class="language-ruby"># config/routes.rb
 resource :session, only: [:new, :create, :destroy]
 get &quot;login&quot; =&gt; &quot;sessions#new&quot;
-delete &quot;logout&quot; =&gt; &quot;sessions#destroy&quot;</code></pre>
+delete &quot;logout&quot; =&gt; &quot;sessions#destroy&quot;
+</code></pre>
 <pre><code># app/views/sessions/new.html.erb
 &lt;%= form_tag session_path do %&gt;
 
@@ -706,7 +816,9 @@ delete &quot;logout&quot; =&gt; &quot;sessions#destroy&quot;</code></pre>
   &lt;% end %&gt;
 
   &lt;%= submit_tag &quot;Log in&quot; %&gt;
-&lt;% end %&gt;</code></pre><pre><code class="language-ruby"># app/controllers/sessions_controller.rb
+&lt;% end %&gt;
+</code></pre>
+<pre><code class="language-ruby"># app/controllers/sessions_controller.rb
 class SessionsController &lt; ApplicationController
 
   def create
@@ -727,7 +839,8 @@ class SessionsController &lt; ApplicationController
     flash[:success] = &quot;You&#39;ve successfully signed out&quot;
     redirect_to root_url
   end
-end</code></pre>
+end
+</code></pre>
 <p>Create helpers:</p>
 <pre><code class="language-ruby"># app/controllers/application_controller.rb
 class ApplicationController &lt; ActionController::Base
@@ -751,7 +864,8 @@ class ApplicationController &lt; ActionController::Base
       !!current_user
     end
     helper_method :signed_in_user?
-end</code></pre>
+end
+</code></pre>
 <p>Add login/logout links to your navigation:</p>
 <pre><code># app/views/layouts/application.html.erb
 ...
@@ -760,7 +874,9 @@ end</code></pre>
   &lt;%= link_to &quot;Logout&quot;, logout_path, :method =&gt; :delete %&gt;
 &lt;% else %&gt;
   &lt;%= link_to &quot;Login&quot;, login_path %&gt;
-&lt;% end %&gt;</code></pre><pre><code class="language-ruby"># app/controllers/users_controller.rb
+&lt;% end %&gt;
+</code></pre>
+<pre><code class="language-ruby"># app/controllers/users_controller.rb
 class UsersController &lt; ApplicationController
   def new
     @user = User.new
@@ -795,7 +911,8 @@ class UsersController &lt; ApplicationController
     def strong_params
       params.require(:user).permit(:name, :email, :password)
     end
-end</code></pre>
+end
+</code></pre>
 <h2>Require authorization</h2><pre><code class="language-ruby"># app/controllers/application_controller.rb
 class ApplicationController &lt; ActionController::Base
   before_action :require_login
@@ -813,18 +930,21 @@ class ApplicationController &lt; ActionController::Base
         redirect_to root_url
       end
     end
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby"># app/controllers/users_controller.rb
 class UsersController &lt; ApplicationController
   before_action :require_login, :except =&gt; [:new, :create]
   skip_before_action :require_login, :only =&gt; [:new, :create]
   before_action :require_current_user, :only =&gt; [:edit, :update, :destroy]
   skip_before_action :require_login, :only =&gt; [:new, :create]
-end</code></pre>
+end
+</code></pre>
 <pre><code class="language-ruby"># app/controllers/sessions_controller.rb
 class SessionsController &lt; ApplicationController
   skip_before_action :require_login, :only =&gt; [:new, :create]
-end</code></pre>
+end
+</code></pre>
 <h1>Callbacks</h1><pre><code class="language-ruby"># Be welcoming with an after_create callback
 after_create :send_welcome_email, :unless =&gt; :method_is_true
 # ... and be sure to write the method to support it
@@ -847,7 +967,8 @@ def log_status
 end
 
 # Using a block instead of a full method
-before_save { |p| p.published_time = Time.now }</code></pre>
+before_save { |p| p.published_time = Time.now }
+</code></pre>
 <h1>Tests</h1><h2>Integration tests</h2><p>Anywhere that code can be executed, try placing the method <code>save_and_open_page</code> (which requires the Launchy gem). It will open a web browser with the exact page Capybara is seeing (without JS or CSS).</p>
 <pre><code class="language-ruby"># spec/features/users_spec.rb
 require &#39;rails_helper&#39;
@@ -882,7 +1003,8 @@ feature &#39;User accounts&#39; do
 
   end
   # ...and so on
-end</code></pre>
+end
+</code></pre>
 <h3>Navigating</h3><pre><code class="language-ruby"># follow links
 visit(&#39;/projects&#39;)
 visit(post_comments_path(post))
@@ -895,7 +1017,8 @@ click_link(&#39;id-of-link&#39;)
 click_link(&#39;Link Text&#39;)
 click_button(&#39;Save&#39;)
 click_on(&#39;Link Text&#39;) # clicks on either links or buttons
-click_on(&#39;Button Value&#39;)</code></pre>
+click_on(&#39;Button Value&#39;)
+</code></pre>
 <h3>Working with Forms</h3><pre><code class="language-ruby"># locate a field then fill it in
 fill_in(&#39;First Name&#39;, :with =&gt; &#39;John&#39;)
 fill_in(&#39;Password&#39;, :with =&gt; &#39;Seekrit&#39;)
@@ -908,7 +1031,8 @@ uncheck(&#39;A Checkbox&#39;)
 
 # perform more complex actions
 attach_file(&#39;Image&#39;, &#39;/path/to/image.jpg&#39;)
-select(&#39;Option&#39;, :from =&gt; &#39;Select Box&#39;)</code></pre>
+select(&#39;Option&#39;, :from =&gt; &#39;Select Box&#39;)
+</code></pre>
 <h3>Matchers</h3><pre><code class="language-ruby"># locate based on css-style matching
 expect(page).to have_selector(&#39;table tr&#39;)
 expect(page).to have_selector(:xpath, &#39;//table/tr&#39;)
@@ -932,7 +1056,8 @@ find_button(&#39;Send&#39;).click
 
 find(:xpath, &quot;//table/tr&quot;).click
 find(&quot;#overlay&quot;).find(&quot;h1&quot;).click
-all(&#39;a&#39;).each { |a| a[:href] }</code></pre>
+all(&#39;a&#39;).each { |a| a[:href] }
+</code></pre>
 <p><a href="https://gist.github.com/them0nk/2166525">More matchers</a></p>
 <h3>Scoping</h3><pre><code class="language-ruby">within(&quot;li#employee&quot;) do
   fill_in &#39;Name&#39;, :with =&gt; &#39;Jimmy&#39;
@@ -948,7 +1073,8 @@ end
 
 within_table(&#39;Employee&#39;) do
   fill_in &#39;Name&#39;, :with =&gt; &#39;Jimmy&#39;
-end</code></pre>
+end
+</code></pre>
 <h3>Macros</h3><pre><code class="language-ruby"># spec/rails_helper.rb
 ...
 # This already exists but is commented out by default
@@ -957,7 +1083,8 @@ Dir[Rails.root.join(&quot;spec/support/**/*.rb&quot;)].each { |f| require f }
 RSpec.configure do |config|
   config.include LoginMacros # or whatever you name your module
 end
-...</code></pre>
+...
+</code></pre>
 <pre><code class="language-ruby"># spec/support/login_macros.rb
 module LoginMacros
   def sign_in(user)
@@ -972,7 +1099,8 @@ module LoginMacros
     visit root_path
     click_link &quot;Logout&quot;
   end
-end</code></pre>
+end
+</code></pre>
 <h2>Controller tests</h2><p>Controller tests cover:</p>
 <ul>
 <li>authentication (before_action methods)</li>
@@ -988,9 +1116,11 @@ end</code></pre>
 <li>Rendering a particular template</li>
 </ul>
 <p><strong>Sign in</strong></p>
-<pre><code class="language-ruby">request.cookies[&#39;auth_token&#39;] = user.auth_token</code></pre>
+<pre><code class="language-ruby">request.cookies[&#39;auth_token&#39;] = user.auth_token
+</code></pre>
 <p><strong>Test that we have not redirected</strong></p>
-<pre><code class="language-ruby">expect(response).to have_http_status(200)</code></pre>
+<pre><code class="language-ruby">expect(response).to have_http_status(200)
+</code></pre>
 <p><strong>Sample controller test</strong></p>
 <pre><code class="language-ruby"># spec/controllers/users_controller_spec.rb
 require &#39;rails_helper&#39;
@@ -1042,7 +1172,8 @@ end
     user
   end
 
-end</code></pre>
+end
+</code></pre>
 <p>Tests:</p>
 <pre><code class="language-ruby">require &#39;rails_helper&#39;
 
@@ -1087,11 +1218,13 @@ RSpec.describe PinsController, type: :controller do
 
   end
 
-end</code></pre>
+end
+</code></pre>
 <h2>View tests</h2><p>These tests any conditional logic in your view (which shouldn&#39;t be much).</p>
 <p>You still have access to helper methods, but not those added via <code>helper_method</code> in the controller. You will need to stub out all methods that get called.</p>
 <p>By default, <code>render</code> only renders the specific view you&#39;re testing. You can define a method to render composite layouts:</p>
-<pre><code class="language-ruby">let(:render_with_layout){render :template =&gt; &#39;users/new&#39;, :layout =&gt; &#39;layouts/application&#39;}</code></pre>
+<pre><code class="language-ruby">let(:render_with_layout){render :template =&gt; &#39;users/new&#39;, :layout =&gt; &#39;layouts/application&#39;}
+</code></pre>
 <p><strong>Sample view test</strong></p>
 <pre><code class="language-ruby">require &#39;rails_helper&#39;
 
@@ -1109,7 +1242,8 @@ describe &quot;secrets/index.html.erb&quot; do
 
     expect(rendered).to include(user.name)
   end
-end</code></pre>
+end
+</code></pre>
 <h1>Logging</h1><p>The five levels of logging are, in ascending severity:</p>
 <ol>
 <li><code>:debug</code> (default in development)</li>
@@ -1120,10 +1254,12 @@ end</code></pre>
 </ol>
 <p>To set the log level you want in an environment:</p>
 <pre><code class="language-ruby"># config/environments/production.rb
-config.log_level = :warn</code></pre>
+config.log_level = :warn
+</code></pre>
 <p>This will log anything equal to or more serious than that level.</p>
 <p>Log information with:</p>
-<pre><code class="language-ruby">logger.debug { &quot;Status of user: #{@user}&quot; }</code></pre>
+<pre><code class="language-ruby">logger.debug { &quot;Status of user: #{@user}&quot; }
+</code></pre>
 <h2>Heroku logs</h2><pre><code class="language-bash"># just see the default # of lines
 $ heroku logs
 
@@ -1131,12 +1267,17 @@ $ heroku logs
 $ heroku logs -t
 
 # return a specified number of rows (1500 max)
-$ heroku logs -n 500</code></pre>
+$ heroku logs -n 500
+</code></pre>
 <h1>Debugging</h1><h2>Stepping through code with Pry and Byebug</h2><p>First, you need to install the <code>pry-byebug</code> gem. Run this command:</p>
-<pre><code>$ gem install pry-byebug</code></pre><p>Add this line at the top of your .rb file:</p>
-<pre><code class="language-rb">require &#39;pry-byebug&#39;</code></pre>
+<pre><code>$ gem install pry-byebug
+</code></pre>
+<p>Add this line at the top of your .rb file:</p>
+<pre><code class="language-rb">require &#39;pry-byebug&#39;
+</code></pre>
 <p>Then insert this line wherever you want a breakpoint:</p>
-<pre><code class="language-rb">binding.pry</code></pre>
+<pre><code class="language-rb">binding.pry
+</code></pre>
 <p>A hello.rb example:</p>
 <pre><code class="language-rb">require &#39;pry-byebug&#39;
 
@@ -1144,23 +1285,25 @@ def hello_world
   puts &quot;Hello&quot;
   binding.pry # break point here
   puts &quot;World&quot;
-end</code></pre>
+end
+</code></pre>
 <p>When you run the <code>hello.rb</code> file, the program will pause at that line. You can then step through your code with the <code>step</code> command. Type a variable&#39;s name to learn its value. Exit the debugger with <code>exit-program</code> or  <code>!!!</code>.</p>
 <h1>Useful methods</h1><pre><code class="language-ruby">&quot;User&quot;.pluralize #=&gt; &quot;Users&quot;
-pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;</code></pre>
+pluralize(3,&quot;user&quot;) #=&gt; &quot;3 users&quot;
+</code></pre>
 <p>If the database is refusing to commit your transactions and you&#39;re not sure why, run <code>.errors.full_messages</code> on your object.</p>
 <p>Put this in your controller to run something before each action:</p>
-<pre><code class="language-ruby">before_action :find_post, only: [:edit, :show, :update]</code></pre>
-</div>
+<pre><code class="language-ruby">before_action :find_post, only: [:edit, :show, :update]
+</code></pre>
 
+</div>
 <script>
 jQuery(document).ready(function() {
-  if (jQuery(window).height() < jQuery(document).height()) {
-    $('#toc').tocify({
-      extendPage: false
-    });
-  }
+if (jQuery(window).height() < jQuery(document).height()) {
+$('#toc').tocify({
+extendPage: false
+});
+}
 });
 </script>
-
 </body>
